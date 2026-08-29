@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product - Shrishti Enterprises</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #f6fafb;
+        color: #243438;
+    }
+
+    /* ================= HEADER ================= */
+
+    .header {
+        height: 72px;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid #e3eeee;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 5%;
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .menu-btn {
+        width: 44px;
+        height: 44px;
+
+        border: none;
+        background: #287d8c;
+        color: white;
+
+        border-radius: 10px;
+
+        font-size: 25px;
+
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transition: 0.3s;
+    }
+
+    .menu-btn:hover {
+        background: #206b78;
+        transform: scale(1.04);
+    }
+
+    .logo {
+        margin-left: 20px;
+
+        font-size: 22px;
+        font-weight: bold;
+
+        color: #287d8c;
+    }
+
+
+    /* ================= SIDEBAR ================= */
+
+    .sidebar {
+        position: fixed;
+
+        top: 0;
+        left: -290px;
+
+        width: 280px;
+        height: 100vh;
+
+        background: white;
+
+        box-shadow: 5px 0 25px rgba(0, 0, 0, 0.12);
+
+        z-index: 2000;
+
+        transition: left 0.35s ease;
+
+        padding: 25px;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .sidebar-header {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: center;
+
+        padding-bottom: 25px;
+
+        border-bottom: 1px solid #e5eeee;
+    }
+
+    .sidebar-header h3 {
+        color: #287d8c;
+    }
+
+    .close-btn {
+        border: none;
+        background: transparent;
+
+        font-size: 27px;
+
+        color: #49666b;
+
+        cursor: pointer;
+    }
+
+    .sidebar-links {
+        display: flex;
+        flex-direction: column;
+
+        margin-top: 25px;
+
+        gap: 8px;
+    }
+
+    .sidebar-links a {
+        text-decoration: none;
+
+        color: #49666b;
+
+        padding: 14px 12px;
+
+        border-radius: 8px;
+
+        transition: 0.25s;
+    }
+
+    .sidebar-links a:hover {
+        background: #edf7f8;
+        color: #287d8c;
+    }
+
+
+    /* ================= OVERLAY ================= */
+
+    .overlay {
+        position: fixed;
+
+        inset: 0;
+
+        background: rgba(0, 0, 0, 0.35);
+
+        z-index: 1500;
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition: 0.3s;
+    }
+
+    .overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+
+    /* ================= MAIN ================= */
+
+    .container {
+        width: 92%;
+        max-width: 1250px;
+
+        margin: 40px auto 70px;
+    }
+
+
+    /* ================= BACK BUTTON ================= */
+
+    .back-button {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        text-decoration: none;
+
+        color: #287d8c;
+
+        font-size: 15px;
+
+        margin-bottom: 25px;
+
+        transition: 0.3s;
+    }
+
+    .back-button:hover {
+        color: #185d68;
+        transform: translateX(-3px);
+    }
+
+
+    /* ================= PRODUCT ================= */
+
+    .product-wrapper {
+        background: white;
+
+        border-radius: 20px;
+
+        overflow: hidden;
+
+        border: 1px solid #e3eeee;
+
+        box-shadow:
+            0 10px 35px rgba(34, 78, 84, 0.08);
+
+        display: grid;
+
+        grid-template-columns: 65% 35%;
+
+        min-height: 600px;
+    }
+
+
+    /* ================= IMAGE ================= */
+
+    .product-image-section {
+        background: #eef7f8;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 35px;
+
+        overflow: hidden;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 560px;
+
+        object-fit: contain;
+
+        border-radius: 12px;
+
+        transition: transform 0.5s ease;
+    }
+
+    .product-image:hover {
+        transform: scale(1.04);
+    }
+
+
+    /* ================= DETAILS ================= */
+
+    .product-details {
+        padding: 50px 40px;
+
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
+    }
+
+    .category {
+        display: inline-block;
+
+        width: fit-content;
+
+        padding: 7px 14px;
+
+        background: #e8f5f6;
+
+        color: #287d8c;
+
+        border-radius: 20px;
+
+        font-size: 13px;
+
+        font-weight: bold;
+
+        margin-bottom: 18px;
+    }
+
+    .product-details h1 {
+        font-size: 38px;
+
+        line-height: 1.2;
+
+        color: #214c54;
+
+        margin-bottom: 22px;
+    }
+
+    .description-title {
+        font-size: 15px;
+
+        font-weight: bold;
+
+        color: #49666b;
+
+        margin-bottom: 8px;
+    }
+
+    .description {
+        color: #687c80;
+
+        line-height: 1.7;
+
+        font-size: 15px;
+
+        margin-bottom: 28px;
+    }
+
+    .price-label {
+        font-size: 13px;
+
+        color: #718487;
+
+        margin-bottom: 5px;
+    }
+
+    .price {
+        font-size: 30px;
+
+        font-weight: bold;
+
+        color: #287d8c;
+
+        margin-bottom: 30px;
+    }
+
+
+    /* ================= BUTTON ================= */
+
+    .enquire-btn {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        text-decoration: none;
+
+        background: #287d8c;
+
+        color: white;
+
+        padding: 14px 25px;
+
+        border-radius: 10px;
+
+        font-size: 15px;
+
+        font-weight: bold;
+
+        transition: 0.3s;
+
+        width: 100%;
+    }
+
+    .enquire-btn:hover {
+        background: #206b78;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 8px 18px rgba(40, 125, 140, 0.25);
+    }
+
+
+    /* ================= LOADING ================= */
+
+    .loading {
+        min-height: 500px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        color: #718487;
+
+        font-size: 18px;
+    }
+
+    .error {
+        text-align: center;
+
+        padding: 80px 20px;
+
+        color: #718487;
+    }
+
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 850px) {
+
+        .product-wrapper {
+            grid-template-columns: 1fr;
+        }
+
+        .product-image-section {
+            padding: 20px;
+        }
+
+        .product-image {
+            height: 400px;
+        }
+
+        .product-details {
+            padding: 35px 25px;
+        }
+
+        .product-details h1 {
+            font-size: 30px;
+        }
+
+    }
+
+
+    @media (max-width: 500px) {
+
+        .header {
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 18px;
+            margin-left: 14px;
+        }
+
+        .container {
+            width: 94%;
+            margin-top: 25px;
+        }
+
+        .product-image {
+            height: 300px;
+        }
+
+        .product-details {
+            padding: 28px 20px;
+        }
+
+        .product-details h1 {
+            font-size: 26px;
+        }
+
+        .price {
+            font-size: 26px;
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <button
+        class="menu-btn"
+        id="menuBtn"
+        aria-label="Open menu"
+    >
+        ☰
+    </button>
+
+    <div class="logo">
+        Shrishti Enterprises
+    </div>
+
+</header>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside
+    class="sidebar"
+    id="sidebar"
+>
+
+    <div class="sidebar-header">
+
+        <h3>
+            Shrishti Enterprises
+        </h3>
+
+        <button
+            class="close-btn"
+            id="closeBtn"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="sidebar-links">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="category.html">
+            Products
+        </a>
+
+        <a href="category.html">
+            Categories
+        </a>
+
+        <a href="contact.html">
+            Contact
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= OVERLAY ================= -->
+
+<div
+    class="overlay"
+    id="overlay"
+></div>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+    <a
+        href="javascript:history.back()"
+        class="back-button"
+    >
+        ← Back
+    </a>
+
+
+    <div
+        id="productContainer"
+        class="loading"
+    >
+
+        Loading product...
+
+    </div>
+
+</main>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    const API_URL =
+        "http://localhost:5000/api/equipment";
+
+
+    /* ================= MENU ================= */
+
+    const menuBtn =
+        document.getElementById("menuBtn");
+
+    const closeBtn =
+        document.getElementById("closeBtn");
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    const overlay =
+        document.getElementById("overlay");
+
+
+    function openMenu() {
+
+        sidebar.classList.add("active");
+
+        overlay.classList.add("active");
+
+    }
+
+
+    function closeMenu() {
+
+        sidebar.classList.remove("active");
+
+        overlay.classList.remove("active");
+
+    }
+
+
+    menuBtn.addEventListener(
+        "click",
+        openMenu
+    );
+
+
+    closeBtn.addEventListener(
+        "click",
+        closeMenu
+    );
+
+
+    overlay.addEventListener(
+        "click",
+        closeMenu
+    );
+
+
+    /* ================= GET PRODUCT ID ================= */
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const productId =
+        params.get("id");
+
+
+    /* ================= LOAD PRODUCT ================= */
+
+    async function loadProduct() {
+
+        const container =
+            document.getElementById(
+                "productContainer"
+            );
+
+
+        if (!productId) {
+
+            container.innerHTML = `
+                <div class="error">
+                    <h2>Product not found</h2>
+                    <p>
+                        No product ID was provided.
+                    </p>
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${productId}`
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Product not found"
+                );
+
+            }
+
+
+            const product =
+                await response.json();
+
+
+            document.title =
+                `${product.name} - Shrishti Enterprises`;
+
+
+            container.className =
+                "product-wrapper";
+
+
+            container.innerHTML = `
+
+                <div class="product-image-section">
+
+                    <img
+                        class="product-image"
+                        src="${
+                            product.image ||
+                            'https://via.placeholder.com/800x600?text=No+Image'
+                        }"
+                        alt="${product.name}"
+                    >
+
+                </div>
+
+
+                <div class="product-details">
+
+                    <span class="category">
+
+                        ${product.category || "Medical Equipment"}
+
+                    </span>
+
+
+                    <h1>
+                        ${product.name}
+                    </h1>
+
+
+                    <div class="description-title">
+                        Description
+                    </div>
+
+
+                    <p class="description">
+
+                        ${
+                            product.description ||
+                            "No description available."
+                        }
+
+                    </p>
+
+
+                    <div class="price-label">
+                        Price
+                    </div>
+
+
+                    <div class="price">
+
+                        ${
+                            product.price
+                                ? "₹" + product.price
+                                : "Contact for Price"
+                        }
+
+                    </div>
+
+
+                    <a
+                        href="contact.html"
+                        class="enquire-btn"
+                    >
+                        Enquire Now
+                    </a>
+
+                </div>
+
+            `;
+
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+
+            container.className =
+                "error";
+
+
+            container.innerHTML = `
+
+                <h2>
+                    Product not found
+                </h2>
+
+                <p>
+                    We couldn't load this product.
+                </p>
+
+            `;
+
+        }
+
+    }
+
+
+    loadProduct();
+
+</script>
+
+</body>
+
+</html>

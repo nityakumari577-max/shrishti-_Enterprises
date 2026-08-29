@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products - Shrishti Enterprises</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #f7fafb;
+        color: #333;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    nav {
+        height: 70px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6%;
+        border-bottom: 1px solid #e5eeee;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .logo {
+        font-size: 22px;
+        font-weight: bold;
+        color: #287d8c;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: #49666b;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: #287d8c;
+    }
+
+    /* ================= SEARCH ================= */
+
+    .search-box {
+        position: relative;
+    }
+
+    #searchInput {
+        width: 190px;
+        height: 36px;
+        padding: 0 35px 0 15px;
+        border: 1px solid #d5e4e6;
+        border-radius: 20px;
+        outline: none;
+        font-size: 14px;
+        background: #f8fbfb;
+        color: #333;
+    }
+
+    #searchInput:focus {
+        width: 230px;
+        border-color: #8ebbc2;
+        background: white;
+    }
+
+    .search-icon {
+        position: absolute;
+        right: 12px;
+        top: 9px;
+        font-size: 16px;
+        color: #6d9298;
+    }
+
+    /* ================= MAIN ================= */
+
+    .container {
+        width: 90%;
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .page-title h2 {
+        color: #287d8c;
+        font-size: 30px;
+        margin-bottom: 8px;
+    }
+
+    .page-title p {
+        color: #718487;
+    }
+
+    /* ================= CATEGORY GRID ================= */
+
+    .categories {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+    .category-card {
+        background: white;
+        border: 1px solid #e5eeee;
+        border-radius: 15px;
+        overflow: hidden;
+        text-decoration: none;
+        color: #333;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: 0.3s;
+    }
+
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-card img {
+        width: 100%;
+        height: 210px;
+        object-fit: cover;
+    }
+
+    .category-info {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .category-info h3 {
+        color: #287d8c;
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .category-info p {
+        color: #718487;
+        font-size: 14px;
+    }
+
+    /* ================= EQUIPMENT ================= */
+
+    .back-button {
+        display: inline-block;
+        margin-bottom: 25px;
+        padding: 10px 18px;
+        background: #287d8c;
+        color: white;
+        border-radius: 20px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .back-button:hover {
+        background: #206c79;
+    }
+
+    .products {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .product-card {
+        display: flex;
+        width: 100%;
+        background: white;
+        border: 1px solid #e5eeee;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        transition: 0.3s;
+    }
+
+    .product-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-card img {
+        width: 35%;
+        height: 230px;
+        object-fit: cover;
+    }
+
+    .product-info {
+        width: 65%;
+        padding: 25px;
+    }
+
+    .product-info h3 {
+        color: #287d8c;
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+
+    .product-info p {
+        color: #66787b;
+        margin-bottom: 10px;
+        line-height: 1.5;
+        font-size: 14px;
+    }
+
+    .price {
+        font-size: 20px !important;
+        font-weight: bold;
+        color: #287d8c !important;
+        margin-top: 15px;
+    }
+
+    .no-products {
+        text-align: center;
+        color: #7a8b8e;
+        padding: 50px;
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 800px) {
+
+        .categories {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+    }
+
+    @media (max-width: 600px) {
+
+        nav {
+            height: auto;
+            padding: 15px 5%;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-links {
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #searchInput,
+        #searchInput:focus {
+            width: 220px;
+        }
+
+        .categories {
+            grid-template-columns: 1fr;
+        }
+
+        .product-card {
+            flex-direction: column;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+        }
+
+        .product-info {
+            width: 100%;
+            padding: 18px;
+        }
+    }
+
+</style>
+
+</head>
+
+<body>
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <div class="logo">
+        Shrishti Enterprises
+    </div>
+
+    <div class="nav-links">
+
+        <a href="index.html">Home</a>
+
+        <a href="category.html">Products</a>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search..."
+            >
+
+            <span class="search-icon">⌕</span>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+    <!-- CATEGORY SECTION -->
+
+    <section id="categorySection">
+
+        <div class="page-title">
+
+            <h2>Our Products</h2>
+
+            <p>Select a category to view available equipment</p>
+
+        </div>
+
+        <div class="categories" id="categoriesContainer">
+
+            <p class="no-products">
+                Loading categories...
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- EQUIPMENT SECTION -->
+
+    <section id="equipmentSection" style="display: none;">
+
+        <a href="category.html" class="back-button">
+            ← Back to Categories
+        </a>
+
+        <div class="page-title">
+
+            <h2 id="categoryTitle"></h2>
+
+            <p>Available equipment in this category</p>
+
+        </div>
+
+        <div class="products" id="productsContainer">
+
+            <p class="no-products">
+                Loading products...
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    const API_URL =
+        "http://localhost:5000/api/equipment";
+
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const selectedCategory =
+        params.get("category");
+
+
+    const categorySection =
+        document.getElementById(
+            "categorySection"
+        );
+
+
+    const equipmentSection =
+        document.getElementById(
+            "equipmentSection"
+        );
+
+
+    const categoriesContainer =
+        document.getElementById(
+            "categoriesContainer"
+        );
+
+
+    const productsContainer =
+        document.getElementById(
+            "productsContainer"
+        );
+
+
+    const categoryTitle =
+        document.getElementById(
+            "categoryTitle"
+        );
+
+
+    // ================= LOAD ALL EQUIPMENT =================
+
+    async function loadAllEquipment() {
+
+        try {
+
+            const response =
+                await fetch(API_URL);
+
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to fetch equipment"
+                );
+            }
+
+
+            const equipment =
+                await response.json();
+
+
+            console.log(
+                "All equipment:",
+                equipment
+            );
+
+
+            createCategories(equipment);
+
+
+        } catch (error) {
+
+            console.error(
+                "Error:",
+                error
+            );
+
+
+            categoriesContainer.innerHTML = `
+                <div class="no-products">
+                    Unable to load categories.
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    // ================= CREATE CATEGORIES =================
+
+    function createCategories(equipment) {
+
+        const categoryMap = {};
+
+
+        equipment.forEach(product => {
+
+            if (!product.category) {
+                return;
+            }
+
+
+            const category =
+                product.category.trim();
+
+
+            if (!categoryMap[category]) {
+
+                categoryMap[category] = product;
+
+            }
+
+        });
+
+
+        categoriesContainer.innerHTML = "";
+
+
+        const categories =
+            Object.keys(categoryMap);
+
+
+        if (categories.length === 0) {
+
+            categoriesContainer.innerHTML = `
+                <div class="no-products">
+                    No categories available.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        categories.forEach(category => {
+
+            const product =
+                categoryMap[category];
+
+
+            const card =
+                document.createElement("a");
+
+
+            card.className =
+                "category-card";
+
+
+            card.href =
+                `category.html?category=${encodeURIComponent(category)}`;
+
+
+            card.innerHTML = `
+
+                <img
+                    src="${
+                        product.image ||
+                        'https://via.placeholder.com/500x300?text=No+Image'
+                    }"
+                    alt="${category}"
+                >
+
+                <div class="category-info">
+
+                    <h3>
+                        ${category}
+                    </h3>
+
+                    <p>
+                        View all equipment
+                    </p>
+
+                </div>
+
+            `;
+
+
+            categoriesContainer.appendChild(card);
+
+        });
+
+    }
+
+
+    // ================= LOAD CATEGORY EQUIPMENT =================
+
+    async function loadCategoryEquipment() {
+
+        try {
+
+            categorySection.style.display =
+                "none";
+
+
+            equipmentSection.style.display =
+                "block";
+
+
+            categoryTitle.innerText =
+                selectedCategory;
+
+
+            const url =
+                `${API_URL}?category=${encodeURIComponent(selectedCategory)}`;
+
+
+            const response =
+                await fetch(url);
+
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to fetch category equipment"
+                );
+            }
+
+
+            const equipment =
+                await response.json();
+
+
+            displayProducts(equipment);
+
+
+        } catch (error) {
+
+            console.error(
+                "Error:",
+                error
+            );
+
+
+            productsContainer.innerHTML = `
+                <div class="no-products">
+                    Unable to load equipment.
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    // ================= DISPLAY PRODUCTS =================
+
+    function displayProducts(products) {
+
+        productsContainer.innerHTML = "";
+
+
+        if (products.length === 0) {
+
+            productsContainer.innerHTML = `
+                <div class="no-products">
+                    No equipment found in this category.
+                </div>
+            `;
+
+            return;
+
+        }
+
+            products.forEach(product => {
+
+    const card = document.createElement("a");
+
+    card.className = "product-card";
+
+    // Open product detail page with MongoDB ID
+    card.href = `product.html?id=${product._id}`;
+
+    card.innerHTML = `
+
+        <img
+            src="${
+                product.image ||
+                'https://via.placeholder.com/400x250?text=No+Image'
+            }"
+            alt="${product.name}"
+        >
+
+        <div class="product-info">
+
+            <h3>
+                ${product.name}
+            </h3>
+
+            <p>
+                <strong>
+                    Category:
+                </strong>
+
+                ${product.category}
+            </p>
+
+            <p>
+                ${product.description}
+            </p>
+
+            <p class="price">
+                ₹${product.price || "Contact for Price"}
+            </p>
+
+        </div>
+
+    `;
+
+    productsContainer.appendChild(card);
+
+});
+    }
+
+    // ================= SEARCH =================
+
+    // ================= SEARCH =================
+
+document
+    .getElementById("searchInput")
+    .addEventListener("input", function () {
+
+        const searchText = this.value
+            .toLowerCase()
+            .trim();
+
+        // Search category cards
+        const categoryCards =
+            document.querySelectorAll(".category-card");
+
+        categoryCards.forEach(card => {
+
+            const text = card.innerText.toLowerCase();
+
+            if (text.includes(searchText)) {
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+
+        });
+
+
+        // Search equipment cards
+        const productCards =
+            document.querySelectorAll(".product-card");
+
+        productCards.forEach(card => {
+
+            const text = card.innerText.toLowerCase();
+
+            if (text.includes(searchText)) {
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+
+        });
+
+    });
+    
+
+    // ================= START =================
+
+    if (selectedCategory) {
+
+        loadCategoryEquipment();
+
+    } else {
+
+        loadAllEquipment();
+
+    }
+
+</script>
+
+</body>
+
+</html>
