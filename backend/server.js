@@ -3,7 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
-dotenv.config();
+dotenv.config({ path: __dirname + "/.env" });
 connectDB();
 const app = express();
 app.use(cors()); 
@@ -14,6 +14,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/equipment", require("./routes/equipmentRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes"));
 app.get("/",(req,res)=>{
     res.send("medical equipment api is running");
 });

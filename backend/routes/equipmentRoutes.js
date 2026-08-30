@@ -1,21 +1,25 @@
 const express = require("express");
 const Equipment = require("../models/equipment");
+const authMiddleware = require("../middleware/authMiddleware");
 
 console.log("EQUIPMENT ROUTES LOADED");
 
 const {
     addEquipment,
     getEquipment,
-    deleteEquipment
+    deleteEquipment,
+    updateEquipment
 } = require("../controllers/equipmentController");
 
 const upload = require("../middleware/upload");
 
 const router = express.Router();
 
-router.post("/", upload.single("image"), addEquipment);
+router.post("/",authMiddleware,
+ upload.single("image"), addEquipment);
 
 router.get("/", getEquipment);
+
 router.get("/:id", async (req, res) => {
     try {
 
@@ -38,13 +42,16 @@ router.get("/:id", async (req, res) => {
 
     }
 });
-router.delete("/test", (req, res) => {
+router.put("/:id",authMiddleware,
+ upload.single("image"), updateEquipment);
+router.delete("/test",authMiddleware,
+ (req, res) => {
     res.json({
         message: "DELETE route is working"
     });
 });
 
-router.delete("/:id", deleteEquipment);
+router.delete("/:id", authMiddleware, deleteEquipment);
 
 
 module.exports = router;

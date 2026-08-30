@@ -91,13 +91,28 @@ nav ul li a {
 
     text-decoration: none;
 
-    color: #333;
+    color: #2b6c7d;
     font-size: 16px;
     font-weight: 500;
 
     border-radius: 25px;
 
     transition: all 0.3s ease;
+}
+.admin-login-btn {
+    padding: 9px 19px;
+    background-color: #e5f3f7;
+    color: #2b6c7d;
+    text-decoration: none;
+    border-radius: 17px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.admin-login-btn:hover {
+    background-color: #ccaaaa;
+    transform: translateY(-2px);
+
 }
 
 
@@ -228,7 +243,7 @@ nav ul li:nth-child(3) a:hover {
 ================================ */
 
 .hero {
-    min-height: 600px;
+    /* min-height: 600px;
     width: 100%;
 
     display: flex;
@@ -237,7 +252,19 @@ nav ul li:nth-child(3) a:hover {
 
     padding: 60px 7% 70px;
 
-    background: #f4fbfc;
+    background: #f4fbfc; */
+    background-image: url("img/shirishi page.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    min-height: 500px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
 }
 
 
@@ -249,11 +276,11 @@ nav ul li:nth-child(3) a:hover {
     width: 48%;
     max-width: 600px;
 
-    align-self: flex-end;
+    align-self: flex-start;
 
     padding-bottom: 20px;
 
-    z-index: 2;
+    z-index: 1;
 }
 
 
@@ -261,7 +288,7 @@ nav ul li:nth-child(3) a:hover {
     font-size: 48px;
     line-height: 1.15;
 
-    color: #087f8c;
+    color:rgb(3, 34, 49);;
 
     margin-bottom: 20px;
 
@@ -285,7 +312,7 @@ nav ul li:nth-child(3) a:hover {
    EXPLORE BUTTON
 ================================ */
 
-.hero-text .btn {
+.hero-text .btn{
     display: inline-block;
 
     padding: 13px 28px;
@@ -338,11 +365,36 @@ nav ul li:nth-child(3) a:hover {
 
     .hero-text h1 {
         font-size: 36px;
+        color:rgb(3, 34, 49);
+        margin:90px 0 0;
     }
 
     .hero-text p {
         font-size: 16px;
     }
+}
+.btn{
+    display: inline-block;
+
+    padding: 13px 28px;
+    color: rgb(20, 17, 17);
+    background: #d6efef;
+
+    text-decoration: none;
+
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    transition: 0.3s ease;
+
+    box-shadow: 0 6px 15px rgba(146, 228, 237, 0.25);
 }
 /* =================================
    ABOUT SECTION
@@ -625,7 +677,7 @@ nav ul li:nth-child(3) a:hover {
 
     border-radius: 12px;
 
-    color: #444;
+    color: #7f9597;
 
     font-size: 15px;
 
