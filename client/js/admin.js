@@ -22,7 +22,7 @@ if (loginForm) {
         try {
 
             const response = await fetch(
-                "http://localhost:5000/api/admin/login",
+                "https://shrishti-enterprises.onrender.com/api/equipment/PRODUCT_ID",
                 {
                     method: "POST",
 
@@ -101,7 +101,7 @@ async function loadEquipment() {
     try {
 
         const response = await fetch(
-            "http://localhost:5000/api/equipment"
+            "https://shrishti-enterprises.onrender.com/api/equipment/PRODUCT_ID"
         );
 
         const equipment = await response.json();
@@ -264,7 +264,7 @@ if (addProductForm) {
             try {
 
                 const response = await fetch(
-                    "http://localhost:5000/api/equipment",
+                    "https://shrishti-enterprises.onrender.com/api/equipment/PRODUCT_ID",
                     {
                         method: "POST",
 
@@ -339,7 +339,7 @@ async function deleteEquipment(id) {
     try {
 
         const response = await fetch(
-            `http://localhost:5000/api/equipment/${id}`,
+            `https://shrishti-enterprises.onrender.com/api/equipment/${id}`,
             {
                 method: "DELETE",
 
@@ -394,7 +394,7 @@ async function editEquipment(id) {
     try {
 
         const response = await fetch(
-            `http://localhost:5000/api/equipment/${id}`
+            `https://shrishti-enterprises.onrender.com/api/equipment/${id}`
         );
 
         const product = await response.json();
@@ -510,7 +510,7 @@ if (editProductForm) {
             try {
 
                 const response = await fetch(
-                    `http://localhost:5000/api/equipment/${id}`,
+                    `https://shrishti-enterprises.onrender.com/api/equipment/${id}`,
                     {
                         method: "PUT",
 
