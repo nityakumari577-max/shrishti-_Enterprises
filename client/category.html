@@ -382,7 +382,7 @@
 <script>
 
     const API_URL =
-        "https://shrishti-enterprises.onrender.com/api/equipment/PRODUCT_ID";
+        "https://shrishti-enterprises.onrender.com/api/equipment";
 
 
     const params =
@@ -542,12 +542,14 @@
             card.innerHTML = `
 
                 <img
-                    src="${
-                        product.image ||
-                        'https://via.placeholder.com/500x300?text=No+Image'
+               <img
+                  src="${
+                     product.image
+                    ? (product.image.match(/\((https?:\/\/[^)]+)\)/)?.[1] || product.image)
+                     : 'https://via.placeholder.com/400x250?text=No+Image'
                     }"
-                    alt="${category}"
-                >
+                    alt="${product.name}"
+               >
 
                 <div class="category-info">
 
@@ -660,13 +662,14 @@
 
     card.innerHTML = `
 
-        <img
-            src="${
-                product.image ||
-                'https://via.placeholder.com/400x250?text=No+Image'
-            }"
-            alt="${product.name}"
-        >
+<img
+    src="${
+        product.image
+            ? (product.image.match(/\((https?:\/\/[^)]+)\)/)?.[1] || product.image)
+            : 'https://via.placeholder.com/400x250?text=No+Image'
+    }"
+    alt="${product.name}"
+>
 
         <div class="product-info">
 
