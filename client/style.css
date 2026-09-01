@@ -175,7 +175,7 @@ nav ul li a.active::after {
 @media (max-width: 480px) {
 
     nav {
-        padding: 9px 3%;
+        padding: 11px 3%;
         flex-wrap: wrap;
 
     }
@@ -192,12 +192,12 @@ nav ul li a.active::after {
     nav ul {
         justify-content: center;
         gap: 2px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         width: 100%;
     }
 
     nav ul li a {
-        padding: 2px 8px;
+        padding: 2px 13px;
 
         font-size: 13px;
     }

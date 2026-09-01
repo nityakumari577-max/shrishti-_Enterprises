@@ -22,7 +22,7 @@ if (loginForm) {
         try {
 
             const response = await fetch(
-                "https://shrishti-enterprises.onrender.com/api/equipment/PRODUCT_ID",
+                "https://shrishti-enterprises.onrender.com/api/equipment",
                 {
                     method: "POST",
 
@@ -101,7 +101,7 @@ async function loadEquipment() {
     try {
 
         const response = await fetch(
-            "https://shrishti-enterprises.onrender.com/api/equipment/PRODUCT_ID"
+            "https://shrishti-enterprises.onrender.com/api/equipment"
         );
 
         const equipment = await response.json();
@@ -264,7 +264,7 @@ if (addProductForm) {
             try {
 
                 const response = await fetch(
-                    "https://shrishti-enterprises.onrender.com/api/equipment/PRODUCT_ID",
+                    "https://shrishti-enterprises.onrender.com/api/equipment",
                     {
                         method: "POST",
 
