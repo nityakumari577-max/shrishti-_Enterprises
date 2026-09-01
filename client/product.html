@@ -702,10 +702,11 @@
 
                     <img
                         class="product-image"
-                        src="${
-                            product.image ||
-                            'https://via.placeholder.com/800x600?text=No+Image'
-                        }"
+                       src="${
+                       product.image
+                       ? product.image.match(/\((https?:\/\/[^)]+)\)/)?.[1] || product.image
+                       : 'https://via.placeholder.com/800x600?text=No+Image'
+                     }"
                         alt="${product.name}"
                     >
 
