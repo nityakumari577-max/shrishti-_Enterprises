@@ -22,7 +22,7 @@ if (loginForm) {
         try {
 
             const response = await fetch(
-                "https://shrishti-enterprises.onrender.com/api/equipment",
+                "https://shrishti-enterprises.onrender.com/api/admin/login",
                 {
                     method: "POST",
 
