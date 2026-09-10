@@ -1,7 +1,11 @@
 const express= require("express");
 const cors = require("cors");
+const dns = require("dns");
+
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const userRoutes = require("./routes/userRoutes");
 
 dotenv.config({ path: __dirname + "/.env" });
 connectDB();
@@ -15,6 +19,7 @@ app.use((req, res, next) => {
 
 app.use("/api/equipment", require("./routes/equipmentRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
+app.use("/api/users", userRoutes);
 app.get("/",(req,res)=>{
     res.send("medical equipment api is running");
 });

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Verify Email - Shrishti Enterprises</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .auth-box {
+            width: 350px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            margin: 20px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="auth-box">
+
+    <h2>Verify Your Email</h2>
+
+    <p>
+        Enter the 6-digit OTP sent to your email.
+    </p>
+
+    <form id="verifyForm">
+
+        <input
+            type="text"
+            id="otp"
+            maxlength="6"
+            placeholder="Enter OTP"
+            required
+        >
+
+        <button type="submit">
+            Verify Email
+        </button>
+
+    </form>
+
+    <div id="message"></div>
+
+</div>
+
+
+<script>
+
+const API_URL =
+    "https://shrishti-enterprises.onrender.com/api/users";
+
+
+const email =
+    localStorage.getItem("verificationEmail");
+
+
+document
+    .getElementById("verifyForm")
+    .addEventListener("submit", async function(e) {
+
+        e.preventDefault();
+
+
+        const otp =
+            document.getElementById("otp").value;
+
+
+        const message =
+            document.getElementById("message");
+
+
+        try {
+
+            const response =
+                await fetch(`${API_URL}/verify-email`, {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        email,
+                        otp
+                    })
+
+                });
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                message.textContent =
+                    data.message || "Verification failed";
+
+                return;
+            }
+
+
+            // Save customer login token
+
+            localStorage.setItem(
+                "customerToken",
+                data.token
+            );
+
+
+            localStorage.setItem(
+                "customerUser",
+                JSON.stringify(data.user)
+            );
+
+
+            localStorage.removeItem(
+                "verificationEmail"
+            );
+
+
+            // Go back to the product/order
+
+            const redirect =
+                sessionStorage.getItem("orderRedirect");
+
+
+            if (redirect) {
+
+                sessionStorage.removeItem(
+                    "orderRedirect"
+                );
+
+                window.location.href = redirect;
+
+            } else {
+
+                window.location.href =
+                    "index.html";
+
+            }
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.textContent =
+                "Unable to connect to server";
+
+        }
+
+    });
+
+</script>
+
+</body>
+
+</html>

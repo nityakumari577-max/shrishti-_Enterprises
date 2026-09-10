@@ -353,6 +353,7 @@
         align-items: center;
         justify-content: center;
 
+
         text-decoration: none;
 
         background: #287d8c;
@@ -760,12 +761,12 @@
                     </div>
 
 
-                    <a
-                        href="contact.html"
-                        class="enquire-btn"
-                    >
-                        Enquire Now
-                    </a>
+                  <button
+                    class="enquire-btn"
+                    onclick="orderNow()">
+                             Order Now
+                 </button>
+                 
 
                 </div>
 
@@ -801,6 +802,55 @@
 
 
     loadProduct();
+    function orderNow() {
+
+    const token =
+        localStorage.getItem("customerToken");
+
+
+    // Customer is NOT logged in
+
+    if (!token) {
+
+        sessionStorage.setItem(
+            "orderRedirect",
+            window.location.href
+        );
+
+        window.location.href =
+            "customer-login.html";
+
+        return;
+    }
+
+
+    // Customer is already logged in
+
+    window.location.href =
+        `checkout.html?id=${productId}`;
+}
+function orderNow() {
+
+    const token =
+        localStorage.getItem("customerToken");
+
+    if (!token) {
+
+        sessionStorage.setItem(
+            "orderRedirect",
+            `order.html?id=${productId}`
+        );
+
+        window.location.href =
+            "customer-login.html";
+
+        return;
+    }
+
+    window.location.href =
+        `order.html?id=${productId}`;
+}
+
 
 </script>
 
