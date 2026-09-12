@@ -95,10 +95,11 @@ app.post("/api/users/google", async (req, res) => {
   res.json({ token: "your-jwt-token", user: { name: "Customer Name" } });
 });
 // Add this line with your other route imports
-app.use("/api/orders", require("./routes/orderRoutes"));
+
 app.use("/api", require("./routes/paymentRoutes"));
 // Start 
 app.use("/api", orderRoutes);
+app.use("/api/orders", require("./routes/OrderRoutes"));
 app.get("/api/test-payment-route", (req, res) => {
   res.json({
     success: true,
