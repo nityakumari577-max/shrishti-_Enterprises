@@ -98,7 +98,7 @@ app.post("/api/users/google", async (req, res) => {
 app.use("/api/orders", require("./routes/orderRoutes"));
 app.use("/api", require("./routes/paymentRoutes"));
 // Start 
-app.use("/api", require("./routes/paymentRoutes"));
+app.use("/api", orderRoutes);
 app.get("/api/test-payment-route", (req, res) => {
   res.json({
     success: true,

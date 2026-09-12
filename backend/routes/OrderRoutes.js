@@ -1,15 +1,67 @@
 const express = require("express");
 const router = express.Router();
+const Razorpay = require("razorpay");
 const Order = require("../models/order");
 
 // ==========================================
-// SAVE NEW ORDER AFTER PAYMENT VERIFICATION
+// RAZORPAY INSTANCE
+// ==========================================
+
+const razorpay = new Razorpay({
+key_id: process.env.RAZORPAY_KEY_ID,
+key_secret: process.env.RAZORPAY_KEY_SECRET
+});
+
+// ==========================================
+// CREATE RAZORPAY ORDER
+// POST /api/create-order
+// ==========================================
+
+router.post("/create-order", async (req, res) => {
+try {
+
+    const { amount } = req.body;
+
+    if (!amount) {
+        return res.status(400).json({
+            success: false,
+            message: "Amount is required"
+        });
+    }
+
+    const options = {
+        amount: Math.round(Number(amount) * 100),
+        currency: "INR",
+        receipt: `receipt_${Date.now()}`
+    };
+
+    const razorpayOrder = await razorpay.orders.create(options);
+
+    res.status(200).json({
+        success: true,
+        order: razorpayOrder
+    });
+
+} catch (error) {
+
+    console.error("Razorpay Create Order Error:", error);
+
+    res.status(500).json({
+        success: false,
+        message: "Failed to create Razorpay order",
+        error: error.message
+    });
+}
+
+});
+
+// ==========================================
+// SAVE NEW ORDER AFTER PAYMENT
 // POST /api/orders/save-order
 // ==========================================
 
-router.post("/save-order", async (req, res) => {
+router.post("/orders/save-order", async (req, res) => {
 try {
-
     const {
         customer,
         products,
@@ -46,7 +98,6 @@ try {
         success: false,
         message: "Failed to save order record"
     });
-
 }
 
 });
@@ -56,7 +107,7 @@ try {
 // GET /api/orders/admin/all-orders
 // ==========================================
 
-router.get("/admin/all-orders", async (req, res) => {
+router.get("/orders/admin/all-orders", async (req, res) => {
 try {
 
     const orders = await Order.find().sort({
@@ -76,7 +127,6 @@ try {
         success: false,
         message: "Failed to fetch orders"
     });
-
 }
 
 });
