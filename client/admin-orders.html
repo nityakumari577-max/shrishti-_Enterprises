@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Orders | Shrishti Enterprises</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+    body { background-color: #f4f6f9; padding: 30px; }
+
+    .dashboard-container { max-width: 1200px; margin: 0 auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #eef2f5; padding-bottom: 15px; }
+    .header h1 { color: #333; font-size: 24px; }
+    .btn-refresh { background-color: #3399cc; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+    .btn-refresh:hover { background-color: #2277a0; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eef2f5; font-size: 14px; }
+    th { background-color: #f8fafc; color: #475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    tr:hover { background-color: #f8fafc; }
+
+    .product-list { list-style: none; padding: 0; }
+    .product-item { margin-bottom: 4px; font-size: 13px; color: #334155; }
+    .product-qty { font-weight: bold; color: #2563eb; }
+
+    .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; display: inline-block; }
+    .badge-paid { background-color: #d1fae5; color: #065f46; }
+    .badge-pending { background-color: #fef3c7; color: #92400e; }
+    .badge-failed { background-color: #fee2e2; color: #991b1b; }
+
+    .text-muted { color: #64748b; font-size: 12px; }
+    .loading-spinner { text-align: center; padding: 30px; font-size: 16px; color: #64748b; }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-container">
+    <div class="header">
+      <h1>Order Management</h1>
+      <button class="btn-refresh" onclick="fetchOrders()">Refresh Orders</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Order Info</th>
+          <th>Customer</th>
+          <th>Products & Quantities</th>
+          <th>Total</th>
+          <th>Payment ID</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="orders-table-body">
+        <tr>
+          <td colspan="6" class="loading-spinner">Loading orders...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const API_URL = "http://localhost:5000/api/orders/admin/all-orders";
+
+    async function fetchOrders() {
+      const tableBody = document.getElementById("orders-table-body");
+      tableBody.innerHTML = `<tr><td colspan="6" class="loading-spinner">Loading orders...</td></tr>`;
+
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+
+        if (!data.success || !data.orders || data.orders.length === 0) {
+          tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px;">No orders found.</td></tr>`;
+          return;
+        }
+
+        tableBody.innerHTML = ""; // Clear loading message
+
+        // Loop through each order and generate table rows
+        data.orders.forEach(order => {
+          // Render list of products and their quantities
+          const productsHTML = order.products && order.products.length > 0
+            ? `<ul class="product-list">
+                ${order.products.map(item => `
+                  <li class="product-item">
+                    • ${item.name} <span class="product-qty">(x${item.quantity})</span> - ₹${item.price}
+                  </li>
+                `).join('')}
+               </ul>`
+            : `<span class="text-muted">No items</span>`;
+
+          // Format payment badge
+          const paymentStatus = order.paymentDetails?.paymentStatus || "Pending";
+          let badgeClass = "badge-pending";
+          if (paymentStatus === "Paid") badgeClass = "badge-paid";
+          if (paymentStatus === "Failed") badgeClass = "badge-failed";
+
+          // Format Order Date
+          const orderDate = new Date(order.createdAt).toLocaleDateString("en-IN", {
+            day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
+          });
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>
+              <strong>${order.orderId || 'N/A'}</strong><br/>
+              <span class="text-muted">${orderDate}</span>
+            </td>
+            <td>
+              <strong>${order.customer?.name || 'N/A'}</strong><br/>
+              <span class="text-muted">${order.customer?.phone || ''}</span><br/>
+              <span class="text-muted">${order.customer?.email || ''}</span>
+            </td>
+            <td>${productsHTML}</td>
+            <td><strong>₹${order.totalAmount}</strong></td>
+            <td>
+              <code>${order.paymentDetails?.razorpayPaymentId || 'N/A'}</code>
+            </td>
+            <td>
+              <span class="badge ${badgeClass}">${paymentStatus}</span>
+            </td>
+          `;
+
+          tableBody.appendChild(tr);
+        });
+
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: red; padding: 20px;">Failed to load orders from server. Make sure the backend is running.</td></tr>`;
+      }
+    }
+
+    // Fetch orders when the page loads
+    document.addEventListener("DOMContentLoaded", fetchOrders);
+  </script>
+</body>
+</html>

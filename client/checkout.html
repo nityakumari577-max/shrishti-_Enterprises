@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Shrishti Enterprises</title>
+  
+  <!-- Include Razorpay Standard Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f6f9; }
+    .checkout-card { max-width: 500px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .btn-pay { width: 100%; background: #3399cc; color: #fff; padding: 12px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+    .btn-pay:hover { background: #2277a0; }
+  </style>
+</head>
+<body>
+
+  <div class="checkout-card">
+    <h2>Checkout & Payment</h2>
+    <div id="order-summary">
+      <p><strong>Total Amount:</strong> ₹<span id="display-amount">3300</span></p>
+    </div>
+
+    <button id="pay-btn" class="btn-pay" onclick="handleCheckout()">Pay & Place Order</button>
+  </div>
+
+  <script>
+    // Replace with your actual Razorpay Key ID (from Razorpay Dashboard)
+    const RAZORPAY_KEY_ID = "rzp_test_YOUR_KEY_ID_HERE";
+    const BACKEND_URL = "http://localhost:5000"; // Update with your backend host/port
+
+    async function handleCheckout() {
+      const payButton = document.getElementById("pay-btn");
+      payButton.disabled = true;
+      payButton.innerText = "Processing...";
+
+      // 1. Prepare Order Payload
+      const orderPayload = {
+        totalAmount: 3300,
+        customer: {
+          name: "Rahul Sharma",
+          email: "rahul@example.com",
+          phone: "9876543210",
+          address: "123 Medical Hub, Delhi"
+        },
+        products: [
+          {
+            name: "Digital BP Monitor",
+            quantity: 2,
+            price: 1500
+          },
+          {
+            name: "Pulse Oximeter",
+            quantity: 1,
+            price: 300
+          }
+        ]
+      };
+
+      try {
+        // 2. Call Backend to Create Razorpay Order
+        const orderResponse = await fetch(`${BACKEND_URL}/api/payment/create-order`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: orderPayload.totalAmount })
+        });
+
+        const orderData = await orderResponse.json();
+
+        if (!orderData.success) {
+          alert("Error creating payment order. Please try again.");
+          resetButton();
+          return;
+        }
+
+        // 3. Configure Razorpay Modal Options
+        const options = {
+          key: RAZORPAY_KEY_ID,
+          amount: orderData.amount, // in paise
+          currency: orderData.currency,
+          name: "Shrishti Enterprises",
+          description: "Medical Equipment Order Payment",
+          order_id: orderData.order_id, // Order ID from backend
+          prefill: {
+            name: orderPayload.customer.name,
+            email: orderPayload.customer.email,
+            contact: orderPayload.customer.phone
+          },
+          theme: {
+            color: "#3399cc"
+          },
+          // 4. Payment Success Callback
+          handler: async function (response) {
+            try {
+              // Send signature and order details to backend for verification & saving
+              const saveResponse = await fetch(`${BACKEND_URL}/api/orders/save-order`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  razorpayOrderId: response.razorpay_order_id,
+                  razorpayPaymentId: response.razorpay_payment_id,
+                  razorpaySignature: response.razorpay_signature,
+                  customer: orderPayload.customer,
+                  products: orderPayload.products,
+                  totalAmount: orderPayload.totalAmount
+                })
+              });
+
+              const saveResult = await saveResponse.json();
+
+              if (saveResult.success) {
+                alert(`Payment Successful! Order Saved. Order ID: ${saveResult.order.orderId}`);
+                window.location.href = `/order-success.html?orderId=${saveResult.order.orderId}`;
+              } else {
+                alert("Payment received, but failed to save order. Contact support.");
+              }
+            } catch (err) {
+              console.error("Error saving order:", err);
+              alert("Error connecting to server while saving order.");
+            }
+          },
+          modal: {
+            ondismiss: function () {
+              alert("Payment modal closed by user.");
+              resetButton();
+            }
+          }
+        };
+
+        // 5. Initialize and Open Razorpay Modal (Displays UPI, Card, Netbanking)
+        const rzp = new window.Razorpay(options);
+
+        rzp.on("payment.failed", function (response) {
+          alert(`Payment Failed: ${response.error.description}`);
+          resetButton();
+        });
+
+        rzp.open();
+
+      } catch (error) {
+        console.error("Checkout Error:", error);
+        alert("Server error occurred during checkout initiation.");
+        resetButton();
+      }
+
+      function resetButton() {
+        payButton.disabled = false;
+        payButton.innerText = "Pay & Place Order";
+      }
+    }
+  </script>
+</body>
+</html>

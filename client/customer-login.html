@@ -11,7 +11,6 @@
     <title>Customer Login - Shrishti Enterprises</title>
 
     <style>
-
         body {
             font-family: Arial, sans-serif;
             background: #f5f7fa;
@@ -60,34 +59,31 @@
         p {
             text-align: center;
         }
-
     </style>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-
 </head>
 
 <body>
 
 <div class="auth-box">
-
     <h2>Customer Login</h2>
+
     <div id="g_id_onload"
-     data-client_id="262970468257-3t05qv7mieohujqse224cr3hsjg78o8e.apps.googleusercontent.com"
-     data-callback="handleGoogleLogin">
-</div>
+         data-client_id="262970468257-3t05qv7mieohujqse224cr3hsjg78o8e.apps.googleusercontent.com"
+         data-callback="handleGoogleLogin">
+    </div>
 
-<div class="g_id_signin"
-     data-type="standard"
-     data-size="large"
-     data-theme="outline"
-     data-text="continue_with"
-     data-shape="rectangular">
-</div>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="continue_with"
+         data-shape="rectangular">
+    </div>
 
-<p>OR</p>
+    <p>OR</p>
 
     <form id="loginForm">
-
         <input
             type="email"
             id="email"
@@ -106,9 +102,8 @@
             Login
         </button>
         <a href="forgot-password.html">
-          Forgot Password?
+            Forgot Password?
         </a>
-
     </form>
 
     <div id="message"></div>
@@ -119,202 +114,106 @@
             Create Account
         </a>
     </p>
-
 </div>
 
-
 <script>
+// Fixed Base URL (Removed '/google' trailing path)
+const API_URL = "http://localhost:5000/api/users";
 
-const API_URL =
-    "https://shrishti-enterprises.onrender.com/api/users";
+// Default page to redirect after successful login
+const DEFAULT_REDIRECT_PAGE = "product.html";
 
-
+// ==========================================
+// FORM LOGIN
+// ==========================================
 document
     .getElementById("loginForm")
     .addEventListener("submit", async function(e) {
-
         e.preventDefault();
 
-
-        const email =
-            document.getElementById("email").value;
-
-        const password =
-            document.getElementById("password").value;
-
-
-        const message =
-            document.getElementById("message");
-
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const message = document.getElementById("message");
 
         try {
-
-            const response =
-                await fetch(`${"http://localhost:5000/api/auth"}/login`, {
-
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        email,
-                        password
-                    })
-
-                });
-
-
-            const data =
-                await response.json();
-
-
-            if (!response.ok) {
-
-                message.textContent =
-                    data.message || "Login failed";
-
-                return;
-            }
-
-
-            localStorage.setItem(
-                "customerToken",
-                data.token
-            );
-
-
-            localStorage.setItem(
-                "customerUser",
-                JSON.stringify(data.user)
-            );
-
-
-            // Continue previous order
-
-            const redirect =
-                sessionStorage.getItem("orderRedirect");
-
-
-            if (redirect) {
-
-                sessionStorage.removeItem(
-                    "orderRedirect"
-                );
-
-                window.location.href =
-                    redirect;
-
-            } else {
-
-                window.location.href =
-                    "index.html";
-
-            }
-
-        } catch (error) {
-
-            console.error(error);
-
-            message.textContent =
-                "Unable to connect to server";
-
-        }
-
-    });
-    // ==========================================
-// GOOGLE LOGIN
-// ==========================================
-
-async function handleGoogleLogin(response) {
-
-    const message =
-        document.getElementById("message");
-
-    try {
-
-        const result =
-            await fetch(`${"http://localhost:5000/api/auth"}/google`, {
-
+            const response = await fetch(`${API_URL}/login`, {
                 method: "POST",
-
                 headers: {
                     "Content-Type": "application/json"
                 },
-
-                body: JSON.stringify({
-                    credential: response.credential
-                })
-
+                body: JSON.stringify({ email, password })
             });
 
+            const data = await response.json();
 
-        const data =
-            await result.json();
+            if (!response.ok) {
+                message.textContent = data.message || "Login failed";
+                return;
+            }
 
+            localStorage.setItem("customerToken", data.token);
+            localStorage.setItem("customerUser", JSON.stringify(data.user));
+
+            // Continue previous order or redirect to dashboard
+            const redirect = sessionStorage.getItem("orderRedirect");
+
+            if (redirect) {
+                sessionStorage.removeItem("orderRedirect");
+                window.location.href = redirect;
+            } else {
+                window.location.href = DEFAULT_REDIRECT_PAGE;
+            }
+
+        } catch (error) {
+            console.error(error);
+            message.textContent = "Unable to connect to server";
+        }
+    });
+
+// ==========================================
+// GOOGLE LOGIN
+// ==========================================
+async function handleGoogleLogin(response) {
+    const message = document.getElementById("message");
+
+    try {
+        const result = await fetch(`${API_URL}/google`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                credential: response.credential
+            })
+        });
+
+        const data = await result.json();
 
         if (!result.ok) {
-
-            message.textContent =
-                data.message || "Google login failed";
-
+            message.textContent = data.message || "Google login failed";
             return;
         }
 
-
         // Save customer login
+        localStorage.setItem("customerToken", data.token);
+        localStorage.setItem("customerUser", JSON.stringify(data.user));
 
-        localStorage.setItem(
-            "customerToken",
-            data.token
-        );
-
-
-        localStorage.setItem(
-            "customerUser",
-            JSON.stringify(data.user)
-        );
-
-
-        // Continue previous order
-
-        const redirect =
-            sessionStorage.getItem("orderRedirect");
-
+        // Continue previous order or redirect to dashboard
+        const redirect = sessionStorage.getItem("orderRedirect");
 
         if (redirect) {
-
-            sessionStorage.removeItem(
-                "orderRedirect"
-            );
-
-            window.location.href =
-                redirect;
-
+            sessionStorage.removeItem("orderRedirect");
+            window.location.href = redirect;
         } else {
-
-            window.location.href =
-                "index.html";
-
+            window.location.href = DEFAULT_REDIRECT_PAGE;
         }
 
     } catch (error) {
-
-        console.error(
-            "Google login error:",
-            error
-        );
-
-        message.textContent =
-            "Unable to connect to server";
-
+        console.error("Google login error:", error);
+        message.textContent = "Unable to connect to server";
     }
-
 }
-
 </script>
 
 </body>
-
 </html>
