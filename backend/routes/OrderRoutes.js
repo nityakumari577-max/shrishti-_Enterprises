@@ -4,7 +4,7 @@ const router = express.Router();
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 
-const Order = require("../models/order");
+const Order = require("../models/Order");
 
 // ==========================================
 // CREATE RAZORPAY INSTANCE
