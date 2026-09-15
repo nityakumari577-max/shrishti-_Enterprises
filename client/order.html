@@ -366,8 +366,6 @@ body {
 <!-- ================= TITLE ================= -->
 
 <div class="page-title">
-
-```
 <h1>
     Place Your Order
 </h1>
@@ -375,7 +373,6 @@ body {
 <p>
     Complete your details to place your order
 </p>
-```
 
 </div>
 
@@ -386,8 +383,6 @@ body {
 <!-- ================= LEFT SIDE ================= -->
 
 <div class="box">
-
-```
 <h2>
     Product Details
 </h2>
@@ -501,7 +496,6 @@ body {
     </div>
 
 </div>
-```
 
 </div>
 
@@ -638,7 +632,6 @@ body {
 </div>
 
 </div>
-
 <script>
 
 // ==========================================
@@ -652,16 +645,6 @@ const API_URL =
 // ==========================================
 // RAZORPAY PUBLIC KEY
 // ==========================================
-//
-// IMPORTANT:
-// Replace this with your actual Razorpay TEST
-// Key ID.
-//
-// Example:
-// rzp_test_xxxxxxxxxxxxx
-//
-// NEVER put RAZORPAY_KEY_SECRET here.
-//
 
 const RAZORPAY_KEY_ID =
     "rzp_test_TabtQehroDwKCl";
@@ -679,7 +662,7 @@ const productId =
 
 
 // ==========================================
-// PRODUCT VARIABLES
+// PRODUCT PRICE
 // ==========================================
 
 let productPrice = 0;
@@ -697,9 +680,7 @@ async function loadProduct() {
             "Product not found";
 
         return;
-
     }
-
 
     try {
 
@@ -708,81 +689,64 @@ async function loadProduct() {
                 `${API_URL}/equipment/${productId}`
             );
 
-
         if (!response.ok) {
 
             throw new Error(
-                "Unable to load product"
+                `Unable to load product. Server returned ${response.status}`
             );
-
         }
-
 
         const product =
             await response.json();
 
+        console.log("PRODUCT RESPONSE:", product);
 
         document.getElementById(
             "productName"
         ).textContent =
-            product.name;
-
+            product.name || "Product";
 
         document.getElementById(
             "productDescription"
         ).textContent =
             product.description || "";
 
-
         document.getElementById(
             "productImage"
         ).src =
-            product.image;
-
+            product.image || "";
 
         productPrice =
             Number(
-                String(product.price)
+                String(product.price || "")
                     .replace(/[^0-9.]/g, "")
             ) || 0;
-
 
         document.getElementById(
             "productPrice"
         ).textContent =
             productPrice.toLocaleString("en-IN");
 
-
         updateTotal();
-
 
     } catch (error) {
 
         console.error(
-            "Product loading error:",
+            "PRODUCT LOADING ERROR:",
             error
         );
-
 
         document.getElementById(
             "productName"
         ).textContent =
             "Unable to load product";
 
-
-        document.getElementById(
-            "message"
-        ).style.color =
-            "red";
-
-
-        document.getElementById(
-            "message"
-        ).textContent =
-            "Unable to load product details.";
-
+        showMessage(
+            error.message ||
+            "Unable to load product details.",
+            "red"
+        );
     }
-
 }
 
 
@@ -792,35 +756,34 @@ async function loadProduct() {
 
 function updateTotal() {
 
-    const quantity =
-        Number(
-            document.getElementById(
-                "quantity"
-            ).value
-        ) || 1;
+    const quantityInput =
+        document.getElementById("quantity");
 
+    let quantity =
+        Number(quantityInput.value);
+
+    if (!quantity || quantity < 1) {
+        quantity = 1;
+        quantityInput.value = 1;
+    }
 
     const total =
         productPrice * quantity;
-
 
     document.getElementById(
         "summaryPrice"
     ).textContent =
         productPrice.toLocaleString("en-IN");
 
-
     document.getElementById(
         "summaryQuantity"
     ).textContent =
         quantity;
 
-
     document.getElementById(
         "totalPrice"
     ).textContent =
         total.toLocaleString("en-IN");
-
 }
 
 
@@ -840,10 +803,7 @@ document.getElementById(
 // SHOW MESSAGE
 // ==========================================
 
-function showMessage(
-    text,
-    color
-) {
+function showMessage(text, color) {
 
     const message =
         document.getElementById("message");
@@ -853,7 +813,6 @@ function showMessage(
 
     message.textContent =
         text;
-
 }
 
 
@@ -863,44 +822,151 @@ function showMessage(
 
 async function saveCODOrder(orderData) {
 
-    const response =
-        await fetch(
-            `${API_URL}/orders/save-order`,
-            {
-                method: "POST",
+    try {
 
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
+        console.log(
+            "================================="
+        );
 
-                body:
-                    JSON.stringify({
-                        ...orderData,
+        console.log(
+            "SENDING COD ORDER"
+        );
 
-                        paymentStatus:
-                            "PENDING"
-                    })
-            }
+        console.log(
+            "================================="
+        );
+
+        console.log(
+            "ORDER DATA:",
+            orderData
         );
 
 
-    const data =
-        await response.json();
+        const response =
+            await fetch(
+                `${API_URL}/orders/save-order`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            productId:
+                                orderData.productId,
+
+                            productName:
+                                orderData.productName,
+
+                            quantity:
+                                Number(
+                                    orderData.quantity
+                                ),
+
+                            price:
+                                Number(
+                                    orderData.price
+                                ),
+
+                            totalPrice:
+                                Number(
+                                    orderData.totalPrice
+                                ),
+
+                            customerName:
+                                orderData.customerName,
+
+                            customerEmail:
+                                orderData.customerEmail,
+
+                            customerPhone:
+                                orderData.customerPhone,
+
+                            address:
+                                orderData.address,
+
+                            paymentMethod:
+                                "COD",
+
+                            paymentStatus:
+                                "Pending",
+
+                            orderStatus:
+                                "Pending"
+                        })
+                }
+            );
 
 
-    if (!response.ok || !data.success) {
-
-        throw new Error(
-            data.message ||
-            "Failed to save COD order"
+        console.log(
+            "COD HTTP STATUS:",
+            response.status
         );
 
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "COD SERVER RESPONSE:",
+            data
+        );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                data.message ||
+                `Server returned ${response.status}`
+            );
+        }
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.error ||
+                data.message ||
+                "Failed to save COD order"
+            );
+        }
+
+
+        console.log(
+            "COD ORDER SAVED SUCCESSFULLY:",
+            data
+        );
+
+
+        return data;
+
+
+    } catch (error) {
+
+        console.error(
+            "================================="
+        );
+
+        console.error(
+            "COD ORDER SAVE ERROR"
+        );
+
+        console.error(
+            "================================="
+        );
+
+        console.error(
+            error
+        );
+
+        throw error;
     }
-
-
-    return data;
-
 }
 
 
@@ -908,9 +974,7 @@ async function saveCODOrder(orderData) {
 // CREATE RAZORPAY ORDER
 // ==========================================
 
-async function createRazorpayOrder(
-    totalPrice
-) {
+async function createRazorpayOrder(totalPrice) {
 
     console.log(
         "Creating Razorpay order for:",
@@ -943,7 +1007,7 @@ async function createRazorpayOrder(
 
 
     console.log(
-        "Create order response:",
+        "RAZORPAY CREATE ORDER RESPONSE:",
         data
     );
 
@@ -953,23 +1017,20 @@ async function createRazorpayOrder(
         throw new Error(
             data.message ||
             data.error ||
-            "Failed to create Razorpay order"
+            `Failed to create Razorpay order (${response.status})`
         );
-
     }
 
 
     if (!data.order) {
 
         throw new Error(
-            "Razorpay order was not returned by backend"
+            "Razorpay order was not returned by backend."
         );
-
     }
 
 
     return data.order;
-
 }
 
 
@@ -981,6 +1042,12 @@ async function verifyPayment(
     paymentResponse,
     orderData
 ) {
+
+    console.log(
+        "VERIFYING RAZORPAY PAYMENT:",
+        paymentResponse
+    );
+
 
     const response =
         await fetch(
@@ -1000,7 +1067,6 @@ async function verifyPayment(
 
                         orderDetails:
                             orderData
-
                     })
             }
         );
@@ -1011,7 +1077,7 @@ async function verifyPayment(
 
 
     console.log(
-        "Payment verification response:",
+        "PAYMENT VERIFICATION RESPONSE:",
         data
     );
 
@@ -1020,14 +1086,13 @@ async function verifyPayment(
 
         throw new Error(
             data.message ||
-            "Payment verification failed"
+            data.error ||
+            "Payment verification failed."
         );
-
     }
 
 
     return data;
-
 }
 
 
@@ -1050,6 +1115,10 @@ document.getElementById(
             );
 
 
+        // ======================================
+        // GET FORM DATA
+        // ======================================
+
         const quantity =
             Number(
                 document.getElementById(
@@ -1058,11 +1127,30 @@ document.getElementById(
             );
 
 
-        const paymentMethod =
+        const paymentMethodElement =
             document.querySelector(
                 'input[name="paymentMethod"]:checked'
-            ).value;
+            );
 
+
+        if (!paymentMethodElement) {
+
+            showMessage(
+                "Please select a payment method.",
+                "red"
+            );
+
+            return;
+        }
+
+
+        const paymentMethod =
+            paymentMethodElement.value;
+
+
+        // ======================================
+        // VALIDATE QUANTITY
+        // ======================================
 
         if (
             !quantity ||
@@ -1075,9 +1163,12 @@ document.getElementById(
             );
 
             return;
-
         }
 
+
+        // ======================================
+        // VALIDATE PRODUCT
+        // ======================================
 
         if (
             !productId ||
@@ -1090,13 +1181,96 @@ document.getElementById(
             );
 
             return;
-
         }
 
+
+        // ======================================
+        // GET CUSTOMER DATA
+        // ======================================
+
+        const customerName =
+            document.getElementById(
+                "customerName"
+            ).value.trim();
+
+
+        const customerEmail =
+            document.getElementById(
+                "customerEmail"
+            ).value.trim();
+
+
+        const customerPhone =
+            document.getElementById(
+                "customerPhone"
+            ).value.trim();
+
+
+        const address =
+            document.getElementById(
+                "address"
+            ).value.trim();
+
+
+        // ======================================
+        // VALIDATE CUSTOMER DATA
+        // ======================================
+
+        if (!customerName) {
+
+            showMessage(
+                "Please enter your full name.",
+                "red"
+            );
+
+            return;
+        }
+
+
+        if (!customerEmail) {
+
+            showMessage(
+                "Please enter your email.",
+                "red"
+            );
+
+            return;
+        }
+
+
+        if (!customerPhone) {
+
+            showMessage(
+                "Please enter your phone number.",
+                "red"
+            );
+
+            return;
+        }
+
+
+        if (!address) {
+
+            showMessage(
+                "Please enter your delivery address.",
+                "red"
+            );
+
+            return;
+        }
+
+
+        // ======================================
+        // CALCULATE TOTAL
+        // ======================================
 
         const totalPrice =
             productPrice * quantity;
 
+
+        // ======================================
+        // CREATE ORDER DATA
+        // ======================================
 
         const orderData = {
 
@@ -1106,7 +1280,7 @@ document.getElementById(
             productName:
                 document.getElementById(
                     "productName"
-                ).textContent,
+                ).textContent.trim(),
 
             quantity:
                 quantity,
@@ -1118,33 +1292,30 @@ document.getElementById(
                 totalPrice,
 
             customerName:
-                document.getElementById(
-                    "customerName"
-                ).value.trim(),
+                customerName,
 
             customerEmail:
-                document.getElementById(
-                    "customerEmail"
-                ).value.trim(),
+                customerEmail,
 
             customerPhone:
-                document.getElementById(
-                    "customerPhone"
-                ).value.trim(),
+                customerPhone,
 
             address:
-                document.getElementById(
-                    "address"
-                ).value.trim(),
+                address,
 
             paymentMethod:
                 paymentMethod
-
         };
 
 
+        console.log(
+            "FINAL ORDER DATA:",
+            orderData
+        );
+
+
         // ======================================
-        // COD
+        // COD PAYMENT
         // ======================================
 
         if (
@@ -1153,20 +1324,28 @@ document.getElementById(
 
             try {
 
-                button.disabled = true;
+                button.disabled =
+                    true;
 
                 button.textContent =
                     "Saving Order...";
 
 
                 showMessage(
-                    "Saving your order...",
+                    "Saving your COD order...",
                     "#087f8c"
                 );
 
 
-                await saveCODOrder(
-                    orderData
+                const result =
+                    await saveCODOrder(
+                        orderData
+                    );
+
+
+                console.log(
+                    "COD ORDER RESULT:",
+                    result
                 );
 
 
@@ -1180,31 +1359,38 @@ document.getElementById(
                     "Order Placed";
 
 
+                button.disabled =
+                    true;
+
+
+                return;
+
+
             } catch (error) {
 
                 console.error(
-                    "COD order error:",
+                    "COD ORDER ERROR:",
                     error
                 );
 
 
                 showMessage(
                     error.message ||
-                    "Unable to place order.",
+                    "Unable to place COD order.",
                     "red"
                 );
 
 
-                button.disabled = false;
+                button.disabled =
+                    false;
+
 
                 button.textContent =
                     "Place Order";
 
+
+                return;
             }
-
-
-            return;
-
         }
 
 
@@ -1218,7 +1404,8 @@ document.getElementById(
 
             try {
 
-                button.disabled = true;
+                button.disabled =
+                    true;
 
                 button.textContent =
                     "Opening Payment...";
@@ -1230,7 +1417,9 @@ document.getElementById(
                 );
 
 
-                // Check Razorpay SDK
+                // ==================================
+                // CHECK RAZORPAY SDK
+                // ==================================
 
                 if (
                     typeof window.Razorpay !==
@@ -1240,11 +1429,12 @@ document.getElementById(
                     throw new Error(
                         "Razorpay payment system could not be loaded."
                     );
-
                 }
 
 
-                // Check public key
+                // ==================================
+                // CHECK RAZORPAY KEY
+                // ==================================
 
                 if (
                     !RAZORPAY_KEY_ID ||
@@ -1253,14 +1443,13 @@ document.getElementById(
                 ) {
 
                     throw new Error(
-                        "Razorpay Key ID is not configured in order.html."
+                        "Razorpay Key ID is not configured."
                     );
-
                 }
 
 
                 // ==================================
-                // 1. CREATE RAZORPAY ORDER
+                // CREATE RAZORPAY ORDER
                 // ==================================
 
                 const razorpayOrder =
@@ -1270,13 +1459,13 @@ document.getElementById(
 
 
                 console.log(
-                    "Razorpay order:",
+                    "RAZORPAY ORDER:",
                     razorpayOrder
                 );
 
 
                 // ==================================
-                // 2. RAZORPAY OPTIONS
+                // RAZORPAY OPTIONS
                 // ==================================
 
                 const options = {
@@ -1300,6 +1489,10 @@ document.getElementById(
                         razorpayOrder.id,
 
 
+                    // ==================================
+                    // PAYMENT SUCCESS
+                    // ==================================
+
                     handler:
                         async function(
                             paymentResponse
@@ -1308,7 +1501,7 @@ document.getElementById(
                             try {
 
                                 console.log(
-                                    "Payment response:",
+                                    "PAYMENT RESPONSE:",
                                     paymentResponse
                                 );
 
@@ -1319,13 +1512,20 @@ document.getElementById(
                                 );
 
 
-                                // =================================
-                                // 3. VERIFY PAYMENT
-                                // =================================
+                                // ==================================
+                                // VERIFY PAYMENT
+                                // ==================================
 
-                                await verifyPayment(
-                                    paymentResponse,
-                                    orderData
+                                const verificationResult =
+                                    await verifyPayment(
+                                        paymentResponse,
+                                        orderData
+                                    );
+
+
+                                console.log(
+                                    "VERIFICATION RESULT:",
+                                    verificationResult
                                 );
 
 
@@ -1348,7 +1548,7 @@ document.getElementById(
                             ) {
 
                                 console.error(
-                                    "Payment verification error:",
+                                    "PAYMENT VERIFICATION ERROR:",
                                     verificationError
                                 );
 
@@ -1366,9 +1566,7 @@ document.getElementById(
 
                                 button.textContent =
                                     "Place Order";
-
                             }
-
                         },
 
 
@@ -1382,7 +1580,6 @@ document.getElementById(
 
                         contact:
                             orderData.customerPhone
-
                     },
 
 
@@ -1393,7 +1590,6 @@ document.getElementById(
 
                         productName:
                             orderData.productName
-
                     },
 
 
@@ -1401,14 +1597,12 @@ document.getElementById(
 
                         color:
                             "#087f8c"
-
                     }
-
                 };
 
 
                 // ==================================
-                // 4. OPEN RAZORPAY
+                // OPEN RAZORPAY
                 // ==================================
 
                 const rzp =
@@ -1417,20 +1611,25 @@ document.getElementById(
                     );
 
 
+                // ==================================
+                // PAYMENT FAILED
+                // ==================================
+
                 rzp.on(
                     "payment.failed",
-                    function(
-                        response
-                    ) {
+                    function(response) {
 
                         console.error(
-                            "Payment failed:",
+                            "RAZORPAY PAYMENT FAILED:",
                             response.error
                         );
 
 
                         showMessage(
-                            "Payment failed. Please try again.",
+                            response.error &&
+                            response.error.description
+                                ? response.error.description
+                                : "Payment failed. Please try again.",
                             "red"
                         );
 
@@ -1441,7 +1640,6 @@ document.getElementById(
 
                         button.textContent =
                             "Place Order";
-
                     }
                 );
 
@@ -1452,7 +1650,7 @@ document.getElementById(
             } catch (error) {
 
                 console.error(
-                    "Payment error:",
+                    "ONLINE PAYMENT ERROR:",
                     error
                 );
 
@@ -1470,9 +1668,7 @@ document.getElementById(
 
                 button.textContent =
                     "Place Order";
-
             }
-
         }
 
     }
@@ -1480,12 +1676,13 @@ document.getElementById(
 
 
 // ==========================================
-// START
+// START APPLICATION
 // ==========================================
 
 loadProduct();
 
 </script>
+
 
 </body>
 

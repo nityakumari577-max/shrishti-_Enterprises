@@ -1,103 +1,131 @@
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
-{
-customerName: {
-type: String,
-required: true,
-trim: true
-},
-customerEmail: {
-  type: String,
-  required: true,
-  trim: true,
-  lowercase: true
-},
+    {
+        // ==========================================
+        // PRODUCT DETAILS
+        // ==========================================
 
-customerPhone: {
-  type: String,
-  required: true,
-  trim: true
-},
+        productId: {
+            type: String,
+            required: true,
+            trim: true
+        },
 
-address: {
-  type: String,
-  required: true,
-  trim: true
-},
+        productName: {
+            type: String,
+            required: true,
+            trim: true
+        },
 
-productId: {
-  type: String,
-  required: true
-},
+        quantity: {
+            type: Number,
+            required: true,
+            min: 1
+        },
 
-productName: {
-  type: String,
-  required: true,
-  trim: true
-},
+        price: {
+            type: Number,
+            required: true,
+            min: 0
+        },
 
-quantity: {
-  type: Number,
-  required: true,
-  min: 1
-},
+        totalPrice: {
+            type: Number,
+            required: true,
+            min: 0
+        },
 
-price: {
-  type: Number,
-  required: true,
-  min: 0
-},
+        // ==========================================
+        // CUSTOMER DETAILS
+        // ==========================================
 
-totalPrice: {
-  type: Number,
-  required: true,
-  min: 0
-},
+        customerName: {
+            type: String,
+            required: true,
+            trim: true
+        },
 
-paymentMethod: {
-  type: String,
-  enum: ["ONLINE", "COD"],
-  default: "ONLINE"
-},
+        customerEmail: {
+            type: String,
+            required: true,
+            trim: true,
+            lowercase: true
+        },
 
-paymentStatus: {
-  type: String,
-  enum: ["PENDING", "PAID", "FAILED"],
-  default: "PENDING"
-},
+        customerPhone: {
+            type: String,
+            required: true,
+            trim: true
+        },
 
-orderStatus: {
-  type: String,
-  enum: [
-    "PLACED",
-    "PROCESSING",
-    "SHIPPED",
-    "DELIVERED",
-    "CANCELLED"
-  ],
-  default: "PLACED"
-},
+        address: {
+            type: String,
+            required: true,
+            trim: true
+        },
 
-razorpayOrderId: {
-  type: String,
-  default: null
-},
+        // ==========================================
+        // PAYMENT DETAILS
+        // ==========================================
 
-razorpayPaymentId: {
-  type: String,
-  default: null
-},
+        paymentMethod: {
+            type: String,
+            enum: ["COD", "ONLINE"],
+            required: true
+        },
 
-razorpaySignature: {
-  type: String,
-  default: null
-}
+        paymentStatus: {
+            type: String,
+            enum: [
+                "Pending",
+                "Paid",
+                "Failed",
+                "Refunded"
+            ],
+            default: "Pending"
+        },
 
-},
-{
-timestamps: true
-}
+        // ==========================================
+        // ORDER STATUS
+        // ==========================================
+
+        orderStatus: {
+            type: String,
+            enum: [
+                "Pending",
+                "Confirmed",
+                "Processing",
+                "Shipped",
+                "Delivered",
+                "Cancelled"
+            ],
+            default: "Pending"
+        },
+
+        // ==========================================
+        // RAZORPAY DETAILS
+        // ==========================================
+
+        razorpayOrderId: {
+            type: String,
+            default: null
+        },
+
+        razorpayPaymentId: {
+            type: String,
+            default: null
+        },
+
+        razorpaySignature: {
+            type: String,
+            default: null
+        }
+    },
+
+    {
+        timestamps: true
+    }
 );
 
 module.exports = mongoose.model("Order", orderSchema);
