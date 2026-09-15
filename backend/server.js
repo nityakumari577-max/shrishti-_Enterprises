@@ -131,7 +131,7 @@ paymentRoutes
 // ==========================================
 
 app.use(
-"/api",
+"/api/orders",
 orderRoutes
 );
 
