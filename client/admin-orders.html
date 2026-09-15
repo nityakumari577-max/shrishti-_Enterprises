@@ -1,703 +1,714 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Customer Orders - Shrishti Enterprises</title>
+```
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
+<title>Customer Orders - Shrishti Enterprises</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #222;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        /* =========================
-           NAVBAR
-        ========================= */
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+        color: #222;
+    }
 
-        .navbar {
-            height: 58px;
-            background: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    /* =========================
+       NAVBAR
+    ========================= */
 
-        .logo {
-            font-size: 20px;
-            font-weight: bold;
-            color: #0d6efd;
-        }
+    .navbar {
+        height: 58px;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 25px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 
-        .nav-buttons {
-            display: flex;
-            gap: 8px;
-        }
+    .logo {
+        font-size: 20px;
+        font-weight: bold;
+        color: #0d6efd;
+    }
 
-        .nav-btn {
-            border: none;
-            padding: 7px 13px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-            background: #0d6efd;
-            color: white;
-        }
+    .nav-buttons {
+        display: flex;
+        gap: 8px;
+    }
 
-        .logout-btn {
-            background: #dc3545;
-        }
+    .nav-btn {
+        border: none;
+        padding: 7px 13px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 13px;
+        background: #0d6efd;
+        color: white;
+    }
 
-        /* =========================
-           MAIN CONTAINER
-        ========================= */
+    .logout-btn {
+        background: #dc3545;
+    }
 
-        .container {
-            width: 96%;
-            max-width: 1450px;
-            margin: 18px auto;
-        }
+    /* =========================
+       MAIN
+    ========================= */
 
-        .page-title {
-            font-size: 24px;
-            margin-bottom: 4px;
-        }
+    .container {
+        width: 96%;
+        max-width: 1450px;
+        margin: 18px auto;
+    }
 
-        .page-subtitle {
-            color: #777;
-            font-size: 13px;
-            margin-bottom: 15px;
-        }
+    .page-title {
+        font-size: 24px;
+        margin-bottom: 4px;
+    }
 
-        /* =========================
-           MESSAGE
-        ========================= */
+    .page-subtitle {
+        color: #777;
+        font-size: 13px;
+        margin-bottom: 15px;
+    }
 
-        #message {
-            display: none;
-            padding: 9px 12px;
-            margin-bottom: 12px;
-            border-radius: 5px;
-            font-size: 13px;
-        }
+    /* =========================
+       MESSAGE
+    ========================= */
 
-        /* =========================
-           SEARCH BOX
-        ========================= */
+    #message {
+        display: none;
+        padding: 9px 12px;
+        margin-bottom: 12px;
+        border-radius: 5px;
+        font-size: 13px;
+    }
 
-        .search-box {
-            background: white;
-            padding: 12px;
-            border-radius: 7px;
-            box-shadow: 0 2px 7px rgba(0,0,0,0.06);
-            margin-bottom: 12px;
+    /* =========================
+       SEARCH
+    ========================= */
+
+    .search-box {
+        background: white;
+        padding: 12px;
+        border-radius: 7px;
+        box-shadow: 0 2px 7px rgba(0,0,0,0.06);
+        margin-bottom: 12px;
+    }
+
+    .search-row {
+        display: flex;
+        gap: 8px;
+    }
+
+    .search-input {
+        flex: 1;
+        height: 36px;
+        padding: 0 11px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 13px;
+        outline: none;
+    }
+
+    .search-input:focus {
+        border-color: #0d6efd;
+    }
+
+    .search-btn,
+    .clear-btn,
+    .refresh-btn {
+        border: none;
+        padding: 0 14px;
+        height: 36px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+    .search-btn {
+        background: #0d6efd;
+        color: white;
+    }
+
+    .clear-btn {
+        background: #6c757d;
+        color: white;
+    }
+
+    .refresh-btn {
+        background: #198754;
+        color: white;
+        float: right;
+        margin-top: -51px;
+        margin-right: 12px;
+    }
+
+    /* =========================
+       SUMMARY
+    ========================= */
+
+    .summary {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .summary-card {
+        background: white;
+        padding: 10px 13px;
+        border-radius: 7px;
+        box-shadow: 0 2px 7px rgba(0,0,0,0.06);
+        min-height: 65px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .summary-title {
+        color: #777;
+        font-size: 11px;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    .summary-number {
+        font-size: 21px;
+        font-weight: bold;
+        color: #222;
+    }
+
+    .summary-card.pending .summary-number {
+        color: #fd7e14;
+    }
+
+    .summary-card.delivered .summary-number {
+        color: #198754;
+    }
+
+    .summary-card.payment .summary-number {
+        color: #dc3545;
+    }
+
+    /* =========================
+       ORDERS
+    ========================= */
+
+    .orders-container {
+        background: white;
+        border-radius: 7px;
+        box-shadow: 0 2px 7px rgba(0,0,0,0.06);
+        overflow-x: auto;
+    }
+
+    .orders-header {
+        padding: 11px 14px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .orders-header h2 {
+        font-size: 16px;
+    }
+
+    .orders-count {
+        color: #777;
+        font-size: 12px;
+    }
+
+    /* =========================
+       TABLE
+    ========================= */
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1100px;
+    }
+
+    th {
+        background: #f8f9fa;
+        color: #555;
+        font-size: 11px;
+        text-transform: uppercase;
+        padding: 8px 7px;
+        border-bottom: 1px solid #ddd;
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 8px 7px;
+        font-size: 12px;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+    }
+
+    tr:hover {
+        background: #fafafa;
+    }
+
+    /* =========================
+       PRODUCT
+    ========================= */
+
+    .product-name {
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    .product-id {
+        font-size: 9px;
+        color: #999;
+        margin-top: 2px;
+        max-width: 130px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* =========================
+       CUSTOMER
+    ========================= */
+
+    .customer-name {
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    .customer-info {
+        color: #777;
+        font-size: 10px;
+        margin-top: 2px;
+    }
+
+    /* =========================
+       BADGES
+    ========================= */
+
+    .badge {
+        display: inline-block;
+        padding: 3px 6px;
+        border-radius: 10px;
+        font-size: 9px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .badge-paid {
+        background: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .badge-pending {
+        background: #fff3cd;
+        color: #664d03;
+    }
+
+    .badge-failed {
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    .badge-refunded {
+        background: #e2e3e5;
+        color: #41464b;
+    }
+
+    .badge-confirmed {
+        background: #cff4fc;
+        color: #055160;
+    }
+
+    .badge-processing {
+        background: #cfe2ff;
+        color: #084298;
+    }
+
+    .badge-shipped {
+        background: #e2d9f3;
+        color: #432874;
+    }
+
+    .badge-delivered {
+        background: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .badge-cancelled {
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    /* =========================
+       SELECT
+    ========================= */
+
+    .status-select {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 4px 5px;
+        font-size: 10px;
+        background: white;
+        cursor: pointer;
+        max-width: 110px;
+    }
+
+    /* =========================
+       ACTIONS
+    ========================= */
+
+    .actions {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        max-width: 170px;
+    }
+
+    .action-btn {
+        border: none;
+        padding: 5px 7px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 9px;
+        white-space: nowrap;
+    }
+
+    .paid-btn {
+        background: #198754;
+        color: white;
+    }
+
+    .processing-btn {
+        background: #6f42c1;
+        color: white;
+    }
+
+    .shipped-btn {
+        background: #0d6efd;
+        color: white;
+    }
+
+    .deliver-btn {
+        background: #198754;
+        color: white;
+    }
+
+    .delete-btn {
+        background: #dc3545;
+        color: white;
+    }
+
+    .action-btn:hover {
+        opacity: 0.9;
+    }
+
+    /* =========================
+       NO ORDERS
+    ========================= */
+
+    .no-orders {
+        text-align: center;
+        padding: 35px 15px;
+        color: #777;
+        font-size: 13px;
+    }
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    .loading {
+        text-align: center;
+        padding: 25px;
+        color: #777;
+        font-size: 13px;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 900px) {
+
+        .summary {
+            grid-template-columns: repeat(2, 1fr);
         }
 
         .search-row {
-            display: flex;
-            gap: 8px;
-        }
-
-        .search-input {
-            flex: 1;
-            height: 36px;
-            padding: 0 11px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 13px;
-            outline: none;
-        }
-
-        .search-input:focus {
-            border-color: #0d6efd;
-        }
-
-        .search-btn,
-        .clear-btn,
-        .refresh-btn {
-            border: none;
-            padding: 0 14px;
-            height: 36px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .search-btn {
-            background: #0d6efd;
-            color: white;
-        }
-
-        .clear-btn {
-            background: #6c757d;
-            color: white;
-        }
-
-        .refresh-btn {
-            background: #198754;
-            color: white;
-            float: right;
-            margin-top: -51px;
-            margin-right: 12px;
-        }
-
-        /* =========================
-           SUMMARY CARDS
-        ========================= */
-
-        .summary {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-
-        .summary-card {
-            background: white;
-            padding: 10px 13px;
-            border-radius: 7px;
-            box-shadow: 0 2px 7px rgba(0,0,0,0.06);
-
-            /* SMALL HEIGHT */
-            min-height: 65px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .summary-title {
-            color: #777;
-            font-size: 11px;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-
-        .summary-number {
-            font-size: 21px;
-            font-weight: bold;
-            color: #222;
-        }
-
-        .summary-card.pending .summary-number {
-            color: #fd7e14;
-        }
-
-        .summary-card.delivered .summary-number {
-            color: #198754;
-        }
-
-        .summary-card.payment .summary-number {
-            color: #dc3545;
-        }
-
-        /* =========================
-           ORDERS CONTAINER
-        ========================= */
-
-        .orders-container {
-            background: white;
-            border-radius: 7px;
-            box-shadow: 0 2px 7px rgba(0,0,0,0.06);
-            overflow-x: auto;
-        }
-
-        .orders-header {
-            padding: 11px 14px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .orders-header h2 {
-            font-size: 16px;
-        }
-
-        .orders-count {
-            color: #777;
-            font-size: 12px;
-        }
-
-        /* =========================
-           TABLE
-        ========================= */
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 1050px;
-        }
-
-        th {
-            background: #f8f9fa;
-            color: #555;
-            font-size: 11px;
-            text-transform: uppercase;
-            padding: 8px 7px;
-            border-bottom: 1px solid #ddd;
-            white-space: nowrap;
-        }
-
-        td {
-            padding: 8px 7px;
-            font-size: 12px;
-            border-bottom: 1px solid #eee;
-            vertical-align: middle;
-        }
-
-        tr:hover {
-            background: #fafafa;
-        }
-
-        /* =========================
-           PRODUCT
-        ========================= */
-
-        .product-name {
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-        .product-id {
-            font-size: 9px;
-            color: #999;
-            margin-top: 2px;
-            max-width: 130px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* =========================
-           CUSTOMER
-        ========================= */
-
-        .customer-name {
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-        .customer-info {
-            color: #777;
-            font-size: 10px;
-            margin-top: 2px;
-        }
-
-        /* =========================
-           BADGES
-        ========================= */
-
-        .badge {
-            display: inline-block;
-            padding: 3px 6px;
-            border-radius: 10px;
-            font-size: 9px;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        .badge-paid {
-            background: #d1e7dd;
-            color: #0f5132;
-        }
-
-        .badge-pending {
-            background: #fff3cd;
-            color: #664d03;
-        }
-
-        .badge-failed {
-            background: #f8d7da;
-            color: #842029;
-        }
-
-        .badge-refunded {
-            background: #e2e3e5;
-            color: #41464b;
-        }
-
-        .badge-confirmed {
-            background: #cff4fc;
-            color: #055160;
-        }
-
-        .badge-processing {
-            background: #cfe2ff;
-            color: #084298;
-        }
-
-        .badge-shipped {
-            background: #e2d9f3;
-            color: #432874;
-        }
-
-        .badge-delivered {
-            background: #d1e7dd;
-            color: #0f5132;
-        }
-
-        .badge-cancelled {
-            background: #f8d7da;
-            color: #842029;
-        }
-
-        /* =========================
-           SELECT
-        ========================= */
-
-        .status-select {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 4px 5px;
-            font-size: 10px;
-            background: white;
-            cursor: pointer;
-            max-width: 105px;
-        }
-
-        /* =========================
-           ACTION BUTTONS
-        ========================= */
-
-        .actions {
-            display: flex;
-            gap: 4px;
             flex-wrap: wrap;
         }
 
-        .action-btn {
-            border: none;
-            padding: 5px 7px;
-            border-radius: 4px;
-            cursor: pointer;
+        .search-input {
+            width: 100%;
+            flex-basis: 100%;
+        }
+
+        .refresh-btn {
+            float: none;
+            margin: 10px 0 0 0;
+        }
+    }
+
+    @media (max-width: 600px) {
+
+        .navbar {
+            padding: 0 12px;
+        }
+
+        .logo {
+            font-size: 16px;
+        }
+
+        .nav-btn {
+            padding: 6px 9px;
+            font-size: 11px;
+        }
+
+        .container {
+            width: 97%;
+            margin: 12px auto;
+        }
+
+        .page-title {
+            font-size: 20px;
+        }
+
+        .summary {
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+        }
+
+        .summary-card {
+            min-height: 58px;
+            padding: 8px;
+        }
+
+        .summary-number {
+            font-size: 18px;
+        }
+
+        .summary-title {
             font-size: 9px;
-            white-space: nowrap;
         }
+    }
 
-        .paid-btn {
-            background: #198754;
-            color: white;
-        }
+</style>
+```
 
-        .deliver-btn {
-            background: #0d6efd;
-            color: white;
-        }
-
-        .delete-btn {
-            background: #dc3545;
-            color: white;
-        }
-
-        .action-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        /* =========================
-           NO ORDERS
-        ========================= */
-
-        .no-orders {
-            text-align: center;
-            padding: 35px 15px;
-            color: #777;
-            font-size: 13px;
-        }
-
-        /* =========================
-           LOADING
-        ========================= */
-
-        .loading {
-            text-align: center;
-            padding: 25px;
-            color: #777;
-            font-size: 13px;
-        }
-
-        /* =========================
-           RESPONSIVE
-        ========================= */
-
-        @media (max-width: 900px) {
-
-            .summary {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .search-row {
-                flex-wrap: wrap;
-            }
-
-            .search-input {
-                width: 100%;
-                flex-basis: 100%;
-            }
-
-            .refresh-btn {
-                float: none;
-                margin: 10px 0 0 0;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .navbar {
-                padding: 0 12px;
-            }
-
-            .logo {
-                font-size: 16px;
-            }
-
-            .nav-btn {
-                padding: 6px 9px;
-                font-size: 11px;
-            }
-
-            .container {
-                width: 97%;
-                margin: 12px auto;
-            }
-
-            .page-title {
-                font-size: 20px;
-            }
-
-            .summary {
-                grid-template-columns: 1fr 1fr;
-                gap: 7px;
-            }
-
-            .summary-card {
-                min-height: 58px;
-                padding: 8px;
-            }
-
-            .summary-number {
-                font-size: 18px;
-            }
-
-            .summary-title {
-                font-size: 9px;
-            }
-        }
-
-    </style>
 </head>
 
 <body>
 
-    <!-- =========================
-         NAVBAR
-    ========================= -->
+```
+<!-- =========================
+     NAVBAR
+========================= -->
 
-    <nav class="navbar">
+<nav class="navbar">
 
-        <div class="logo">
-            Shrishti Enterprises
-        </div>
+    <div class="logo">
+        Shrishti Enterprises
+    </div>
 
-        <div class="nav-buttons">
+    <div class="nav-buttons">
 
-            <button class="nav-btn" onclick="goDashboard()">
-                Dashboard
-            </button>
+        <button
+            class="nav-btn"
+            onclick="goDashboard()"
+        >
+            Dashboard
+        </button>
 
-            <button class="nav-btn logout-btn" onclick="logout()">
-                Logout
-            </button>
+        <button
+            class="nav-btn logout-btn"
+            onclick="logout()"
+        >
+            Logout
+        </button>
 
-        </div>
+    </div>
 
-    </nav>
-
-
-    <!-- =========================
-         MAIN
-    ========================= -->
-
-    <div class="container">
-
-        <h1 class="page-title">
-            Customer Orders
-        </h1>
-
-        <p class="page-subtitle">
-            Manage customer orders, payments and delivery status
-        </p>
+</nav>
 
 
-        <!-- MESSAGE -->
+<!-- =========================
+     MAIN
+========================= -->
 
-        <div id="message"></div>
+<div class="container">
 
+    <h1 class="page-title">
+        Customer Orders
+    </h1>
 
-        <!-- =========================
-             SEARCH
-        ========================= -->
-
-        <div class="search-box">
-
-            <div class="search-row">
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    class="search-input"
-                    placeholder="Search by customer, order ID, product, email, phone or date..."
-                    onkeyup="searchOrders()"
-                >
-
-                <button
-                    class="search-btn"
-                    onclick="searchOrders()"
-                >
-                    Search
-                </button>
-
-                <button
-                    class="clear-btn"
-                    onclick="clearSearch()"
-                >
-                    Clear
-                </button>
-
-            </div>
-
-        </div>
+    <p class="page-subtitle">
+        Manage customer orders, payments and delivery status
+    </p>
 
 
-        <!-- =========================
-             SUMMARY
-        ========================= -->
-
-        <div class="summary">
-
-            <div class="summary-card">
-
-                <div class="summary-title">
-                    Total Orders
-                </div>
-
-                <div
-                    class="summary-number"
-                    id="totalOrders"
-                >
-                    0
-                </div>
-
-            </div>
+    <div id="message"></div>
 
 
-            <div class="summary-card pending">
+    <!-- SEARCH -->
 
-                <div class="summary-title">
-                    Pending Orders
-                </div>
+    <div class="search-box">
 
-                <div
-                    class="summary-number"
-                    id="pendingOrders"
-                >
-                    0
-                </div>
+        <div class="search-row">
 
-            </div>
-
-
-            <div class="summary-card delivered">
-
-                <div class="summary-title">
-                    Delivered
-                </div>
-
-                <div
-                    class="summary-number"
-                    id="deliveredOrders"
-                >
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="summary-card payment">
-
-                <div class="summary-title">
-                    Pending Payments
-                </div>
-
-                <div
-                    class="summary-number"
-                    id="pendingPayments"
-                >
-                    0
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             ORDERS
-        ========================= -->
-
-        <div class="orders-container">
-
-            <div class="orders-header">
-
-                <h2>
-                    Orders
-                </h2>
-
-                <span
-                    class="orders-count"
-                    id="ordersCount"
-                >
-                    0 orders
-                </span>
-
-            </div>
-
+            <input
+                type="text"
+                id="searchInput"
+                class="search-input"
+                placeholder="Search by customer, order ID, product, email, phone or date..."
+                onkeyup="searchOrders()"
+            >
 
             <button
-                class="refresh-btn"
-                onclick="loadOrders()"
+                class="search-btn"
+                onclick="searchOrders()"
             >
-                Refresh
+                Search
             </button>
 
+            <button
+                class="clear-btn"
+                onclick="clearSearch()"
+            >
+                Clear
+            </button>
 
-            <div id="ordersTable">
+        </div>
 
-                <div class="loading">
-                    Loading orders...
-                </div>
+    </div>
 
+
+    <!-- SUMMARY -->
+
+    <div class="summary">
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                Total Orders
+            </div>
+
+            <div
+                class="summary-number"
+                id="totalOrders"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card pending">
+
+            <div class="summary-title">
+                Pending Orders
+            </div>
+
+            <div
+                class="summary-number"
+                id="pendingOrders"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card delivered">
+
+            <div class="summary-title">
+                Delivered
+            </div>
+
+            <div
+                class="summary-number"
+                id="deliveredOrders"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card payment">
+
+            <div class="summary-title">
+                Pending Payments
+            </div>
+
+            <div
+                class="summary-number"
+                id="pendingPayments"
+            >
+                0
             </div>
 
         </div>
 
     </div>
 
+
+    <!-- ORDERS -->
+
+    <div class="orders-container">
+
+        <div class="orders-header">
+
+            <h2>
+                Orders
+            </h2>
+
+            <span
+                class="orders-count"
+                id="ordersCount"
+            >
+                0 orders
+            </span>
+
+        </div>
+
+
+        <button
+            class="refresh-btn"
+            onclick="loadOrders()"
+        >
+            Refresh
+        </button>
+
+
+        <div id="ordersTable">
+
+            <div class="loading">
+                Loading orders...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+```
 
 <script>
 
@@ -725,7 +736,7 @@
 
 
     // ==========================================
-    // STORE ALL ORDERS
+    // STORE ORDERS
     // ==========================================
 
     let allOrders = [];
@@ -735,14 +746,19 @@
     // MESSAGE
     // ==========================================
 
-    function showMessage(message, type = "success") {
+    function showMessage(
+        message,
+        type = "success"
+    ) {
 
         const messageBox =
             document.getElementById("message");
 
-        messageBox.innerText = message;
+        messageBox.innerText =
+            message;
 
-        messageBox.style.display = "block";
+        messageBox.style.display =
+            "block";
 
         if (type === "success") {
 
@@ -759,6 +775,7 @@
 
             messageBox.style.color =
                 "#842029";
+
         }
 
         setTimeout(() => {
@@ -767,6 +784,7 @@
                 "none";
 
         }, 3500);
+
     }
 
 
@@ -788,7 +806,9 @@
 
     function logout() {
 
-        localStorage.removeItem("adminToken");
+        localStorage.removeItem(
+            "adminToken"
+        );
 
         window.location.href =
             "admin-login.html";
@@ -823,6 +843,7 @@
                 minute: "2-digit"
             }
         );
+
     }
 
 
@@ -832,8 +853,10 @@
 
     function escapeHtml(value) {
 
-        if (value === null ||
-            value === undefined) {
+        if (
+            value === null ||
+            value === undefined
+        ) {
 
             return "";
 
@@ -845,6 +868,7 @@
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
+
     }
 
 
@@ -855,7 +879,9 @@
     async function loadOrders() {
 
         const ordersTable =
-            document.getElementById("ordersTable");
+            document.getElementById(
+                "ordersTable"
+            );
 
         ordersTable.innerHTML =
             '<div class="loading">Loading orders...</div>';
@@ -879,7 +905,8 @@
 
             try {
 
-                data = await response.json();
+                data =
+                    await response.json();
 
             } catch (jsonError) {
 
@@ -904,9 +931,13 @@
                 data.orders || [];
 
 
-            updateSummary(allOrders);
+            updateSummary(
+                allOrders
+            );
 
-            displayOrders(allOrders);
+            displayOrders(
+                allOrders
+            );
 
         } catch (error) {
 
@@ -937,13 +968,19 @@
     // DISPLAY ORDERS
     // ==========================================
 
-    function displayOrders(orders) {
+    function displayOrders(
+        orders
+    ) {
 
         const ordersTable =
-            document.getElementById("ordersTable");
+            document.getElementById(
+                "ordersTable"
+            );
 
         const ordersCount =
-            document.getElementById("ordersCount");
+            document.getElementById(
+                "ordersCount"
+            );
 
 
         ordersCount.innerText =
@@ -994,14 +1031,20 @@
                 </thead>
 
                 <tbody>
+
         `;
 
 
-        orders.forEach(order => {
+        orders.forEach(
+            order => {
 
-            html += createOrderRow(order);
+                html +=
+                    createOrderRow(
+                        order
+                    );
 
-        });
+            }
+        );
 
 
         html += `
@@ -1020,30 +1063,38 @@
 
 
     // ==========================================
-    // UPDATE SUMMARY
+    // SUMMARY
     // ==========================================
 
-    function updateSummary(orders) {
+    function updateSummary(
+        orders
+    ) {
 
         const total =
             orders.length;
 
 
         const pending =
-            orders.filter(order =>
-                order.orderStatus === "Pending"
+            orders.filter(
+                order =>
+                    order.orderStatus ===
+                    "Pending"
             ).length;
 
 
         const delivered =
-            orders.filter(order =>
-                order.orderStatus === "Delivered"
+            orders.filter(
+                order =>
+                    order.orderStatus ===
+                    "Delivered"
             ).length;
 
 
         const pendingPayments =
-            orders.filter(order =>
-                order.paymentStatus === "Pending"
+            orders.filter(
+                order =>
+                    order.paymentStatus ===
+                    "Pending"
             ).length;
 
 
@@ -1064,7 +1115,66 @@
 
         document.getElementById(
             "pendingPayments"
-        ).innerText = pendingPayments;
+        ).innerText =
+            pendingPayments;
+
+    }
+
+
+    // ==========================================
+    // PAYMENT BADGE CLASS
+    // ==========================================
+
+    function getPaymentClass(
+        status
+    ) {
+
+        if (status === "Paid") {
+            return "badge-paid";
+        }
+
+        if (status === "Failed") {
+            return "badge-failed";
+        }
+
+        if (status === "Refunded") {
+            return "badge-refunded";
+        }
+
+        return "badge-pending";
+
+    }
+
+
+    // ==========================================
+    // ORDER BADGE CLASS
+    // ==========================================
+
+    function getOrderClass(
+        status
+    ) {
+
+        if (status === "Confirmed") {
+            return "badge-confirmed";
+        }
+
+        if (status === "Processing") {
+            return "badge-processing";
+        }
+
+        if (status === "Shipped") {
+            return "badge-shipped";
+        }
+
+        if (status === "Delivered") {
+            return "badge-delivered";
+        }
+
+        if (status === "Cancelled") {
+            return "badge-cancelled";
+        }
+
+        return "badge-pending";
 
     }
 
@@ -1073,80 +1183,192 @@
     // CREATE ORDER ROW
     // ==========================================
 
-    function createOrderRow(order) {
+    function createOrderRow(
+        order
+    ) {
 
         const paymentStatus =
-            order.paymentStatus || "Pending";
+            order.paymentStatus ||
+            "Pending";
 
 
         const orderStatus =
-            order.orderStatus || "Pending";
+            order.orderStatus ||
+            "Pending";
 
 
-        let paymentClass =
-            "badge-pending";
+        const paymentClass =
+            getPaymentClass(
+                paymentStatus
+            );
 
 
-        if (paymentStatus === "Paid") {
-
-            paymentClass =
-                "badge-paid";
-
-        } else if (paymentStatus === "Failed") {
-
-            paymentClass =
-                "badge-failed";
-
-        } else if (paymentStatus === "Refunded") {
-
-            paymentClass =
-                "badge-refunded";
-
-        }
-
-
-        let orderClass =
-            "badge-pending";
-
-
-        if (orderStatus === "Confirmed") {
-
-            orderClass =
-                "badge-confirmed";
-
-        } else if (orderStatus === "Processing") {
-
-            orderClass =
-                "badge-processing";
-
-        } else if (orderStatus === "Shipped") {
-
-            orderClass =
-                "badge-shipped";
-
-        } else if (orderStatus === "Delivered") {
-
-            orderClass =
-                "badge-delivered";
-
-        } else if (orderStatus === "Cancelled") {
-
-            orderClass =
-                "badge-cancelled";
-
-        }
+        const orderClass =
+            getOrderClass(
+                orderStatus
+            );
 
 
         const isCOD =
-            order.paymentMethod === "COD";
+            order.paymentMethod ===
+            "COD";
 
 
         const isPaid =
-            paymentStatus === "Paid";
+            paymentStatus ===
+            "Paid";
+
+
+        const isPending =
+            orderStatus ===
+            "Pending";
+
+
+        const isConfirmed =
+            orderStatus ===
+            "Confirmed";
+
+
+        const isProcessing =
+            orderStatus ===
+            "Processing";
+
+
+        const isShipped =
+            orderStatus ===
+            "Shipped";
 
 
         const isDelivered =
-            orderStatus === "Delivered";
+            orderStatus ===
+            "Delivered";
+
+
+        const isCancelled =
+            orderStatus ===
+            "Cancelled";
+
+
+        /*
+        ==========================================
+        ACTION WORKFLOW
+
+        COD + Pending payment
+        -> Mark Paid
+
+        Paid + Confirmed
+        -> Processing
+
+        Paid + Processing
+        -> Shipped
+
+        Paid + Shipped
+        -> Delivered
+        ==========================================
+        */
+
+
+        let actionButtons = "";
+
+
+        // COD PAYMENT
+
+        if (
+            isCOD &&
+            !isPaid &&
+            !isDelivered &&
+            !isCancelled
+        ) {
+
+            actionButtons += `
+
+                <button
+                    class="action-btn paid-btn"
+                    onclick="markAsPaid('${order._id}')"
+                >
+                    Mark Paid
+                </button>
+
+            `;
+
+        }
+
+
+        // CONFIRMED -> PROCESSING
+
+        if (
+            isPaid &&
+            isConfirmed
+        ) {
+
+            actionButtons += `
+
+                <button
+                    class="action-btn processing-btn"
+                    onclick="markAsProcessing('${order._id}')"
+                >
+                    Processing
+                </button>
+
+            `;
+
+        }
+
+
+        // PROCESSING -> SHIPPED
+
+        if (
+            isPaid &&
+            isProcessing
+        ) {
+
+            actionButtons += `
+
+                <button
+                    class="action-btn shipped-btn"
+                    onclick="markAsShipped('${order._id}')"
+                >
+                    Shipped
+                </button>
+
+            `;
+
+        }
+
+
+        // SHIPPED -> DELIVERED
+
+        if (
+            isPaid &&
+            isShipped
+        ) {
+
+            actionButtons += `
+
+                <button
+                    class="action-btn deliver-btn"
+                    onclick="markAsDelivered('${order._id}')"
+                >
+                    Delivered
+                </button>
+
+            `;
+
+        }
+
+
+        // DELETE
+
+        actionButtons += `
+
+            <button
+                class="action-btn delete-btn"
+                onclick="deleteOrder('${order._id}')"
+            >
+                Delete
+            </button>
+
+        `;
 
 
         return `
@@ -1156,7 +1378,11 @@
                 <!-- DATE -->
 
                 <td>
-                    ${formatDate(order.createdAt)}
+
+                    ${formatDate(
+                        order.createdAt
+                    )}
+
                 </td>
 
 
@@ -1165,19 +1391,23 @@
                 <td>
 
                     <div class="product-name">
+
                         ${escapeHtml(
                             order.productName ||
                             "Unknown Product"
                         )}
+
                     </div>
 
                     <div class="product-id">
+
                         ID:
                         ${escapeHtml(
                             order.productId ||
                             order._id ||
                             "-"
                         )}
+
                     </div>
 
                 </td>
@@ -1188,24 +1418,30 @@
                 <td>
 
                     <div class="customer-name">
+
                         ${escapeHtml(
                             order.customerName ||
                             "-"
                         )}
+
                     </div>
 
                     <div class="customer-info">
+
                         ${escapeHtml(
                             order.customerEmail ||
                             "-"
                         )}
+
                     </div>
 
                     <div class="customer-info">
+
                         ${escapeHtml(
                             order.customerPhone ||
                             "-"
                         )}
+
                     </div>
 
                 </td>
@@ -1214,16 +1450,22 @@
                 <!-- QUANTITY -->
 
                 <td>
+
                     ${order.quantity || 1}
+
                 </td>
 
 
                 <!-- AMOUNT -->
 
                 <td>
+
                     ₹${Number(
                         order.totalPrice || 0
-                    ).toLocaleString("en-IN")}
+                    ).toLocaleString(
+                        "en-IN"
+                    )}
+
                 </td>
 
 
@@ -1231,14 +1473,17 @@
 
                 <td>
 
-                    <span class="badge
-                        ${isCOD
+                    <span class="badge ${
+                        isCOD
                             ? "badge-pending"
-                            : "badge-confirmed"}">
+                            : "badge-confirmed"
+                    }">
 
-                        ${isCOD
-                            ? "COD"
-                            : "ONLINE"}
+                        ${
+                            isCOD
+                                ? "COD"
+                                : "ONLINE"
+                        }
 
                     </span>
 
@@ -1251,44 +1496,58 @@
 
                     <select
                         class="status-select"
-                        onchange="updatePaymentStatus(
-                            '${order._id}',
-                            this.value
-                        )"
+                        onchange="
+                            updatePaymentStatus(
+                                '${order._id}',
+                                this.value
+                            )
+                        "
                     >
 
                         <option
                             value="Pending"
-                            ${paymentStatus === "Pending"
-                                ? "selected"
-                                : ""}
+                            ${
+                                paymentStatus ===
+                                "Pending"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Pending
                         </option>
 
                         <option
                             value="Paid"
-                            ${paymentStatus === "Paid"
-                                ? "selected"
-                                : ""}
+                            ${
+                                paymentStatus ===
+                                "Paid"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Paid
                         </option>
 
                         <option
                             value="Failed"
-                            ${paymentStatus === "Failed"
-                                ? "selected"
-                                : ""}
+                            ${
+                                paymentStatus ===
+                                "Failed"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Failed
                         </option>
 
                         <option
                             value="Refunded"
-                            ${paymentStatus === "Refunded"
-                                ? "selected"
-                                : ""}
+                            ${
+                                paymentStatus ===
+                                "Refunded"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Refunded
                         </option>
@@ -1298,7 +1557,11 @@
                     <br>
 
                     <span class="badge ${paymentClass}">
-                        ${escapeHtml(paymentStatus)}
+
+                        ${escapeHtml(
+                            paymentStatus
+                        )}
+
                     </span>
 
                 </td>
@@ -1310,62 +1573,82 @@
 
                     <select
                         class="status-select"
-                        onchange="updateOrderStatus(
-                            '${order._id}',
-                            this.value
-                        )"
+                        onchange="
+                            updateOrderStatus(
+                                '${order._id}',
+                                this.value
+                            )
+                        "
                     >
 
                         <option
                             value="Pending"
-                            ${orderStatus === "Pending"
-                                ? "selected"
-                                : ""}
+                            ${
+                                orderStatus ===
+                                "Pending"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Pending
                         </option>
 
                         <option
                             value="Confirmed"
-                            ${orderStatus === "Confirmed"
-                                ? "selected"
-                                : ""}
+                            ${
+                                orderStatus ===
+                                "Confirmed"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Confirmed
                         </option>
 
                         <option
                             value="Processing"
-                            ${orderStatus === "Processing"
-                                ? "selected"
-                                : ""}
+                            ${
+                                orderStatus ===
+                                "Processing"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Processing
                         </option>
 
                         <option
                             value="Shipped"
-                            ${orderStatus === "Shipped"
-                                ? "selected"
-                                : ""}
+                            ${
+                                orderStatus ===
+                                "Shipped"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Shipped
                         </option>
 
                         <option
                             value="Delivered"
-                            ${orderStatus === "Delivered"
-                                ? "selected"
-                                : ""}
+                            ${
+                                orderStatus ===
+                                "Delivered"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Delivered
                         </option>
 
                         <option
                             value="Cancelled"
-                            ${orderStatus === "Cancelled"
-                                ? "selected"
-                                : ""}
+                            ${
+                                orderStatus ===
+                                "Cancelled"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Cancelled
                         </option>
@@ -1375,7 +1658,11 @@
                     <br>
 
                     <span class="badge ${orderClass}">
-                        ${escapeHtml(orderStatus)}
+
+                        ${escapeHtml(
+                            orderStatus
+                        )}
+
                     </span>
 
                 </td>
@@ -1387,40 +1674,7 @@
 
                     <div class="actions">
 
-                        ${
-                            isCOD && !isPaid
-                            ? `
-                                <button
-                                    class="action-btn paid-btn"
-                                    onclick="markAsPaid('${order._id}')"
-                                >
-                                    Mark Paid
-                                </button>
-                            `
-                            : ""
-                        }
-
-
-                        ${
-                            !isDelivered
-                            ? `
-                                <button
-                                    class="action-btn deliver-btn"
-                                    onclick="markAsDelivered('${order._id}')"
-                                >
-                                    Delivered
-                                </button>
-                            `
-                            : ""
-                        }
-
-
-                        <button
-                            class="action-btn delete-btn"
-                            onclick="deleteOrder('${order._id}')"
-                        >
-                            Delete
-                        </button>
+                        ${actionButtons}
 
                     </div>
 
@@ -1434,7 +1688,7 @@
 
 
     // ==========================================
-    // SEARCH ORDERS
+    // SEARCH
     // ==========================================
 
     function searchOrders() {
@@ -1442,14 +1696,17 @@
         const input =
             document.getElementById(
                 "searchInput"
-            ).value
+            )
+            .value
             .trim()
             .toLowerCase();
 
 
         if (!input) {
 
-            displayOrders(allOrders);
+            displayOrders(
+                allOrders
+            );
 
             return;
 
@@ -1457,49 +1714,54 @@
 
 
         const filtered =
-            allOrders.filter(order => {
+            allOrders.filter(
+                order => {
 
-                const values = [
+                    const values = [
 
-                    order._id,
+                        order._id,
 
-                    order.productId,
+                        order.productId,
 
-                    order.productName,
+                        order.productName,
 
-                    order.customerName,
+                        order.customerName,
 
-                    order.customerEmail,
+                        order.customerEmail,
 
-                    order.customerPhone,
+                        order.customerPhone,
 
-                    order.paymentMethod,
+                        order.paymentMethod,
 
-                    order.paymentStatus,
+                        order.paymentStatus,
 
-                    order.orderStatus,
+                        order.orderStatus,
 
-                    order.createdAt,
+                        order.createdAt,
 
-                    order.address
+                        order.address
 
-                ];
-
-
-                return values.some(value =>
-
-                    String(
-                        value || ""
-                    )
-                    .toLowerCase()
-                    .includes(input)
-
-                );
-
-            });
+                    ];
 
 
-        displayOrders(filtered);
+                    return values.some(
+                        value =>
+
+                            String(
+                                value || ""
+                            )
+                            .toLowerCase()
+                            .includes(input)
+
+                    );
+
+                }
+            );
+
+
+        displayOrders(
+            filtered
+        );
 
     }
 
@@ -1514,7 +1776,10 @@
             "searchInput"
         ).value = "";
 
-        displayOrders(allOrders);
+
+        displayOrders(
+            allOrders
+        );
 
     }
 
@@ -1537,16 +1802,22 @@
                         method: "PUT",
 
                         headers: {
+
                             "Content-Type":
                                 "application/json",
 
                             "Authorization":
                                 `Bearer ${adminToken}`
+
                         },
 
                         body: JSON.stringify({
-                            paymentStatus: status
+
+                            paymentStatus:
+                                status
+
                         })
+
                     }
                 );
 
@@ -1607,16 +1878,22 @@
                         method: "PUT",
 
                         headers: {
+
                             "Content-Type":
                                 "application/json",
 
                             "Authorization":
                                 `Bearer ${adminToken}`
+
                         },
 
                         body: JSON.stringify({
-                            orderStatus: status
+
+                            orderStatus:
+                                status
+
                         })
+
                     }
                 );
 
@@ -1663,7 +1940,9 @@
     // MARK COD AS PAID
     // ==========================================
 
-    async function markAsPaid(orderId) {
+    async function markAsPaid(
+        orderId
+    ) {
 
         const confirmPayment =
             confirm(
@@ -1685,12 +1964,15 @@
                         method: "PUT",
 
                         headers: {
+
                             "Content-Type":
                                 "application/json",
 
                             "Authorization":
                                 `Bearer ${adminToken}`
+
                         }
+
                     }
                 );
 
@@ -1710,7 +1992,7 @@
 
 
             showMessage(
-                "COD payment marked as Paid."
+                "COD payment marked as Paid. Order confirmed."
             );
 
 
@@ -1734,37 +2016,120 @@
 
 
     // ==========================================
+    // MARK PROCESSING
+    // ==========================================
+
+    async function markAsProcessing(
+        orderId
+    ) {
+
+        const confirmed =
+            confirm(
+                "Start processing this order?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        await changeOrderStatus(
+            orderId,
+            "Processing"
+        );
+
+    }
+
+
+    // ==========================================
+    // MARK SHIPPED
+    // ==========================================
+
+    async function markAsShipped(
+        orderId
+    ) {
+
+        const confirmed =
+            confirm(
+                "Has this order been shipped?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        await changeOrderStatus(
+            orderId,
+            "Shipped"
+        );
+
+    }
+
+
+    // ==========================================
     // MARK DELIVERED
     // ==========================================
 
-    async function markAsDelivered(orderId) {
+    async function markAsDelivered(
+        orderId
+    ) {
 
-        const confirmDelivery =
+        const confirmed =
             confirm(
                 "Are you sure this order has been delivered?"
             );
 
 
-        if (!confirmDelivery) {
+        if (!confirmed) {
             return;
         }
 
+
+        await changeOrderStatus(
+            orderId,
+            "Delivered"
+        );
+
+    }
+
+
+    // ==========================================
+    // COMMON STATUS CHANGE
+    // ==========================================
+
+    async function changeOrderStatus(
+        orderId,
+        status
+    ) {
 
         try {
 
             const response =
                 await fetch(
-                    `${API_URL}/orders/${orderId}/mark-delivered`,
+                    `${API_URL}/orders/${orderId}/order-status`,
                     {
                         method: "PUT",
 
                         headers: {
+
                             "Content-Type":
                                 "application/json",
 
                             "Authorization":
                                 `Bearer ${adminToken}`
-                        }
+
+                        },
+
+                        body: JSON.stringify({
+
+                            orderStatus:
+                                status
+
+                        })
+
                     }
                 );
 
@@ -1777,14 +2142,14 @@
 
                 throw new Error(
                     data.message ||
-                    "Failed to mark order as delivered."
+                    "Failed to update order status."
                 );
 
             }
 
 
             showMessage(
-                "Order marked as Delivered."
+                `Order status changed to ${status}.`
             );
 
 
@@ -1793,7 +2158,7 @@
         } catch (error) {
 
             console.error(
-                "Mark delivered error:",
+                "Change order status error:",
                 error
             );
 
@@ -1811,7 +2176,9 @@
     // DELETE ORDER
     // ==========================================
 
-    async function deleteOrder(orderId) {
+    async function deleteOrder(
+        orderId
+    ) {
 
         const confirmDelete =
             confirm(
@@ -1833,9 +2200,12 @@
                         method: "DELETE",
 
                         headers: {
+
                             "Authorization":
                                 `Bearer ${adminToken}`
+
                         }
+
                     }
                 );
 
@@ -1879,7 +2249,7 @@
 
 
     // ==========================================
-    // LOAD ORDERS WHEN PAGE OPENS
+    // LOAD ORDERS
     // ==========================================
 
     loadOrders();

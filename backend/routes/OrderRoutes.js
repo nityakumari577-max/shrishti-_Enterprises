@@ -587,121 +587,124 @@ router.put("/:id/payment-status", async (req, res) => {
 });
 
 
-// ======================================================
+// ==========================================
 // UPDATE ORDER STATUS
 // PUT /api/orders/:id/order-status
-// ======================================================
+// ==========================================
 
 router.put("/:id/order-status", async (req, res) => {
-
     try {
 
-        const {
-            orderStatus
-        } = req.body;
+        console.log("=================================");
+        console.log("UPDATE ORDER STATUS");
+        console.log("Order ID:", req.params.id);
+        console.log("Request Body:", req.body);
+        console.log("=================================");
 
+        const { orderStatus } = req.body;
 
         const allowedStatuses = [
-
             "Pending",
-
             "Confirmed",
-
             "Processing",
-
             "Shipped",
-
             "Delivered",
-
             "Cancelled"
-
         ];
 
-
+        // Check status
         if (!orderStatus) {
-
             return res.status(400).json({
-
                 success: false,
-
                 message: "Order status is required"
-
             });
-
         }
 
-
+        // Check valid status
         if (!allowedStatuses.includes(orderStatus)) {
-
             return res.status(400).json({
-
                 success: false,
-
-                message: "Invalid order status"
-
+                message: "Invalid order status",
+                receivedStatus: orderStatus,
+                allowedStatuses: allowedStatuses
             });
-
         }
 
+        // Check MongoDB ID
+        if (!require("mongoose").Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid order ID"
+            });
+        }
 
-        const order =
-            await Order.findById(req.params.id);
-
+        // Find order
+        const order = await Order.findById(req.params.id);
 
         if (!order) {
-
             return res.status(404).json({
-
                 success: false,
-
                 message: "Order not found"
-
             });
-
         }
 
+        console.log("Current Order Status:", order.orderStatus);
+        console.log("New Order Status:", orderStatus);
 
         // ==========================================
-        // UPDATE ORDER STATUS
+        // UPDATE STATUS
         // ==========================================
 
-        order.orderStatus =
-            orderStatus;
+        order.orderStatus = orderStatus;
 
+        // If order is cancelled
+        if (orderStatus === "Cancelled") {
+            console.log("Order cancelled");
+        }
+
+        // If delivered, payment should be paid
+        if (
+            orderStatus === "Delivered" &&
+            order.paymentMethod === "COD"
+        ) {
+            order.paymentStatus = "Paid";
+
+                   if (order.orderStatus === "Pending") {
+                   order.orderStatus = "Confirmed";
+             }
+
+await order.save();
+        }
 
         await order.save();
 
+        console.log("ORDER STATUS UPDATED SUCCESSFULLY");
+        console.log(order);
 
         return res.status(200).json({
-
             success: true,
-
             message: "Order status updated successfully",
-
             order: order
-
         });
 
-    }
+    } catch (error) {
 
-    catch (error) {
-
-        console.error("UPDATE ORDER STATUS ERROR:");
+        console.error("=================================");
+        console.error("UPDATE ORDER STATUS ERROR");
+        console.error("=================================");
         console.error(error);
+        console.error(error.message);
+        console.error(error.stack);
 
         return res.status(500).json({
-
             success: false,
-
             message: "Failed to update order status",
-
             error: error.message
-
         });
-
     }
-
 });
+
+        
 
 
 // ======================================================
