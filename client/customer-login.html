@@ -23,13 +23,13 @@
 
         .auth-box {
             width: 350px;
-            background: white;
+            background: rgb(215, 207, 229);
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
-        h2 {
+        h3 {
             text-align: center;
             margin-bottom: 25px;
         }
@@ -66,7 +66,7 @@
 <body>
 
 <div class="auth-box">
-    <h2>Customer Login</h2>
+    <h3>Customer Login</h3>
 
     <div id="g_id_onload"
          data-client_id="262970468257-3t05qv7mieohujqse224cr3hsjg78o8e.apps.googleusercontent.com"
@@ -81,41 +81,6 @@
          data-shape="rectangular">
     </div>
 
-    <p>OR</p>
-
-    <form id="loginForm">
-        <input
-            type="email"
-            id="email"
-            placeholder="Email Address"
-            required
-        >
-
-        <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            required
-        >
-
-        <button type="submit">
-            Login
-        </button>
-        <a href="forgot-password.html">
-            Forgot Password?
-        </a>
-    </form>
-
-    <div id="message"></div>
-
-    <p>
-        Don't have an account?
-        <a href="customer-register.html">
-            Create Account
-        </a>
-    </p>
-</div>
-
 <script>
 // Fixed Base URL (Removed '/google' trailing path)
 const API_URL = "http://localhost:5000/api/users";
@@ -123,52 +88,6 @@ const API_URL = "http://localhost:5000/api/users";
 // Default page to redirect after successful login
 const DEFAULT_REDIRECT_PAGE = "product.html";
 
-// ==========================================
-// FORM LOGIN
-// ==========================================
-document
-    .getElementById("loginForm")
-    .addEventListener("submit", async function(e) {
-        e.preventDefault();
-
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const message = document.getElementById("message");
-
-        try {
-            const response = await fetch(`${API_URL}/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email, password })
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                message.textContent = data.message || "Login failed";
-                return;
-            }
-
-            localStorage.setItem("customerToken", data.token);
-            localStorage.setItem("customerUser", JSON.stringify(data.user));
-
-            // Continue previous order or redirect to dashboard
-            const redirect = sessionStorage.getItem("orderRedirect");
-
-            if (redirect) {
-                sessionStorage.removeItem("orderRedirect");
-                window.location.href = redirect;
-            } else {
-                window.location.href = DEFAULT_REDIRECT_PAGE;
-            }
-
-        } catch (error) {
-            console.error(error);
-            message.textContent = "Unable to connect to server";
-        }
-    });
 
 // ==========================================
 // GOOGLE LOGIN
