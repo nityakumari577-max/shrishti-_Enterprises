@@ -59,7 +59,7 @@ origin: [
 "http://localhost:5501",
 "http://127.0.0.1:5500",
 "http://localhost:5500",
-"https://shrishti-enterprises.onrender.com"
+"https://shrishti-enterprises-1.onrender.com"
 ],
 credentials: true
 })
@@ -97,6 +97,7 @@ process.env.RAZORPAY_KEY_SECRET
 ? "FOUND"
 : "MISSING"
 );
+
 
 // ==========================================
 // API ROUTES

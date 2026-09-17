@@ -586,7 +586,6 @@ router.put("/:id/payment-status", async (req, res) => {
 
 });
 
-
 // ==========================================
 // UPDATE ORDER STATUS
 // PUT /api/orders/:id/order-status
@@ -612,7 +611,6 @@ router.put("/:id/order-status", async (req, res) => {
             "Cancelled"
         ];
 
-        // Check status
         if (!orderStatus) {
             return res.status(400).json({
                 success: false,
@@ -620,25 +618,22 @@ router.put("/:id/order-status", async (req, res) => {
             });
         }
 
-        // Check valid status
         if (!allowedStatuses.includes(orderStatus)) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid order status",
-                receivedStatus: orderStatus,
-                allowedStatuses: allowedStatuses
+                message: "Invalid order status"
             });
         }
 
-        // Check MongoDB ID
-        if (!require("mongoose").Types.ObjectId.isValid(req.params.id)) {
+        const mongoose = require("mongoose");
+
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid order ID"
             });
         }
 
-        // Find order
         const order = await Order.findById(req.params.id);
 
         if (!order) {
@@ -648,38 +643,33 @@ router.put("/:id/order-status", async (req, res) => {
             });
         }
 
+        console.log("Payment Method:", order.paymentMethod);
+        console.log("Payment Status:", order.paymentStatus);
         console.log("Current Order Status:", order.orderStatus);
         console.log("New Order Status:", orderStatus);
 
         // ==========================================
-        // UPDATE STATUS
+        // ONLY UPDATE ORDER STATUS
         // ==========================================
 
         order.orderStatus = orderStatus;
 
-        // If order is cancelled
-        if (orderStatus === "Cancelled") {
-            console.log("Order cancelled");
-        }
-
-        // If delivered, payment should be paid
-        if (
-            orderStatus === "Delivered" &&
-            order.paymentMethod === "COD"
-        ) {
-            order.paymentStatus = "Paid";
-
-                   if (order.orderStatus === "Pending") {
-                   order.orderStatus = "Confirmed";
-             }
-
-await order.save();
-        }
+        /*
+         * IMPORTANT:
+         * Do NOT automatically modify paymentStatus here.
+         *
+         * Razorpay ONLINE orders already have:
+         * paymentStatus = Paid
+         *
+         * COD orders can also have:
+         * paymentStatus = Paid
+         *
+         * Delivered should only change orderStatus.
+         */
 
         await order.save();
 
         console.log("ORDER STATUS UPDATED SUCCESSFULLY");
-        console.log(order);
 
         return res.status(200).json({
             success: true,
@@ -692,8 +682,9 @@ await order.save();
         console.error("=================================");
         console.error("UPDATE ORDER STATUS ERROR");
         console.error("=================================");
-        console.error(error);
-        console.error(error.message);
+        console.error("Error Name:", error.name);
+        console.error("Error Message:", error.message);
+        console.error("Error Code:", error.code);
         console.error(error.stack);
 
         return res.status(500).json({
@@ -703,164 +694,6 @@ await order.save();
         });
     }
 });
-
-        
-
-
-// ======================================================
-// MARK COD PAYMENT AS PAID
-// PUT /api/orders/:id/mark-paid
-// ======================================================
-
-router.put("/:id/mark-paid", async (req, res) => {
-
-    try {
-
-        const order =
-            await Order.findById(req.params.id);
-
-
-        if (!order) {
-
-            return res.status(404).json({
-
-                success: false,
-
-                message: "Order not found"
-
-            });
-
-        }
-
-
-        // ==========================================
-        // ONLY COD
-        // ==========================================
-
-        if (order.paymentMethod !== "COD") {
-
-            return res.status(400).json({
-
-                success: false,
-
-                message: "This action is only for COD orders"
-
-            });
-
-        }
-
-
-        // ==========================================
-        // MARK PAYMENT PAID
-        // ==========================================
-
-        order.paymentStatus = "Paid";
-
-
-        await order.save();
-
-
-        return res.status(200).json({
-
-            success: true,
-
-            message: "COD payment marked as paid",
-
-            order: order
-
-        });
-
-    }
-
-    catch (error) {
-
-        console.error("MARK PAID ERROR:");
-        console.error(error);
-
-        return res.status(500).json({
-
-            success: false,
-
-            message: "Failed to mark payment as paid",
-
-            error: error.message
-
-        });
-
-    }
-
-});
-
-
-// ======================================================
-// MARK ORDER DELIVERED
-// PUT /api/orders/:id/mark-delivered
-// ======================================================
-
-router.put("/:id/mark-delivered", async (req, res) => {
-
-    try {
-
-        const order =
-            await Order.findById(req.params.id);
-
-
-        if (!order) {
-
-            return res.status(404).json({
-
-                success: false,
-
-                message: "Order not found"
-
-            });
-
-        }
-
-
-        // ==========================================
-        // UPDATE DELIVERY STATUS
-        // ==========================================
-
-        order.orderStatus =
-            "Delivered";
-
-
-        await order.save();
-
-
-        return res.status(200).json({
-
-            success: true,
-
-            message: "Order marked as delivered",
-
-            order: order
-
-        });
-
-    }
-
-    catch (error) {
-
-        console.error("MARK DELIVERED ERROR:");
-        console.error(error);
-
-        return res.status(500).json({
-
-            success: false,
-
-            message: "Failed to mark order as delivered",
-
-            error: error.message
-
-        });
-
-    }
-
-});
-
-
 // ======================================================
 // DELETE ORDER
 // DELETE /api/orders/:id
