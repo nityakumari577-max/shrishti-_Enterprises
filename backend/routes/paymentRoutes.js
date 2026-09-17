@@ -1,6 +1,7 @@
 
 const express = require("express");
 const Razorpay = require("razorpay");
+const crypto = require("crypto");
 
 const router = express.Router();
 
@@ -249,6 +250,139 @@ router.get(
 
     }
 );
+
+// ======================================================
+// VERIFY RAZORPAY PAYMENT
+// POST /api/verify-payment
+// ======================================================
+
+router.post("/verify-payment", async (req, res) => {
+
+    try {
+
+        console.log("=================================");
+        console.log("VERIFY RAZORPAY PAYMENT");
+        console.log("Request Body:");
+        console.log(req.body);
+        console.log("=================================");
+
+
+        const {
+            razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature
+        } = req.body;
+
+
+        // ==========================================
+        // VALIDATION
+        // ==========================================
+
+        if (
+            !razorpay_order_id ||
+            !razorpay_payment_id ||
+            !razorpay_signature
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message: "Payment verification details are required"
+
+            });
+
+        }
+
+
+        // ==========================================
+        // CREATE SIGNATURE
+        // ==========================================
+
+        const generatedSignature =
+            crypto
+                .createHmac(
+                    "sha256",
+                    process.env.RAZORPAY_KEY_SECRET
+                )
+                .update(
+                    razorpay_order_id +
+                    "|" +
+                    razorpay_payment_id
+                )
+                .digest("hex");
+
+
+        console.log("Generated Signature:", generatedSignature);
+        console.log("Received Signature:", razorpay_signature);
+
+
+        // ==========================================
+        // VERIFY SIGNATURE
+        // ==========================================
+
+        if (generatedSignature !== razorpay_signature) {
+
+            console.log("RAZORPAY SIGNATURE INVALID");
+
+            return res.status(400).json({
+
+                success: false,
+
+                verified: false,
+
+                message: "Payment verification failed"
+
+            });
+
+        }
+
+
+        // ==========================================
+        // PAYMENT VERIFIED
+        // ==========================================
+
+        console.log("RAZORPAY PAYMENT VERIFIED SUCCESSFULLY");
+
+
+        return res.status(200).json({
+
+            success: true,
+
+            verified: true,
+
+            message: "Payment verified successfully",
+
+            razorpayOrderId: razorpay_order_id,
+
+            razorpayPaymentId: razorpay_payment_id,
+
+            razorpaySignature: razorpay_signature
+
+        });
+
+
+    } catch (error) {
+
+        console.error("VERIFY PAYMENT ERROR:");
+        console.error(error);
+
+        return res.status(500).json({
+
+            success: false,
+
+            verified: false,
+
+            message: "Payment verification failed",
+
+            error: error.message
+
+        });
+
+    }
+
+});
+
 
 // ======================================================
 // TEST CREATE ORDER ROUTE
