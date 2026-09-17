@@ -23,13 +23,13 @@
 
         .auth-box {
             width: 350px;
-            background: rgb(215, 207, 229);
+            background: white;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
-        h3 {
+        h2 {
             text-align: center;
             margin-bottom: 25px;
         }
@@ -66,7 +66,7 @@
 <body>
 
 <div class="auth-box">
-    <h3>Customer Login</h3>
+    <h2>Customer Login</h2>
 
     <div id="g_id_onload"
          data-client_id="262970468257-3t05qv7mieohujqse224cr3hsjg78o8e.apps.googleusercontent.com"
@@ -81,12 +81,15 @@
          data-shape="rectangular">
     </div>
 
+    
+
 <script>
 // Fixed Base URL (Removed '/google' trailing path)
 const API_URL = "http://localhost:5000/api/users";
 
 // Default page to redirect after successful login
 const DEFAULT_REDIRECT_PAGE = "product.html";
+
 
 
 // ==========================================
