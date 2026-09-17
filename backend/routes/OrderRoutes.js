@@ -1173,6 +1173,163 @@ catch (error) {
 }
 
 });
+// ======================================================
+// MARK COD ORDER AS PAID
+// PUT /api/orders/:id/mark-paid
+// ======================================================
+
+router.put("/:id/mark-paid", async (req, res) => {
+
+    try {
+
+        console.log("=================================");
+        console.log("MARK COD ORDER AS PAID");
+        console.log("Order ID:", req.params.id);
+        console.log("=================================");
+
+
+        // ==========================================
+        // FIND ORDER
+        // ==========================================
+
+        const order = await Order.findById(req.params.id);
+
+
+        if (!order) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message: "Order not found"
+
+            });
+
+        }
+
+
+        // ==========================================
+        // ONLY COD ORDERS CAN USE THIS ROUTE
+        // ==========================================
+
+        if (order.paymentMethod !== "COD") {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Only COD orders can be marked as paid"
+
+            });
+
+        }
+
+
+        // ==========================================
+        // CHECK IF ALREADY PAID
+        // ==========================================
+
+        if (order.paymentStatus === "Paid") {
+
+            return res.status(200).json({
+
+                success: true,
+
+                message:
+                    "Order payment is already marked as paid",
+
+                order: order
+
+            });
+
+        }
+
+
+        // ==========================================
+        // MARK PAYMENT AS PAID
+        // ==========================================
+
+        order.paymentStatus = "Paid";
+
+
+        // ==========================================
+        // CONFIRM ORDER
+        // ==========================================
+
+        if (order.orderStatus === "Pending") {
+
+            order.orderStatus = "Confirmed";
+
+        }
+
+
+        // ==========================================
+        // SAVE ORDER
+        // ==========================================
+
+        await order.save();
+
+
+        console.log(
+            "COD PAYMENT MARKED AS PAID SUCCESSFULLY"
+        );
+
+        console.log(
+            "Order ID:",
+            order._id
+        );
+
+
+        // ==========================================
+        // SUCCESS RESPONSE
+        // ==========================================
+
+        return res.status(200).json({
+
+            success: true,
+
+            message:
+                "COD payment marked as paid successfully",
+
+            order: order
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "================================="
+        );
+
+        console.error(
+            "MARK COD PAYMENT ERROR"
+        );
+
+        console.error(
+            "================================="
+        );
+
+        console.error(error);
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Failed to mark COD payment as paid",
+
+            error:
+                error.message
+
+        });
+
+    }
+
+});
 
 // ======================================================
 // DELETE ORDER
