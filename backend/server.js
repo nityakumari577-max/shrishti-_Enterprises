@@ -110,12 +110,6 @@ console.log(
 // ==========================================
 // RAZORPAY INSTANCE
 // ==========================================
-//
-// IMPORTANT:
-// We create Razorpay only when both keys exist.
-// This prevents the whole server from crashing
-// when Render environment variables are missing.
-// ==========================================
 
 let razorpay = null;
 
@@ -168,6 +162,14 @@ app.use(
 // ==========================================
 // PAYMENT ROUTES
 // ==========================================
+//
+// paymentRoutes handles:
+//
+// POST /api/create-order
+// GET  /api/test-payment-route
+// GET  /api/create-order-test
+//
+// ==========================================
 
 app.use(
     "/api",
@@ -176,6 +178,19 @@ app.use(
 
 // ==========================================
 // ORDER ROUTES
+// ==========================================
+//
+// OrderRoutes handles:
+//
+// GET    /api/orders/test
+// POST   /api/orders/save-order
+// POST   /api/orders/save-online-order
+// GET    /api/orders/admin/all-orders
+// GET    /api/orders/:id
+// PUT    /api/orders/:id/payment-status
+// PUT    /api/orders/:id/order-status
+// DELETE /api/orders/:id
+//
 // ==========================================
 
 app.use(
@@ -188,20 +203,13 @@ app.use(
 // POST /api/create-order
 // ==========================================
 //
-// This is the route your order.html is currently
-// trying to call.
+// This route is kept here as a direct fallback.
 //
-// Example frontend request:
+// IMPORTANT:
+// If paymentRoutes.js already contains the same
+// POST /create-order route, DO NOT keep both.
 //
-// POST /api/create-order
-//
-// {
-//     "amount": 1900
-// }
-//
-// Amount is received in RUPEES.
-// Razorpay requires PAISE,
-// so we multiply by 100.
+// In that case use the paymentRoutes.js version.
 // ==========================================
 
 app.post(
@@ -219,6 +227,7 @@ app.post(
             );
 
             console.log(
+                "Request body:",
                 req.body
             );
 
@@ -251,7 +260,9 @@ app.post(
             // GET AMOUNT
             // ======================================
 
-            const { amount } = req.body;
+            const {
+                amount
+            } = req.body;
 
             // ======================================
             // VALIDATE AMOUNT
@@ -278,7 +289,9 @@ app.post(
                 Number(amount);
 
             if (
-                !Number.isFinite(numericAmount) ||
+                !Number.isFinite(
+                    numericAmount
+                ) ||
                 numericAmount <= 0
             ) {
 
@@ -303,7 +316,7 @@ app.post(
                 );
 
             // ======================================
-            // CREATE RAZORPAY ORDER
+            // CREATE RAZORPAY OPTIONS
             // ======================================
 
             const options = {
@@ -341,6 +354,10 @@ app.post(
                 amountInPaise
             );
 
+            // ======================================
+            // CREATE RAZORPAY ORDER
+            // ======================================
+
             const razorpayOrder =
                 await razorpay.orders.create(
                     options
@@ -355,7 +372,8 @@ app.post(
             );
 
             console.log(
-                razorpayOrder
+                "Razorpay Order ID:",
+                razorpayOrder.id
             );
 
             console.log(
@@ -373,7 +391,8 @@ app.post(
                 message:
                     "Razorpay order created successfully",
 
-                order: razorpayOrder
+                order:
+                    razorpayOrder
 
             });
 
@@ -513,13 +532,7 @@ app.get(
 
 // ==========================================
 // TEST RAZORPAY CREATE ROUTE
-// ==========================================
-//
 // GET /api/create-order-test
-//
-// This does NOT create a payment.
-// It only confirms that the backend has the
-// Razorpay route available.
 // ==========================================
 
 app.get(
@@ -544,15 +557,7 @@ app.get(
 );
 
 // ==========================================
-// 404 JSON HANDLER
-// ==========================================
-//
-// This prevents unknown API requests from returning
-// an HTML page. Your frontend will therefore receive
-// JSON instead of:
-//
-// <!DOCTYPE html>
-//
+// API 404 HANDLER
 // ==========================================
 
 app.use(
