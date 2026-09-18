@@ -11,6 +11,11 @@
     <title>Customer Login - Shrishti Enterprises</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background: #f5f7fa;
@@ -23,6 +28,7 @@
 
         .auth-box {
             width: 350px;
+            max-width: 90%;
             background: white;
             padding: 30px;
             border-radius: 12px;
@@ -34,108 +40,235 @@
             margin-bottom: 25px;
         }
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
+        .google-login {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
         }
 
         #message {
             text-align: center;
             margin-top: 15px;
+            min-height: 20px;
         }
 
         p {
             text-align: center;
         }
+
     </style>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <script
+        src="https://accounts.google.com/gsi/client"
+        async
+        defer>
+    </script>
+
 </head>
 
 <body>
 
 <div class="auth-box">
+
     <h2>Customer Login</h2>
 
-    <div id="g_id_onload"
-         data-client_id="262970468257-3t05qv7mieohujqse224cr3hsjg78o8e.apps.googleusercontent.com"
-         data-callback="handleGoogleLogin">
+    <!-- ==========================================
+         GOOGLE LOGIN CONFIGURATION
+    =========================================== -->
+
+    <div
+        id="g_id_onload"
+        data-client_id="262970468257-3t05qv7mieohujqse224cr3hsjg78o8e.apps.googleusercontent.com"
+        data-callback="handleGoogleLogin">
     </div>
 
-    <div class="g_id_signin"
-         data-type="standard"
-         data-size="large"
-         data-theme="outline"
-         data-text="continue_with"
-         data-shape="rectangular">
+    <div class="google-login">
+
+        <div
+            class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="outline"
+            data-text="continue_with"
+            data-shape="rectangular">
+        </div>
+
     </div>
 
-    
+    <div id="message"></div>
+
+</div>
+
 
 <script>
-// Fixed Base URL (Removed '/google' trailing path)
-const API_URL = "http://localhost:5000/api/users";
 
-// Default page to redirect after successful login
+/* ==========================================
+   RENDER BACKEND API
+========================================== */
+
+const API_URL =
+    "https://shrishti-enterprises-1.onrender.com/api/users";
+
+
+/* ==========================================
+   DEFAULT REDIRECT
+========================================== */
+
 const DEFAULT_REDIRECT_PAGE = "product.html";
 
 
+/* ==========================================
+   GOOGLE LOGIN
+========================================== */
 
-// ==========================================
-// GOOGLE LOGIN
-// ==========================================
 async function handleGoogleLogin(response) {
-    const message = document.getElementById("message");
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = "Signing in with Google...";
 
     try {
-        const result = await fetch(`${API_URL}/google`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                credential: response.credential
-            })
-        });
+
+        /* ==========================================
+           SEND GOOGLE CREDENTIAL TO BACKEND
+        =========================================== */
+
+        const result = await fetch(
+            `${API_URL}/google`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    credential: response.credential
+                })
+            }
+        );
+
+
+        /* ==========================================
+           READ RESPONSE
+        =========================================== */
 
         const data = await result.json();
 
+
+        /* ==========================================
+           HANDLE BACKEND ERROR
+        =========================================== */
+
         if (!result.ok) {
-            message.textContent = data.message || "Google login failed";
+
+            console.error(
+                "Google login failed:",
+                data
+            );
+
+            message.textContent =
+                data.message ||
+                "Google login failed";
+
             return;
         }
 
-        // Save customer login
-        localStorage.setItem("customerToken", data.token);
-        localStorage.setItem("customerUser", JSON.stringify(data.user));
 
-        // Continue previous order or redirect to dashboard
-        const redirect = sessionStorage.getItem("orderRedirect");
+        /* ==========================================
+           CHECK TOKEN
+        =========================================== */
 
-        if (redirect) {
-            sessionStorage.removeItem("orderRedirect");
-            window.location.href = redirect;
-        } else {
-            window.location.href = DEFAULT_REDIRECT_PAGE;
+        if (!data.token) {
+
+            console.error(
+                "No token received:",
+                data
+            );
+
+            message.textContent =
+                "Login failed: authentication token not received.";
+
+            return;
         }
 
-    } catch (error) {
-        console.error("Google login error:", error);
-        message.textContent = "Unable to connect to server";
-    }
+
+        /* ==========================================
+           SAVE CUSTOMER LOGIN
+        =========================================== */
+
+        localStorage.setItem(
+            "customerToken",
+            data.token
+        );
+
+
+        if (data.user) {
+
+            localStorage.setItem(
+                "customerUser",
+                JSON.stringify(data.user)
+            );
+
+        }
+
+
+        console.log(
+            "Google login successful"
+        );
+
+
+        /* ==========================================
+           CHECK WHETHER USER WAS TRYING TO ORDER
+        =========================================== */
+
+    
+const loginParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const redirect =
+    loginParams.get("redirect");
+
+if (redirect) {
+
+    window.location.href =
+        redirect;
+
+    return;
 }
+
+// Normal login
+window.location.href =
+    DEFAULT_REDIRECT_PAGE;
+
+
+        /* ==========================================
+           NORMAL LOGIN
+        =========================================== */
+
+        window.location.href =
+            DEFAULT_REDIRECT_PAGE;
+
+
+    } catch (error) {
+
+        console.error(
+            "Google login error:",
+            error
+        );
+
+        message.textContent =
+            "Unable to connect to server. Please try again.";
+
+    }
+
+}
+
 </script>
 
 </body>
+
 </html>

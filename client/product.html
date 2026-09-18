@@ -802,53 +802,26 @@
 
 
     loadProduct();
-    function orderNow() {
-
-    const token =
-        localStorage.getItem("customerToken");
-
-
-    // Customer is NOT logged in
-
-    if (!token) {
-
-        sessionStorage.setItem(
-            "orderRedirect",
-            window.location.href
-        );
-
-        window.location.href =
-            "customer-login.html";
-
-        return;
-    }
-
-
-    // Customer is already logged in
-
-    window.location.href =
-        `checkout.html?id=${productId}`;
-}
 function orderNow() {
 
     const token =
         localStorage.getItem("customerToken");
 
+    // Customer is NOT logged in
     if (!token) {
 
-        sessionStorage.setItem(
-            "orderRedirect",
-            `order.html?id=${productId}`
-        );
+        const redirectPage =
+            `order.html?id=${encodeURIComponent(productId)}`;
 
         window.location.href =
-            "customer-login.html";
+            `customer-login.html?redirect=${encodeURIComponent(redirectPage)}`;
 
         return;
     }
 
+    // Customer is already logged in
     window.location.href =
-        `order.html?id=${productId}`;
+        `order.html?id=${encodeURIComponent(productId)}`;
 }
 
 

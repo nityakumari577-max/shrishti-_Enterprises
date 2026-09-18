@@ -1038,20 +1038,41 @@ async function createRazorpayOrder(totalPrice) {
 // VERIFY PAYMENT
 // ==========================================
 
+// ==========================================
+// VERIFY RAZORPAY PAYMENT
+// ==========================================
+
 async function verifyPayment(
     paymentResponse,
     orderData
 ) {
 
     console.log(
-        "VERIFYING RAZORPAY PAYMENT:",
+        "================================="
+    );
+
+    console.log(
+        "VERIFYING RAZORPAY PAYMENT"
+    );
+
+    console.log(
+        "PAYMENT RESPONSE:",
         paymentResponse
+    );
+
+    console.log(
+        "ORDER DATA:",
+        orderData
+    );
+
+    console.log(
+        "================================="
     );
 
 
     const response =
         await fetch(
-            `${API_URL}/verify-payment`,
+            `${API_URL}/orders/verify-payment`,
             {
                 method: "POST",
 
@@ -1063,13 +1084,27 @@ async function verifyPayment(
                 body:
                     JSON.stringify({
 
-                        ...paymentResponse,
+                        razorpay_order_id:
+                            paymentResponse.razorpay_order_id,
+
+                        razorpay_payment_id:
+                            paymentResponse.razorpay_payment_id,
+
+                        razorpay_signature:
+                            paymentResponse.razorpay_signature,
 
                         orderDetails:
                             orderData
+
                     })
             }
         );
+
+
+    console.log(
+        "VERIFY PAYMENT HTTP STATUS:",
+        response.status
+    );
 
 
     const data =
@@ -1087,15 +1122,13 @@ async function verifyPayment(
         throw new Error(
             data.message ||
             data.error ||
-            "Payment verification failed."
+            `Payment verification failed (${response.status})`
         );
     }
 
 
     return data;
 }
-
-
 // ==========================================
 // PLACE ORDER
 // ==========================================
