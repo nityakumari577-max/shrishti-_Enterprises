@@ -12,6 +12,7 @@ const Order = require("../models/Order");
 
 router.get("/test", (req, res) => {
 
+    console.log("ORDER TEST ROUTE HIT");
 res.json({
     success: true,
     message: "Order routes are working"
@@ -378,7 +379,6 @@ catch (error) {
     });
 
 }
-```
 
 });
 
@@ -388,8 +388,6 @@ catch (error) {
 // ======================================================
 
 router.post("/save-order", async (req, res) => {
-
-```
 try {
 
     console.log("=================================");
@@ -619,10 +617,12 @@ catch (error) {
 // ======================================================
 
 router.post("/save-online-order", async (req, res) => {
+    
 
 try {
 
     const {
+
         productId,
         productName,
         quantity,
@@ -1128,11 +1128,17 @@ try {
     }
 
 
-    order.orderStatus =
-        orderStatus;
+    order.orderStatus = orderStatus;
 
+// COD payment becomes Paid when order is Delivered
+if (
+    orderStatus === "Delivered" &&
+    order.paymentMethod === "COD"
+) {
+    order.paymentStatus = "Paid";
+}
 
-    await order.save();
+await order.save();
 
 
     return res.status(200).json({
@@ -1279,6 +1285,7 @@ router.put("/:id/mark-paid", async (req, res) => {
             "Order ID:",
             order._id
         );
+        
 
 
         // ==========================================

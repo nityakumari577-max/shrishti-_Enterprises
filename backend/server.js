@@ -157,6 +157,8 @@ app.use(
 app.use(
     "/api/users",
     userRoutes
+
+
 );
 
 // ==========================================
@@ -170,11 +172,6 @@ app.use(
 // GET  /api/create-order-test
 //
 // ==========================================
-
-app.use(
-    "/api",
-    paymentRoutes
-);
 
 // ==========================================
 // ORDER ROUTES
@@ -192,7 +189,7 @@ app.use(
 // DELETE /api/orders/:id
 //
 // ==========================================
-
+console.log("ORDER ROUTES LOADED:", !!orderRoutes);
 app.use(
     "/api/orders",
     orderRoutes
@@ -555,6 +552,7 @@ app.get(
 
     }
 );
+
 
 // ==========================================
 // API 404 HANDLER
