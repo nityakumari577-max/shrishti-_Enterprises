@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,11 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
     rel="stylesheet"
 >
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
 
 <link rel="stylesheet" href="style.css">
 
@@ -24,95 +29,441 @@
     href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
 >
 
+<style>
+
+/* =========================================================
+   LATEST EQUIPMENT MOVING SECTION
+========================================================= */
+
+.latest-equipment-section {
+    width: 100%;
+    margin: 55px 0 65px;
+    overflow: hidden;
+    position: relative;
+}
+
+.latest-heading {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 0 20px;
+}
+
+.latest-heading .small-title {
+    color: #087f8c;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+}
+
+.latest-heading h2 {
+    color: #163f4a;
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.latest-heading p {
+    color: #718487;
+    font-size: 14px;
+    margin-top: 7px;
+}
+
+
+/* MOVING AREA */
+
+.latest-slider {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 15px 0 25px;
+}
+
+
+/* LEFT AND RIGHT FADE */
+
+.latest-slider::before,
+.latest-slider::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.latest-slider::before {
+    left: 0;
+    background: linear-gradient(
+        to right,
+        #f7fafb,
+        transparent
+    );
+}
+
+.latest-slider::after {
+    right: 0;
+    background: linear-gradient(
+        to left,
+        #f7fafb,
+        transparent
+    );
+}
+
+
+/* TRACK */
+
+.latest-track {
+    display: flex;
+    width: max-content;
+    gap: 20px;
+    animation: latestMoveRight 35s linear infinite;
+}
+
+
+/*
+   The animation moves the complete duplicated
+   list from left to right.
+*/
+
+@keyframes latestMoveRight {
+
+    from {
+        transform: translateX(-50%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+
+}
+
+
+/* PAUSE WHEN USER HOVERS */
+
+.latest-slider:hover .latest-track {
+    animation-play-state: paused;
+}
+
+
+/* CARD */
+
+.latest-card {
+    width: 255px;
+    min-width: 255px;
+    background: #ffffff;
+    border: 1px solid #e0eeee;
+    border-radius: 18px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 6px 22px rgba(0, 80, 90, 0.08);
+    transition: all 0.35s ease;
+    position: relative;
+}
+
+.latest-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 12px 30px rgba(0, 80, 90, 0.15);
+}
+
+
+/* NEW BADGE */
+
+.latest-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 3;
+    background: #087f8c;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+
+/* IMAGE */
+
+.latest-image-container {
+    width: 100%;
+    height: 190px;
+    background: #f2f8f9;
+    overflow: hidden;
+}
+
+.latest-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.latest-card:hover img {
+    transform: scale(1.06);
+}
+
+
+/* CONTENT */
+
+.latest-info {
+    padding: 16px 17px 18px;
+}
+
+.latest-info h3 {
+    color: #287d8c;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.latest-category {
+    color: #718487;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.latest-price {
+    color: #087f8c;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+
+/* LOADING */
+
+.latest-loading {
+    text-align: center;
+    padding: 40px 20px;
+    color: #718487;
+    font-size: 14px;
+}
+
+
+/* ERROR */
+
+.latest-error {
+    text-align: center;
+    padding: 35px 20px;
+    color: #718487;
+    font-size: 14px;
+}
+
+
+/* EMPTY */
+
+.latest-empty {
+    text-align: center;
+    padding: 35px 20px;
+    color: #718487;
+    font-size: 14px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .latest-equipment-section {
+        margin: 40px 0 50px;
+    }
+
+    .latest-heading h2 {
+        font-size: 24px;
+    }
+
+    .latest-heading .small-title {
+        font-size: 12px;
+    }
+
+    .latest-heading p {
+        font-size: 13px;
+    }
+
+    .latest-card {
+        width: 220px;
+        min-width: 220px;
+    }
+
+    .latest-image-container {
+        height: 165px;
+    }
+
+    .latest-info h3 {
+        font-size: 16px;
+    }
+
+    .latest-price {
+        font-size: 15px;
+    }
+
+    .latest-track {
+        gap: 15px;
+        animation-duration: 28s;
+    }
+
+    .latest-slider::before,
+    .latest-slider::after {
+        width: 35px;
+    }
+
+}
+
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .latest-track {
+        animation: none;
+        transform: none;
+    }
+
+}
+
+</style>
+
 </head>
 
 <body>
 
 <header>
+
 <!-- ================= NAVBAR ================= -->
 
 <nav>
+<div class="logo">
 
-    <div class="logo">
+    <img
+        src="img/shrishti interprises logo.jpeg"
+        alt="Shrishti Enterprises"
+    >
 
-        <img
-            src="img/shrishti interprises logo.jpeg"
-            alt="Shrishti Enterprises"
-        >
-
-        <span>Shrishti Enterprises</span>
-
-    </div>
-
-
-    <ul>
-
-        <li>
-            <a href="#Home">Home</a>
-        </li>
-
-        <li>
-            <a href="#about">About</a>
-        </li>
-
-        <li>
-            <a href="category.html">
-                Products
-            </a>
-        </li>
-
-        <li>
-            <a href="#contact">Contact</a>
-        </li>
-        <li><a href="admin-login.html" class="admin-login-btn">Admin Login</a>
-          </li>
-
-    </ul>
-
-</nav>
-</header>
-<div class="inside">
-<!-- ================= HERO ================= -->
-
-<section class="hero">
-
-
-    <!-- FIXED TEXT --> 
-
-    <div class="hero-text">
-
-        <h1>
-            Quality Medical Equipment
-        </h1>
-
-        <p>
-            Providing reliable medical equipment for hospitals,
-            clinics and healthcare professionals.
-        </p>
-
-        <a
-            href="category.html"
-            class="btn"
-        >
-            Explore Products
-        </a>
-
-    </div>
-
-
-    <!-- ================= SLIDER ================= -->
+    <span>Shrishti Enterprises</span>
 
 </div>
 
 
+<ul>
+
+    <li>
+        <a href="#Home">Home</a>
+    </li>
+
+    <li>
+        <a href="#about">About</a>
+    </li>
+
+    <li>
+        <a href="category.html">
+            Products
+        </a>
+    </li>
+
+    <li>
+        <a href="#contact">Contact</a>
+    </li>
+
+    <li>
+        <a
+            href="admin-login.html"
+            class="admin-login-btn"
+        >
+            Admin Login
+        </a>
+    </li>
+
+</ul>
+
+</nav>
+
+</header>
+
+<div class="inside">
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="Home">
+<div class="hero-text">
+
+    <h1>
+        Quality Medical Equipment
+    </h1>
+
+    <p>
+        Providing reliable medical equipment for hospitals,
+        clinics and healthcare professionals.
+    </p>
+
+    <a
+        href="category.html"
+        class="btn"
+    >
+        Explore Products
+    </a>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+     LATEST EQUIPMENT
+========================================================= -->
+
+<section class="latest-equipment-section">
+<div class="latest-heading">
+
+    <div class="small-title">
+        New Arrivals
+    </div>
+
+    <h2>
+        Latest Medical Equipment
+    </h2>
+
+    <p>
+        Discover the newest equipment added to our collection
+    </p>
+
+</div>
+
+
+<div class="latest-slider">
+
+    <div
+        class="latest-track"
+        id="latestEquipmentTrack"
+    >
+
+        <div class="latest-loading">
+            Loading latest equipment...
+        </div>
+
+    </div>
+
+</div>
+
+</section>
 
 <!-- ================= FEATURED PRODUCTS ================= -->
 
 <section class="cards">
 
+<a
+href="category.html?category=Mobility%20Equipment"
+class="image-link"
 
-<a href="category.html?category=Mobility%20Equipment" class="image-link">
-  <div class="product-card">
+>
+<div class="product-card">
+
     <img
         src="img/hospital-folding-wheelchair-500x500.webp"
         alt="Hospital folding wheelchair"
@@ -130,11 +481,13 @@
         Wheel Chairs
     </a>
 
- </div>
+</div>
+
 </a>
 
 <a href="category.html?category=Rear%20tyre">
- <div class="product-card">
+<div class="product-card">
+
     <img
         src="img/rear-tyre.webp"
         alt="Rear tyre"
@@ -147,18 +500,24 @@
     <p>
         ₹ 1,200/Piece
     </p>
+
     <a href="category.html?category=Rear%20tyre">
         Rear Tyre
     </a>
 
- </div>
+</div>
 </a>
 
-<a href="category.html?category=spare%20parts" class="image-link" >
- <div class="product-card">
+<a
+href="category.html?category=spare%20parts"
+class="image-link"
+
+>
+<div class="product-card">
+
     <img
-        src="img\product-jpeg-500x500 wheelchair front wheel.webp"
-        alt="Wheelchair front wheel" 
+        src="img/product-jpeg-500x500 wheelchair front wheel.webp"
+        alt="Wheelchair front wheel"
     >
 
     <h2>
@@ -168,17 +527,26 @@
     <p>
         ₹ 1,450/Piece
     </p>
-    <a href="category.html?category=spare%20parts">
-        wheels
-    
- </div>
-</a>
 
+    <a href="category.html?category=spare%20parts">
+        Wheels
+    </a>
+
+</div>
+
+</a>
 
 </section>
-<a class="btn" href="category.html">
-    View All Products
+
+<a
+class="btn"
+href="category.html"
+
+>
+View All Products
+
 </a>
+
 <!-- ================= ABOUT ================= -->
 
 <section id="about">
@@ -201,7 +569,9 @@
     Owner Details: VIVEK SATYARTHI
 
     <br>
-   <i class="fa-solid fa-location-dot"></i>
+
+    <i class="fa-solid fa-location-dot"></i>
+
     Location: Farrukhabad (UP) pin code: 209625
 
 </p>
@@ -237,52 +607,543 @@
 </div>
 
 </section>
+
 <!-- ================= CONTACT US ================= -->
+
 <section id="contact">
+<h2>
+    Contact Us
+</h2>
 
-    <h2>Contact Us</h2>
+<p>
+    Have any questions about our medical equipment?
+    Get in touch with us.
+</p>
 
-    <p>
-        Have any questions about our medical equipment?
-        Get in touch with us.
-    </p>
 
-    <div class="contact-buttons">
+<div class="contact-buttons">
 
-        <!-- EMAIL -->
-        <a
-       href="https://mail.google.com/mail/?view=cm&fs=1&to=nityakumari577@gmail.com"
-       target="_blank"
-       class="contact-btn"
+    <!-- EMAIL -->
+
+    <a
+        href="https://mail.google.com/mail/?view=cm&fs=1&to=nityakumari577@gmail.com "
+        target="_blank"
+        class="contact-btn"
     >
-       📧 Email Us
-</a>
+        📧 Email Us
+    </a>
 
-        <!-- CALL -->
-        <a
-            href="tel:+916388393125"
-            class="contact-btn"
-        >
-            📞 Call Us
-        </a>
 
-    </div>
+    <!-- CALL -->
+
+    <a
+        href="tel:+917503087684"
+        class="contact-btn"
+    >
+        📞 Call Us
+    </a>
+
+</div>
 
 </section>
+
 <!-- ================= FOOTER ================= -->
+
 <footer>
+
 <p>
     © 2026 Shrishti Enterprises | All Rights Reserved
 </p>
-
 </footer>
+
 </div>
 
 <!-- ================= SWIPER JS ================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-<!-- YOUR JS - ONLY ONCE -->
+<script>
+
+/* =========================================================
+   LATEST EQUIPMENT
+========================================================= */
+
+const EQUIPMENT_API =
+    "https://shrishti-enterprises.onrender.com/api/equipment";
+
+
+const latestTrack =
+    document.getElementById(
+        "latestEquipmentTrack"
+    );
+
+
+/*
+   Extract a usable image URL.
+
+   Your existing category.html already handles
+   image values that may contain a URL inside
+   markdown-style brackets.
+*/
+
+function getEquipmentImage(image) {
+
+    if (!image) {
+
+        return "https://via.placeholder.com/500x400?text=Medical+Equipment";
+
+    }
+
+
+    const markdownMatch =
+        image.match(/\((https?:\/\/[^)]+)\)/);
+
+
+    if (markdownMatch) {
+
+        return markdownMatch[1];
+
+    }
+
+
+    return image;
+
+}
+
+
+
+/*
+   Escape HTML so equipment data cannot
+   accidentally break the card markup.
+*/
+
+function escapeHTML(value) {
+
+    if (value === null || value === undefined) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+
+}
+
+
+
+/*
+   Create one equipment card.
+*/
+
+function createLatestCard(product, isNewest = false) {
+
+    const card =
+        document.createElement("a");
+
+
+    card.className =
+        "latest-card";
+
+
+    /*
+       Open the same product detail page
+       used by your category.html.
+    */
+
+    if (product._id) {
+
+        card.href =
+            `product.html?id=${encodeURIComponent(product._id)}`;
+
+    } else {
+
+        card.href =
+            "category.html";
+
+    }
+
+
+    const image =
+        getEquipmentImage(product.image);
+
+
+    const name =
+        product.name || "Medical Equipment";
+
+
+    const category =
+        product.category || "Medical Equipment";
+
+
+    let price =
+        product.price;
+
+
+    if (
+        price === undefined ||
+        price === null ||
+        price === "" ||
+        price === "Contact for Price"
+    ) {
+
+        price = "Contact for Price";
+
+    } else {
+
+        price =
+            `₹${price}`;
+
+    }
+
+
+    card.innerHTML = `
+
+        ${
+            isNewest
+                ? `<div class="latest-badge">
+                       NEW
+                   </div>`
+                : ""
+        }
+
+        <div class="latest-image-container">
+
+            <img
+                src="${escapeHTML(image)}"
+                alt="${escapeHTML(name)}"
+                loading="lazy"
+            >
+
+        </div>
+
+
+        <div class="latest-info">
+
+            <h3 title="${escapeHTML(name)}">
+                ${escapeHTML(name)}
+            </h3>
+
+
+            <div class="latest-category">
+
+                ${escapeHTML(category)}
+
+            </div>
+
+
+            <div class="latest-price">
+
+                ${escapeHTML(price)}
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    return card;
+
+}
+
+
+
+/*
+   Get a date from the equipment object.
+
+   Your MongoDB model uses timestamps, so
+   createdAt should normally be available.
+*/
+
+function getProductDate(product) {
+
+    if (product.createdAt) {
+
+        const date =
+            new Date(product.createdAt);
+
+        if (!isNaN(date.getTime())) {
+
+            return date.getTime();
+
+        }
+
+    }
+
+
+    /*
+       Fallback to updatedAt if createdAt
+       isn't available.
+    */
+
+    if (product.updatedAt) {
+
+        const date =
+            new Date(product.updatedAt);
+
+        if (!isNaN(date.getTime())) {
+
+            return date.getTime();
+
+        }
+
+    }
+
+
+    /*
+       Final fallback:
+       MongoDB ObjectId normally contains
+       the creation timestamp.
+    */
+
+    if (
+        product._id &&
+        typeof product._id === "string" &&
+        product._id.length >= 8
+    ) {
+
+        try {
+
+            return parseInt(
+                product._id.substring(0, 8),
+                16
+            ) * 1000;
+
+        } catch (error) {
+
+            return 0;
+
+        }
+
+    }
+
+
+    return 0;
+
+}
+
+
+
+/*
+   LOAD LATEST EQUIPMENT
+*/
+
+async function loadLatestEquipment() {
+
+    try {
+
+        latestTrack.innerHTML = `
+
+            <div class="latest-loading">
+
+                Loading latest equipment...
+
+            </div>
+
+        `;
+
+
+        const response =
+            await fetch(EQUIPMENT_API);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Server returned ${response.status}`
+            );
+
+        }
+
+
+        const equipment =
+            await response.json();
+
+
+        console.log(
+            "Latest equipment:",
+            equipment
+        );
+
+
+        if (
+            !Array.isArray(equipment) ||
+            equipment.length === 0
+        ) {
+
+            latestTrack.innerHTML = `
+
+                <div class="latest-empty">
+
+                    No equipment has been added yet.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        /*
+           NEWEST FIRST
+
+           createdAt is used here so the latest
+           admin-added product comes first.
+        */
+
+        equipment.sort(
+            (a, b) =>
+                getProductDate(b) -
+                getProductDate(a)
+        );
+
+
+        /*
+           Limit the moving strip.
+
+           This prevents the homepage from
+           becoming extremely heavy if hundreds
+           of products are eventually added.
+        */
+
+        const latestProducts =
+            equipment.slice(0, 10);
+
+
+        latestTrack.innerHTML = "";
+
+
+        /*
+           FIRST COPY
+        */
+
+        latestProducts.forEach(
+            (product, index) => {
+
+                const card =
+                    createLatestCard(
+                        product,
+                        index === 0
+                    );
+
+
+                latestTrack.appendChild(card);
+
+            }
+        );
+
+
+        /*
+           SECOND COPY
+
+           Duplicating the cards allows the
+           animation to loop continuously.
+        */
+
+        latestProducts.forEach(
+            (product) => {
+
+                const card =
+                    createLatestCard(
+                        product,
+                        false
+                    );
+
+
+                latestTrack.appendChild(card);
+
+            }
+        );
+
+
+        /*
+           If there are only a few products,
+           duplicate them once more so the
+           animation still has enough width.
+        */
+
+        if (latestProducts.length < 4) {
+
+            latestProducts.forEach(
+                (product) => {
+
+                    const card =
+                        createLatestCard(
+                            product,
+                            false
+                        );
+
+
+                    latestTrack.appendChild(card);
+
+                }
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Latest equipment error:",
+            error
+        );
+
+
+        latestTrack.innerHTML = `
+
+            <div class="latest-error">
+
+                Unable to load latest equipment.
+                Please try again later.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/*
+   LOAD PRODUCTS
+*/
+
+loadLatestEquipment();
+
+
+/*
+   Refresh every 60 seconds.
+
+   This means if the admin adds a new product
+   while someone has the homepage open, the
+   homepage will automatically pick it up.
+
+   The page does NOT need to be manually edited.
+*/
+
+setInterval(
+    loadLatestEquipment,
+    60000
+);
+
+</script>
+
+<!-- ================= YOUR EXISTING JS ================= -->
 
 <script src="script.js"></script>
 

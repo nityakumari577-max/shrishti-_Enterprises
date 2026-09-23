@@ -36,6 +36,7 @@ if (loginForm) {
 
             // Save JWT
             localStorage.setItem("adminToken", data.token);
+            localStorage.setItem("adminUsername", username);
 
             // Open dashboard
             window.location.href = "admin-dashboard.html";

@@ -56,7 +56,78 @@ const loginAdmin = async (req, res) => {
         });
     }
 };
+const changeAdminPassword = async (req, res) => {
+    try {
+        const {
+            username,
+            currentPassword,
+            newPassword
+        } = req.body;
+
+        if (!username || !currentPassword || !newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "All password fields are required"
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "New password must be at least 6 characters"
+            });
+        }
+
+        const admin = await Admin.findOne({ username });
+
+        if (!admin) {
+            return res.status(404).json({
+                success: false,
+                message: "Admin not found"
+            });
+        }
+
+        const isCurrentPasswordCorrect =
+            await bcrypt.compare(
+                currentPassword,
+                admin.password
+            );
+
+        if (!isCurrentPasswordCorrect) {
+            return res.status(401).json({
+                success: false,
+                message: "Current password is incorrect"
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(
+            newPassword,
+            10
+        );
+
+        admin.password = hashedPassword;
+
+        await admin.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Password changed successfully"
+        });
+
+    } catch (error) {
+        console.error(
+            "CHANGE ADMIN PASSWORD ERROR:",
+            error
+        );
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to change password"
+        });
+    }
+};
 
 module.exports = {
-    loginAdmin
+    loginAdmin,
+    changeAdminPassword
 };

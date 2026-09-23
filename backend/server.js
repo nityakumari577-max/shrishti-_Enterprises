@@ -36,6 +36,8 @@ const orderRoutes = require("./routes/OrderRoutes");
 const equipmentRoutes = require("./routes/equipmentRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
+
 
 // ==========================================
 // EXPRESS APP
@@ -160,6 +162,8 @@ app.use(
 
 
 );
+app.use("/api/reviews", reviewRoutes);
+
 
 // ==========================================
 // PAYMENT ROUTES

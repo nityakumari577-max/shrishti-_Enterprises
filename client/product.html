@@ -469,6 +469,262 @@
         }
 
     }
+    /* ================= REVIEWS ================= */
+
+.reviews-section {
+margin-top: 45px;
+background: white;
+border: 1px solid #e3eeee;
+border-radius: 20px;
+padding: 40px;
+box-shadow: 0 10px 35px rgba(34, 78, 84, 0.07);
+}
+
+.reviews-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 30px;
+padding-bottom: 30px;
+border-bottom: 1px solid #e8eeee;
+}
+
+.reviews-small-title {
+display: block;
+color: #287d8c;
+font-size: 12px;
+font-weight: bold;
+letter-spacing: 1.5px;
+margin-bottom: 8px;
+}
+
+.reviews-header h2 {
+font-size: 30px;
+color: #214c54;
+margin-bottom: 8px;
+}
+
+.reviews-header p {
+color: #718487;
+font-size: 14px;
+}
+
+.rating-summary {
+min-width: 170px;
+text-align: center;
+background: #f3fafa;
+border-radius: 15px;
+padding: 20px;
+}
+
+.average-rating {
+font-size: 35px;
+font-weight: bold;
+color: #287d8c;
+}
+
+.average-stars {
+color: #f5a623;
+font-size: 21px;
+letter-spacing: 2px;
+margin: 5px 0;
+}
+
+.review-count {
+color: #718487;
+font-size: 13px;
+}
+
+/* ================= WRITE REVIEW ================= */
+
+.write-review-card {
+margin-top: 30px;
+padding: 25px;
+background: #f7fbfb;
+border: 1px solid #e2eeee;
+border-radius: 15px;
+}
+
+.write-review-card h3 {
+color: #214c54;
+font-size: 21px;
+margin-bottom: 6px;
+}
+
+.review-login-message {
+color: #718487;
+font-size: 14px;
+margin-bottom: 20px;
+}
+
+.rating-selector {
+display: flex;
+align-items: center;
+gap: 18px;
+margin-bottom: 18px;
+}
+
+.rating-selector span {
+color: #49666b;
+font-size: 14px;
+font-weight: bold;
+}
+
+.rating-buttons {
+display: flex;
+gap: 4px;
+}
+
+.rating-buttons button {
+border: none;
+background: transparent;
+color: #c7d3d5;
+font-size: 28px;
+cursor: pointer;
+padding: 0;
+transition: 0.2s;
+}
+
+.rating-buttons button:hover {
+color: #f5a623;
+transform: scale(1.1);
+}
+
+.rating-buttons button.selected {
+color: #f5a623;
+}
+
+.review-textarea {
+width: 100%;
+min-height: 120px;
+resize: vertical;
+border: 1px solid #dce8e9;
+border-radius: 10px;
+padding: 14px;
+outline: none;
+font-family: Arial, sans-serif;
+font-size: 14px;
+color: #243438;
+background: white;
+}
+
+.review-textarea:focus {
+border-color: #287d8c;
+box-shadow: 0 0 0 3px rgba(40, 125, 140, 0.08);
+}
+
+.submit-review-btn {
+margin-top: 15px;
+border: none;
+background: #287d8c;
+color: white;
+padding: 12px 24px;
+border-radius: 9px;
+font-size: 14px;
+font-weight: bold;
+cursor: pointer;
+transition: 0.3s;
+}
+
+.submit-review-btn:hover {
+background: #206b78;
+transform: translateY(-2px);
+}
+
+/* ================= REVIEW LIST ================= */
+
+.reviews-list {
+margin-top: 30px;
+}
+
+.review-card {
+padding: 22px 0;
+border-bottom: 1px solid #e8eeee;
+}
+
+.review-card:last-child {
+border-bottom: none;
+}
+
+.review-top {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 15px;
+}
+
+.reviewer-name {
+color: #214c54;
+font-size: 16px;
+font-weight: bold;
+}
+
+.review-stars {
+color: #f5a623;
+font-size: 17px;
+letter-spacing: 1px;
+}
+
+.review-date {
+color: #8a9a9d;
+font-size: 12px;
+margin-top: 4px;
+}
+
+.review-comment {
+color: #596e72;
+font-size: 14px;
+line-height: 1.7;
+margin-top: 10px;
+}
+
+.reviews-loading,
+.no-reviews {
+text-align: center;
+color: #718487;
+padding: 30px 10px;
+}
+
+/* ================= MOBILE REVIEWS ================= */
+
+@media (max-width: 650px) {
+
+.reviews-section {
+    padding: 25px 18px;
+    margin-top: 30px;
+    border-radius: 15px;
+}
+
+.reviews-header {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.reviews-header h2 {
+    font-size: 25px;
+}
+
+.rating-summary {
+    width: 100%;
+}
+
+.rating-selector {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.rating-buttons button {
+    font-size: 26px;
+}
+
+.review-top {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+}
+
 
 </style>
 
@@ -568,6 +824,110 @@
         Loading product...
 
     </div>
+    <!-- ================= REVIEWS SECTION ================= -->
+
+<section class="reviews-section" id="reviewsSection">
+<div class="reviews-header">
+
+    <div>
+        <span class="reviews-small-title">
+            CUSTOMER FEEDBACK
+        </span>
+
+        <h2>
+            Customer Reviews
+        </h2>
+
+        <p>
+            See what our customers say about this product.
+        </p>
+    </div>
+
+    <div class="rating-summary">
+
+        <div class="average-rating" id="averageRating">
+            0.0
+        </div>
+
+        <div class="average-stars" id="averageStars">
+            ☆☆☆☆☆
+        </div>
+
+        <div class="review-count" id="reviewCount">
+            0 reviews
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= WRITE REVIEW ================= -->
+
+<div class="write-review-card" id="writeReviewCard">
+
+    <h3>
+        Write a Review
+    </h3>
+
+    <p class="review-login-message" id="reviewLoginMessage">
+        Login to share your experience with this product.
+    </p>
+
+
+    <div class="rating-selector">
+
+        <span>
+            Your Rating
+        </span>
+
+        <div class="rating-buttons">
+
+            <button type="button" data-rating="1">★</button>
+            <button type="button" data-rating="2">★</button>
+            <button type="button" data-rating="3">★</button>
+            <button type="button" data-rating="4">★</button>
+            <button type="button" data-rating="5">★</button>
+
+        </div>
+
+    </div>
+
+
+    <textarea
+        id="reviewComment"
+        class="review-textarea"
+        placeholder="Write your experience with this product..."
+        maxlength="1000"
+    ></textarea>
+
+
+    <button
+        type="button"
+        class="submit-review-btn"
+        id="submitReviewBtn"
+    >
+        Submit Review
+    </button>
+
+</div>
+
+
+<!-- ================= REVIEWS LIST ================= -->
+
+<div
+    class="reviews-list"
+    id="reviewsList"
+>
+
+    <div class="reviews-loading">
+        Loading reviews...
+    </div>
+
+</div>
+
+</section>
+
 
 </main>
 
@@ -824,6 +1184,628 @@ function orderNow() {
     window.location.href =
         `order.html?id=${encodeURIComponent(productId)}`;
 }
+// ==========================================
+// REVIEWS SYSTEM
+// ==========================================
+
+const REVIEW_API =
+"https://shrishti-enterprises.onrender.com/api/reviews";
+
+let selectedRating = 0;
+
+// ==========================================
+// RATING BUTTONS
+// ==========================================
+
+const ratingButtons =
+document.querySelectorAll(
+".rating-buttons button"
+);
+
+ratingButtons.forEach(button => {
+
+button.addEventListener("click", () => {
+
+    selectedRating =
+        Number(
+            button.dataset.rating
+        );
+
+
+    ratingButtons.forEach(btn => {
+
+        const rating =
+            Number(
+                btn.dataset.rating
+            );
+
+        if (rating <= selectedRating) {
+
+            btn.classList.add(
+                "selected"
+            );
+
+        } else {
+
+            btn.classList.remove(
+                "selected"
+            );
+
+        }
+
+    });
+
+});
+
+});
+
+// ==========================================
+// GET CUSTOMER INFORMATION
+// ==========================================
+function getCustomerInformation() {
+const token =
+    localStorage.getItem("customerToken");
+
+const customerData =
+    localStorage.getItem("customerUser");
+
+if (!token || !customerData) {
+    return null;
+}
+
+try {
+
+    const customer =
+        JSON.parse(customerData);
+
+    return {
+
+        token: token,
+
+        customerId:
+            customer._id ||
+            customer.id ||
+            "",
+
+        customerName:
+            customer.name ||
+            customer.fullName ||
+            "Customer",
+
+        customerEmail:
+            customer.email ||
+            ""
+
+    };
+
+} catch (error) {
+
+    console.error(
+        "CUSTOMER DATA ERROR:",
+        error
+    );
+
+    return null;
+}
+
+}
+
+
+
+// ==========================================
+// LOAD REVIEWS
+// ==========================================
+
+async function loadReviews() {
+
+const reviewsList =
+    document.getElementById(
+        "reviewsList"
+    );
+
+const averageRating =
+    document.getElementById(
+        "averageRating"
+    );
+
+const averageStars =
+    document.getElementById(
+        "averageStars"
+    );
+
+const reviewCount =
+    document.getElementById(
+        "reviewCount"
+    );
+
+
+try {
+
+    const response =
+        await fetch(
+            `${REVIEW_API}/${encodeURIComponent(productId)}`
+        );
+
+
+    const data =
+        await response.json();
+
+
+    if (!response.ok || !data.success) {
+
+        throw new Error(
+            data.message ||
+            "Unable to load reviews"
+        );
+
+    }
+
+
+    const reviews =
+        data.reviews || [];
+
+
+    // ==================================
+    // NO REVIEWS
+    // ==================================
+
+    if (reviews.length === 0) {
+
+        averageRating.textContent =
+            "0.0";
+
+        averageStars.textContent =
+            "☆☆☆☆☆";
+
+        reviewCount.textContent =
+            "0 reviews";
+
+
+        reviewsList.innerHTML = `
+
+            <div class="no-reviews">
+
+                No reviews yet.
+                Be the first to review this product!
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    // ==================================
+    // CALCULATE AVERAGE
+    // ==================================
+
+    const totalRating =
+        reviews.reduce(
+            (total, review) =>
+                total +
+                Number(review.rating),
+            0
+        );
+
+
+    const average =
+        totalRating /
+        reviews.length;
+
+
+    averageRating.textContent =
+        average.toFixed(1);
+
+
+    averageStars.textContent =
+        createStars(
+            Math.round(average)
+        );
+
+
+    reviewCount.textContent =
+        `${reviews.length} ${
+            reviews.length === 1
+                ? "review"
+                : "reviews"
+        }`;
+
+
+    // ==================================
+    // DISPLAY REVIEWS
+    // ==================================
+
+    reviewsList.innerHTML =
+        reviews.map(review => {
+
+            const date =
+                review.createdAt
+                    ? new Date(
+                        review.createdAt
+                    ).toLocaleDateString(
+                        "en-IN",
+                        {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric"
+                        }
+                    )
+                    : "";
+
+
+            return `
+
+                <div class="review-card">
+
+                    <div class="review-top">
+
+                        <div>
+
+                            <div class="reviewer-name">
+
+                                ${escapeReviewHTML(
+                                    review.customerName ||
+                                    "Customer"
+                                )}
+
+                            </div>
+
+                            <div class="review-date">
+
+                                ${date}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="review-stars">
+
+                            ${createStars(
+                                Number(
+                                    review.rating
+                                )
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="review-comment">
+
+                        ${escapeReviewHTML(
+                            review.comment
+                        )}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+
+} catch (error) {
+
+    console.error(
+        "LOAD REVIEWS ERROR:",
+        error
+    );
+
+
+    reviewsList.innerHTML = `
+
+        <div class="no-reviews">
+
+            Unable to load reviews right now.
+
+        </div>
+
+    `;
+
+}
+
+}
+
+// ==========================================
+// CREATE STAR DISPLAY
+// ==========================================
+
+function createStars(rating) {
+
+let stars = "";
+
+for (let i = 1; i <= 5; i++) {
+
+    stars +=
+        i <= rating
+            ? "★"
+            : "☆";
+
+}
+
+return stars;
+
+}
+
+// ==========================================
+// PROTECT REVIEW TEXT
+// ==========================================
+
+function escapeReviewHTML(text) {
+if (!text) {
+
+    return "";
+
+}
+
+
+return String(text)
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+// ==========================================
+// SUBMIT REVIEW
+// ==========================================
+
+const submitReviewBtn =
+document.getElementById(
+"submitReviewBtn"
+);
+
+submitReviewBtn.addEventListener(
+"click",
+async () => {
+    const customer =
+        getCustomerInformation();
+
+
+    // ==============================
+    // LOGIN CHECK
+    // ==============================
+
+    if (!customer) {
+
+        alert(
+            "Please login before writing a review."
+        );
+
+        window.location.href =
+            `customer-login.html?redirect=${encodeURIComponent(
+                window.location.pathname +
+                window.location.search
+            )}`;
+
+        return;
+
+    }
+
+
+    // ==============================
+    // RATING CHECK
+    // ==============================
+
+    if (!selectedRating) {
+
+        alert(
+            "Please select a rating."
+        );
+
+        return;
+
+    }
+
+
+    const comment =
+        document
+            .getElementById(
+                "reviewComment"
+            )
+            .value
+            .trim();
+
+
+    // ==============================
+    // COMMENT CHECK
+    // ==============================
+
+    if (!comment) {
+
+        alert(
+            "Please write a review."
+        );
+
+        return;
+
+    }
+
+
+    if (comment.length < 2) {
+
+        alert(
+            "Review is too short."
+        );
+
+        return;
+
+    }
+
+
+    // ==============================
+    // BUTTON STATE
+    // ==============================
+
+    submitReviewBtn.disabled = true;
+
+    submitReviewBtn.textContent =
+        "Submitting...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                REVIEW_API,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${customer.token}`
+
+                    },
+
+                    body: JSON.stringify({
+
+                        productId:
+                            productId,
+
+                        productName:
+                            document
+                                .querySelector(
+                                    ".product-details h1"
+                                )
+                                ?.textContent
+                                ?.trim() ||
+                            "Product",
+
+                        customerId:
+                            customer.customerId,
+
+                        customerName:
+                            customer.customerName,
+
+                        rating:
+                            selectedRating,
+
+                        comment:
+                            comment
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok ||
+            !data.success) {
+
+            throw new Error(
+                data.message ||
+                "Unable to submit review"
+            );
+
+        }
+
+
+        alert(
+            "Review submitted successfully!"
+        );
+
+
+        // ==========================
+        // RESET FORM
+        // ==========================
+
+        document
+            .getElementById(
+                "reviewComment"
+            )
+            .value = "";
+
+
+        selectedRating = 0;
+
+
+        ratingButtons.forEach(
+            button => {
+
+                button.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+        // ==========================
+        // RELOAD REVIEWS
+        // ==========================
+
+        loadReviews();
+
+
+    } catch (error) {
+
+        console.error(
+            "SUBMIT REVIEW ERROR:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to submit review."
+        );
+
+
+    } finally {
+
+        submitReviewBtn.disabled =
+            false;
+
+        submitReviewBtn.textContent =
+            "Submit Review";
+
+    }
+
+}
+
+);
+
+// ==========================================
+// LOAD REVIEWS WHEN PAGE OPENS
+// ==========================================
+
+loadReviews();
 
 
 </script>

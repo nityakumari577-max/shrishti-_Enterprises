@@ -1,540 +1,2042 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Shrishti Enterprises</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Google Fonts & Font Awesome Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>Admin Dashboard - Shrishti Enterprises</title>
 
-    <style>
-        :root {
-            --navy: #1b2a4a;
-            --navy-dark: #121c33;
-            --blue-accent: #2563eb;
-            --danger: #e11d48;
-            --bg-color: #f1f5f9;
-            --card-border: #e2e8f0;
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&display=swap"
+    rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+<style>
+
+    :root {
+        --navy: #1b2a4a;
+        --navy-dark: #121c33;
+        --blue-accent: #2563eb;
+        --danger: #e11d48;
+        --bg-color: #f1f5f9;
+        --card-border: #e2e8f0;
+    }
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+
+    body {
+        background: var(--bg-color);
+        color: #1e293b;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+
+    /* ==========================================
+       FLOATING BACKGROUND ICONS
+    ========================================== */
+
+    .bg-icon {
+        position: fixed;
+        color: rgba(37, 99, 235, 0.035);
+        z-index: 0;
+        animation: float 14s infinite ease-in-out;
+        pointer-events: none;
+    }
+
+    .bg-icon-1 {
+        top: 8%;
+        left: 4%;
+        font-size: 55px;
+        animation-delay: 0s;
+    }
+
+    .bg-icon-2 {
+        top: 65%;
+        left: 88%;
+        font-size: 70px;
+        animation-delay: 2s;
+    }
+
+    .bg-icon-3 {
+        top: 82%;
+        left: 6%;
+        font-size: 50px;
+        animation-delay: 4s;
+    }
+
+    .bg-icon-4 {
+        top: 18%;
+        left: 82%;
+        font-size: 60px;
+        animation-delay: 6s;
+    }
+
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0) rotate(0deg);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+        50% {
+            transform: translateY(-12px) rotate(6deg);
+        }
+    }
+
+
+    /* ==========================================
+       NAVBAR
+    ========================================== */
+
+    .navbar {
+        min-height: 58px;
+        background: #ffffff;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 8px 28px;
+
+        border-bottom: 1px solid var(--card-border);
+
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+
+    .navbar h2 {
+        color: var(--navy);
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+    }
+
+
+    .navbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+
+    .change-password-btn {
+
+        background: #eff6ff;
+
+        color: var(--blue-accent);
+
+        border: 1px solid #bfdbfe;
+
+        padding: 7px 13px;
+
+        border-radius: 6px;
+
+        cursor: pointer;
+
+        font-weight: 600;
+
+        font-size: 12px;
+
+        transition: all 0.2s ease;
+    }
+
+
+    .change-password-btn:hover {
+
+        background: var(--blue-accent);
+
+        color: #ffffff;
+
+        border-color: var(--blue-accent);
+    }
+
+
+    .logout-btn {
+
+        background: transparent;
+
+        color: var(--danger);
+
+        border: 1px solid #fecdd3;
+
+        padding: 7px 14px;
+
+        border-radius: 6px;
+
+        cursor: pointer;
+
+        font-weight: 600;
+
+        font-size: 12px;
+
+        transition: all 0.2s ease;
+    }
+
+
+    .logout-btn:hover {
+
+        background: var(--danger);
+
+        color: #ffffff;
+    }
+
+
+    /* ==========================================
+       MAIN CONTAINER
+    ========================================== */
+
+    .container {
+
+        padding: 22px 28px;
+
+        max-width: 1100px;
+
+        margin: auto;
+
+        position: relative;
+
+        z-index: 1;
+    }
+
+
+    .welcome {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        margin-bottom: 20px;
+
+        gap: 10px;
+
+        flex-wrap: wrap;
+    }
+
+
+    .welcome h1 {
+
+        color: var(--navy);
+
+        font-size: 20px;
+
+        font-weight: 700;
+    }
+
+
+    .cursive-title {
+
+        font-family: 'Playfair Display', serif;
+
+        font-style: italic;
+
+        color: var(--blue-accent);
+
+        font-size: 38px;
+
+        font-weight: 700;
+
+        margin-right: 4px;
+
+        vertical-align: middle;
+    }
+
+
+    .welcome p {
+
+        color: #64748b;
+
+        font-size: 13px;
+
+        margin-top: 2px;
+    }
+
+
+    .welcome-actions {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        flex-wrap: wrap;
+    }
+
+
+    .nav-link {
+
+        text-decoration: none;
+
+        color: var(--navy);
+
+        font-size: 13px;
+
+        font-weight: 600;
+
+        padding: 7px 14px;
+
+        border-radius: 6px;
+
+        background: #ffffff;
+
+        border: 1px solid var(--card-border);
+
+        transition: all 0.2s ease;
+    }
+
+
+    .nav-link:hover {
+
+        border-color: var(--blue-accent);
+
+        color: var(--blue-accent);
+    }
+
+
+    .add-btn {
+
+        background: var(--navy);
+
+        color: #ffffff;
+
+        border: none;
+
+        padding: 8px 16px;
+
+        border-radius: 6px;
+
+        cursor: pointer;
+
+        font-weight: 600;
+
+        font-size: 13px;
+
+        transition: background 0.2s ease;
+    }
+
+
+    .add-btn:hover {
+
+        background: var(--navy-dark);
+    }
+
+
+    /* ==========================================
+       STATS
+    ========================================== */
+
+    .stats {
+
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 14px;
+
+        margin-bottom: 22px;
+    }
+
+
+    .stat-card {
+
+        background: #ffffff;
+
+        padding: 14px 18px;
+
+        border-radius: 8px;
+
+        border: 1px solid var(--card-border);
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+    }
+
+
+    .stat-card h3 {
+
+        color: #64748b;
+
+        font-size: 12px;
+
+        font-weight: 600;
+
+        text-transform: uppercase;
+
+        margin-bottom: 4px;
+    }
+
+
+    .stat-card p {
+
+        color: var(--navy);
+
+        font-size: 22px;
+
+        font-weight: 700;
+    }
+
+
+    .stat-icon {
+
+        font-size: 22px;
+
+        color: #cbd5e1;
+    }
+
+
+    /* ==========================================
+       ADD / EDIT PRODUCT
+    ========================================== */
+
+    .add-section {
+
+        background: #ffffff;
+
+        padding: 20px 22px;
+
+        border-radius: 10px;
+
+        border: 1px solid var(--card-border);
+
+        margin-bottom: 22px;
+
+        max-width: 850px;
+    }
+
+
+    .add-section h2 {
+
+        color: var(--navy);
+
+        margin-bottom: 14px;
+
+        font-size: 16px;
+
+        font-weight: 700;
+
+        border-bottom: 2px solid #f1f5f9;
+
+        padding-bottom: 8px;
+    }
+
+
+    .form-grid {
+
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 12px 16px;
+    }
+
+
+    .form-group {
+        margin-bottom: 0;
+    }
+
+
+    .form-group.full-width {
+        grid-column: span 2;
+    }
+
+
+    .form-group label {
+
+        display: block;
+
+        margin-bottom: 4px;
+
+        font-weight: 600;
+
+        font-size: 12px;
+
+        color: #475569;
+    }
+
+
+    .form-group input,
+    .form-group textarea {
+
+        width: 100%;
+
+        padding: 8px 11px;
+
+        border: 1px solid #cbd5e1;
+
+        border-radius: 6px;
+
+        outline: none;
+
+        font-size: 13px;
+
+        background: #f8fafc;
+
+        transition: all 0.2s ease;
+    }
+
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+
+        background: #ffffff;
+
+        border-color: var(--blue-accent);
+    }
+
+
+    .form-group textarea {
+
+        height: 60px;
+
+        resize: vertical;
+    }
+
+
+    .form-actions {
+
+        margin-top: 14px;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        flex-wrap: wrap;
+    }
+
+
+    /* ==========================================
+       PRODUCTS
+    ========================================== */
+
+    .products-section {
+
+        background: #ffffff;
+
+        padding: 20px 22px;
+
+        border-radius: 10px;
+
+        border: 1px solid var(--card-border);
+    }
+
+
+    .products-section h2 {
+
+        color: var(--navy);
+
+        margin-bottom: 16px;
+
+        font-size: 16px;
+
+        font-weight: 700;
+    }
+
+
+    #productGrid {
+
+        display: grid;
+
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 16px;
+    }
+
+
+    .product-card {
+
+        border: 1px solid var(--card-border);
+
+        border-radius: 8px;
+
+        overflow: hidden;
+
+        background: #ffffff;
+    }
+
+
+    .product-card img {
+
+        width: 100%;
+
+        height: 140px;
+
+        object-fit: contain;
+
+        background: #f8fafc;
+
+        padding: 8px;
+    }
+
+
+    .product-info {
+
+        padding: 12px;
+    }
+
+
+    .product-info h3 {
+
+        color: var(--navy);
+
+        margin-bottom: 4px;
+
+        font-size: 14px;
+
+        font-weight: 700;
+    }
+
+
+    .product-info p {
+
+        font-size: 12px;
+
+        color: #64748b;
+
+        margin-bottom: 6px;
+
+        line-height: 1.4;
+    }
+
+
+    .actions {
+
+        display: flex;
+
+        gap: 8px;
+
+        margin-top: 10px;
+    }
+
+
+    .edit-btn,
+    .delete-btn {
+
+        padding: 5px 12px;
+
+        border: none;
+
+        border-radius: 4px;
+
+        cursor: pointer;
+
+        font-weight: 600;
+
+        font-size: 12px;
+    }
+
+
+    .edit-btn {
+
+        background: #e0e7ff;
+
+        color: #3730a3;
+    }
+
+
+    .delete-btn {
+
+        background: #ffe4e6;
+
+        color: #9f1239;
+    }
+
+
+    .edit-btn:hover {
+        background: #c7d2fe;
+    }
+
+
+    .delete-btn:hover {
+        background: #fecdd3;
+    }
+
+
+    /* ==========================================
+       TOGGLE
+    ========================================== */
+
+    .toggle-container {
+
+        margin: 20px 0;
+    }
+
+
+    .toggle-container a {
+
+        color: var(--blue-accent);
+
+        text-decoration: none;
+
+        font-size: 13px;
+    }
+
+
+    .toggle-container a:hover {
+
+        text-decoration: underline;
+    }
+
+
+    /* ==========================================
+       CHANGE PASSWORD MODAL
+    ========================================== */
+
+    .password-modal {
+
+        display: none;
+
+        position: fixed;
+
+        inset: 0;
+
+        background: rgba(15, 23, 42, 0.55);
+
+        backdrop-filter: blur(4px);
+
+        z-index: 1000;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 20px;
+    }
+
+
+    .password-modal.show {
+
+        display: flex;
+    }
+
+
+    .password-box {
+
+        width: 100%;
+
+        max-width: 410px;
+
+        background: #ffffff;
+
+        border-radius: 12px;
+
+        padding: 24px;
+
+        box-shadow: 0 25px 60px rgba(15, 23, 42, 0.25);
+
+        position: relative;
+
+        animation: modalAppear 0.2s ease;
+    }
+
+
+    @keyframes modalAppear {
+
+        from {
+
+            opacity: 0;
+
+            transform: translateY(10px) scale(0.98);
         }
 
-        body {
-            background: var(--bg-color);
-            color: #1e293b;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
+        to {
 
-        /* FLOATING BACKGROUND ICONS */
-        .bg-icon {
-            position: fixed;
-            color: rgba(37, 99, 235, 0.035);
-            z-index: 0;
-            animation: float 14s infinite ease-in-out;
-            pointer-events: none;
-        }
+            opacity: 1;
 
-        .bg-icon-1 { top: 8%; left: 4%; font-size: 55px; animation-delay: 0s; }
-        .bg-icon-2 { top: 65%; left: 88%; font-size: 70px; animation-delay: 2s; }
-        .bg-icon-3 { top: 82%; left: 6%; font-size: 50px; animation-delay: 4s; }
-        .bg-icon-4 { top: 18%; left: 82%; font-size: 60px; animation-delay: 6s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(6deg); }
+            transform: translateY(0) scale(1);
         }
+    }
 
-        /* NAVBAR */
-        .navbar {
-            height: 58px;
-            background: #ffffff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 28px;
-            border-bottom: 1px solid var(--card-border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
 
-        .navbar h2 {
-            color: var(--navy);
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-        }
+    .password-header {
 
-        .logout-btn {
-            background: transparent;
-            color: var(--danger);
-            border: 1px solid #fecdd3;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.2s ease;
-        }
+        display: flex;
 
-        .logout-btn:hover {
-            background: var(--danger);
-            color: #ffffff;
-        }
+        justify-content: space-between;
 
-        /* MAIN CONTAINER */
-        .container {
-            padding: 22px 28px;
-            max-width: 1100px;
-            margin: auto;
-            position: relative;
-            z-index: 1;
-        }
+        align-items: center;
 
-        .welcome {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+        margin-bottom: 18px;
+    }
 
-        .welcome h1 {
-            color: var(--navy);
-            font-size: 20px;
-            font-weight: 700;
-        }
 
-        /* LARGE CURSIVE TITLE */
-        .cursive-title {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            color: var(--blue-accent);
-            font-size: 38px;
-            font-weight: 700;
-            margin-right: 4px;
-            vertical-align: middle;
-        }
+    .password-header h2 {
 
-        .welcome p {
-            color: #64748b;
-            font-size: 13px;
-            margin-top: 2px;
-        }
+        color: var(--navy);
 
-        .nav-link {
-            text-decoration: none;
-            color: var(--navy);
-            font-size: 13px;
-            font-weight: 600;
-            padding: 7px 14px;
-            border-radius: 6px;
-            background: #ffffff;
-            border: 1px solid var(--card-border);
-            transition: all 0.2s ease;
-        }
+        font-size: 18px;
+    }
 
-        .nav-link:hover {
-            border-color: var(--blue-accent);
-            color: var(--blue-accent);
-        }
 
-        .add-btn {
-            background: var(--navy);
-            color: #ffffff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: background 0.2s ease;
-        }
+    .close-password {
 
-        .add-btn:hover {
-            background: var(--navy-dark);
-        }
+        width: 30px;
 
-        /* STATS (COMPACT) */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-            margin-bottom: 22px;
-        }
+        height: 30px;
 
-        .stat-card {
-            background: #ffffff;
-            padding: 14px 18px;
-            border-radius: 8px;
-            border: 1px solid var(--card-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        border: none;
 
-        .stat-card h3 {
-            color: #64748b;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
+        background: #f1f5f9;
 
-        .stat-card p {
-            color: var(--navy);
-            font-size: 22px;
-            font-weight: 700;
-        }
+        color: #64748b;
 
-        .stat-icon {
-            font-size: 22px;
-            color: #cbd5e1;
-        }
+        border-radius: 50%;
 
-        /* ADD / EDIT PRODUCT CARD (COMPACT & COMPACT GRID FORM) */
-        .add-section {
-            background: #ffffff;
-            padding: 20px 22px;
-            border-radius: 10px;
-            border: 1px solid var(--card-border);
-            margin-bottom: 22px;
-            max-width: 850px;
-        }
+        cursor: pointer;
 
-        .add-section h2 {
-            color: var(--navy);
-            margin-bottom: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 8px;
-        }
+        font-size: 15px;
+    }
+
+
+    .close-password:hover {
+
+        background: #e2e8f0;
+
+        color: var(--navy);
+    }
+
+
+    .password-description {
+
+        color: #64748b;
+
+        font-size: 12px;
+
+        line-height: 1.5;
+
+        margin-bottom: 18px;
+    }
+
+
+    .password-field {
+
+        margin-bottom: 14px;
+
+        position: relative;
+    }
+
+
+    .password-field label {
+
+        display: block;
+
+        color: #475569;
+
+        font-size: 12px;
+
+        font-weight: 600;
+
+        margin-bottom: 5px;
+    }
+
+
+    .password-field input {
+
+        width: 100%;
+
+        padding: 10px 42px 10px 11px;
+
+        border: 1px solid #cbd5e1;
+
+        border-radius: 7px;
+
+        outline: none;
+
+        background: #f8fafc;
+
+        font-size: 13px;
+    }
+
+
+    .password-field input:focus {
+
+        background: #ffffff;
+
+        border-color: var(--blue-accent);
+    }
+
+
+    .password-eye {
+
+        position: absolute;
+
+        right: 11px;
+
+        bottom: 10px;
+
+        border: none;
+
+        background: transparent;
+
+        color: #64748b;
+
+        cursor: pointer;
+
+        font-size: 14px;
+    }
+
+
+    .password-actions {
+
+        display: flex;
+
+        gap: 8px;
+
+        margin-top: 20px;
+    }
+
+
+    .password-submit {
+
+        flex: 1;
+
+        border: none;
+
+        background: var(--blue-accent);
+
+        color: #ffffff;
+
+        padding: 10px;
+
+        border-radius: 7px;
+
+        cursor: pointer;
+
+        font-size: 13px;
+
+        font-weight: 600;
+    }
+
+
+    .password-submit:hover {
+
+        background: #1d4ed8;
+    }
+
+
+    .password-cancel {
+
+        border: 1px solid var(--card-border);
+
+        background: #ffffff;
+
+        color: #475569;
+
+        padding: 10px 16px;
+
+        border-radius: 7px;
+
+        cursor: pointer;
+
+        font-size: 13px;
+
+        font-weight: 600;
+    }
+
+
+    .password-cancel:hover {
+
+        background: #f8fafc;
+    }
+
+
+    #passwordMessage {
+
+        font-size: 12px;
+
+        margin-top: 12px;
+
+        min-height: 18px;
+
+        text-align: center;
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 850px) {
 
         .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px 16px;
-        }
-
-        .form-group {
-            margin-bottom: 0;
+            grid-template-columns: 1fr;
         }
 
         .form-group.full-width {
-            grid-column: span 2;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 4px;
-            font-weight: 600;
-            font-size: 12px;
-            color: #475569;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 8px 11px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            outline: none;
-            font-size: 13px;
-            background: #f8fafc;
-            transition: all 0.2s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            background: #ffffff;
-            border-color: var(--blue-accent);
-        }
-
-        .form-group textarea {
-            height: 60px;
-            resize: vertical;
-        }
-
-        .form-actions {
-            margin-top: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* PRODUCTS GRID */
-        .products-section {
-            background: #ffffff;
-            padding: 20px 22px;
-            border-radius: 10px;
-            border: 1px solid var(--card-border);
-        }
-
-        .products-section h2 {
-            color: var(--navy);
-            margin-bottom: 16px;
-            font-size: 16px;
-            font-weight: 700;
+            grid-column: span 1;
         }
 
         #productGrid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+
+    @media (max-width: 600px) {
+
+        .navbar {
+
+            padding: 8px 14px;
         }
 
-        .product-card {
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            overflow: hidden;
-            background: #ffffff;
+
+        .navbar h2 {
+
+            font-size: 15px;
         }
 
-        .product-card img {
+
+        .navbar-actions {
+
+            gap: 5px;
+        }
+
+
+        .change-password-btn,
+        .logout-btn {
+
+            padding: 6px 8px;
+
+            font-size: 11px;
+        }
+
+
+        .container {
+
+            padding: 16px;
+        }
+
+
+        .welcome {
+
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            gap: 12px;
+        }
+
+
+        .cursive-title {
+
+            font-size: 31px;
+        }
+
+
+        .welcome-actions {
+
             width: 100%;
-            height: 140px;
-            object-fit: contain;
-            background: #f8fafc;
-            padding: 8px;
         }
 
-        .product-info {
-            padding: 12px;
+
+        .welcome-actions .nav-link,
+        .welcome-actions .add-btn {
+
+            flex: 1;
+
+            text-align: center;
         }
 
-        .product-info h3 {
-            color: var(--navy);
-            margin-bottom: 4px;
-            font-size: 14px;
-            font-weight: 700;
+
+        .stats {
+
+            grid-template-columns: 1fr;
         }
 
-        .product-info p {
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 6px;
-            line-height: 1.4;
+
+        #productGrid {
+
+            grid-template-columns: 1fr;
         }
 
-        .actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
 
-        .edit-btn,
-        .delete-btn {
-            padding: 5px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 12px;
-        }
+        .password-box {
 
-        .edit-btn {
-            background: #e0e7ff;
-            color: #3730a3;
+            padding: 20px;
         }
+    }
 
-        .delete-btn {
-            background: #ffe4e6;
-            color: #9f1239;
-        }
+</style>
 
-        .edit-btn:hover { background: #c7d2fe; }
-        .delete-btn:hover { background: #fecdd3; }
-
-        /* RESPONSIVE */
-        @media (max-width: 850px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .form-group.full-width { grid-column: span 1; }
-            .stats, #productGrid { grid-template-columns: 1fr 1fr; }
-        }
-
-        @media (max-width: 600px) {
-            .navbar { padding: 0 16px; }
-            .container { padding: 16px; }
-            .welcome { flex-direction: column; align-items: flex-start; gap: 12px; }
-            .stats, #productGrid { grid-template-columns: 1fr; }
-        }
-    </style>
 </head>
 
 <body>
+<!-- FLOATING BACKGROUND ICONS -->
 
-    <!-- FLOATING BACKGROUND ICONS -->
-    <i class="fas fa-stethoscope bg-icon bg-icon-1"></i>
-    <i class="fas fa-heartpulse bg-icon bg-icon-2"></i>
-    <i class="fas fa-user-md bg-icon bg-icon-3"></i>
-    <i class="fas fa-kit-medical bg-icon bg-icon-4"></i>
+<i class="fas fa-stethoscope bg-icon bg-icon-1"></i>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <h2>Shrishti Enterprises</h2>
-        <button class="logout-btn" onclick="logout()">
-            Logout
+<i class="fas fa-heartpulse bg-icon bg-icon-2"></i>
+
+<i class="fas fa-user-md bg-icon bg-icon-3"></i>
+
+<i class="fas fa-kit-medical bg-icon bg-icon-4"></i>
+
+
+<!-- ==========================================
+     NAVBAR
+========================================== -->
+
+<nav class="navbar">
+
+    <h2>Shrishti Enterprises</h2>
+
+    <div class="navbar-actions">
+
+        <button
+            class="change-password-btn"
+            onclick="openPasswordModal()">
+
+            <i class="fas fa-key"></i>
+
+            Change Password
+
         </button>
-    </nav>
 
-    <!-- MAIN -->
-    <main class="container">
 
-        <!-- WELCOME -->
-        <section class="welcome">
-            <div>
-                <h1><span class="cursive-title">Admin Dashboard</span></h1>
-                <p>Manage your medical equipment products</p>
-            </div>
+        <button
+            class="logout-btn"
+            onclick="logout()">
 
-            <a href="admin-orders.html" class="nav-link">
-                <i class="fas fa-shopping-cart"></i> Bookings & Orders
+            Logout
+
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- ==========================================
+     MAIN
+========================================== -->
+
+<main class="container">
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+
+        <div>
+
+            <h1>
+                <span class="cursive-title">
+                    Admin Dashboard
+                </span>
+            </h1>
+
+            <p>
+                Manage your medical equipment products
+            </p>
+
+        </div>
+
+
+        <div class="welcome-actions">
+
+            <a
+                href="admin-orders.html"
+                class="nav-link">
+
+                <i class="fas fa-shopping-cart"></i>
+
+                Bookings & Orders
+
             </a>
 
-            <button class="add-btn" onclick="document.getElementById('addSection').scrollIntoView()">
+
+            <button
+                class="add-btn"
+                onclick="document.getElementById('addSection').scrollIntoView()">
+
                 + Add Product
+
             </button>
-        </section>
 
-        <!-- STATS -->
-        <section class="stats">
-            <div class="stat-card">
-                <div>
-                    <h3>Total Products</h3>
-                    <p id="totalProducts">0</p>
-                </div>
-                <i class="fas fa-boxes-stacked stat-icon"></i>
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         STATS
+    ========================================== -->
+
+    <section class="stats">
+
+
+        <div class="stat-card">
+
+            <div>
+
+                <h3>
+                    Total Products
+                </h3>
+
+                <p id="totalProducts">
+                    0
+                </p>
+
             </div>
 
-            <div class="stat-card">
-                <div>
-                    <h3>Categories</h3>
-                    <p id="totalCategories">0</p>
-                </div>
-                <i class="fas fa-layer-group stat-icon"></i>
+            <i class="fas fa-boxes-stacked stat-icon"></i>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div>
+
+                <h3>
+                    Admin Status
+                </h3>
+
+                <p style="font-size: 16px; color: #16a34a;">
+                    Active
+                </p>
+
             </div>
 
-            <div class="stat-card">
-                <div>
-                    <h3>Admin Status</h3>
-                    <p style="font-size: 16px; color: #16a34a;">Active</p>
+            <i class="fas fa-circle-check stat-icon"></i>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ==========================================
+         ADD PRODUCT
+    ========================================== -->
+
+    <section
+        class="add-section"
+        id="addSection">
+
+
+        <h2>
+            Add New Product
+        </h2>
+
+
+        <form id="addProductForm">
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Product Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter product name"
+                        required>
+
                 </div>
-                <i class="fas fa-circle-check stat-icon"></i>
+
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <input
+                        type="text"
+                        id="category"
+                        placeholder="Enter category"
+                        required>
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Enter product description"
+                        required></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="price">
+                        Price
+                    </label>
+
+                    <input
+                        type="text"
+                        id="price"
+                        placeholder="Enter price or Contact for Price">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="image">
+                        Product Image
+                    </label>
+
+                    <input
+                        type="file"
+                        id="image"
+                        accept="image/*"
+                        required>
+
+                </div>
+
+
             </div>
-        </section>
 
-        <!-- ADD PRODUCT (COMPACT FORM) -->
-        <section class="add-section" id="addSection">
-            <h2>Add New Product</h2>
 
-            <form id="addProductForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="name">Product Name</label>
-                        <input type="text" id="name" placeholder="Enter product name" required>
-                    </div>
+            <div class="form-actions">
 
-                    <div class="form-group">
-                        <label for="category">Category</label>
-                        <input type="text" id="category" placeholder="Enter category" required>
-                    </div>
+                <button
+                    type="submit"
+                    class="add-btn">
 
-                    <div class="form-group full-width">
-                        <label for="description">Description</label>
-                        <textarea id="description" placeholder="Enter product description" required></textarea>
-                    </div>
+                    Add Product
 
-                    <div class="form-group">
-                        <label for="price">Price</label>
-                        <input type="text" id="price" placeholder="Enter price or Contact for Price">
-                    </div>
+                </button>
 
-                    <div class="form-group">
-                        <label for="image">Product Image</label>
-                        <input type="file" id="image" accept="image/*" required>
-                    </div>
+
+                <p
+                    id="message"
+                    style="font-size: 12px;">
+                </p>
+
+            </div>
+
+
+        </form>
+
+    </section>
+
+
+    <!-- ==========================================
+         EDIT PRODUCT
+    ========================================== -->
+
+    <section
+        class="add-section"
+        id="editSection"
+        style="display: none;">
+
+
+        <h2>
+            Edit Product
+        </h2>
+
+
+        <form id="editProductForm">
+
+
+            <input
+                type="hidden"
+                id="editId">
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Product Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editName"
+                        required>
+
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="add-btn">Add Product</button>
-                    <p id="message" style="font-size: 12px;"></p>
-                </div>
-            </form>
-        </section>
 
-        <!-- EDIT PRODUCT (COMPACT FORM) -->
-        <section class="add-section" id="editSection" style="display: none;">
-            <h2>Edit Product</h2>
+                <div class="form-group">
 
-            <form id="editProductForm">
-                <input type="hidden" id="editId">
+                    <label>
+                        Category
+                    </label>
 
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Product Name</label>
-                        <input type="text" id="editName" required>
-                    </div>
+                    <input
+                        type="text"
+                        id="editCategory"
+                        required>
 
-                    <div class="form-group">
-                        <label>Category</label>
-                        <input type="text" id="editCategory" required>
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label>Description</label>
-                        <textarea id="editDescription" required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Price</label>
-                        <input type="text" id="editPrice">
-                    </div>
-
-                    <div class="form-group">
-                        <label>New Image</label>
-                        <input type="file" id="editImage" accept="image/*">
-                        <small style="color: #64748b; display: block; font-size: 11px; margin-top: 2px;">
-                            Leave empty to keep current image.
-                        </small>
-                    </div>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="add-btn">Update Product</button>
-                    <button type="button" class="delete-btn" onclick="cancelEdit()">Cancel</button>
-                    <p id="editMessage" style="font-size: 12px;"></p>
+
+                <div class="form-group full-width">
+
+                    <label>
+                        Description
+                    </label>
+
+                    <textarea
+                        id="editDescription"
+                        required></textarea>
+
                 </div>
-            </form>
-        </section>
-        <!-- Toggle Link & Collapsible Product Grid -->
-<div class="toggle-container" style="margin: 20px 0;">
-    <a href="#" id="toggleProductsLink" onclick="toggleAllProducts(event)" style="font-weight: bold; cursor: pointer;">
-        See all products
-    </a>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Price
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editPrice">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        New Image
+                    </label>
+
+                    <input
+                        type="file"
+                        id="editImage"
+                        accept="image/*">
+
+
+                    <small
+                        style="
+                        color: #64748b;
+                        display: block;
+                        font-size: 11px;
+                        margin-top: 2px;
+                        ">
+
+                        Leave empty to keep current image.
+
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="form-actions">
+
+
+                <button
+                    type="submit"
+                    class="add-btn">
+
+                    Update Product
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="delete-btn"
+                    onclick="cancelEdit()">
+
+                    Cancel
+
+                </button>
+
+
+                <p
+                    id="editMessage"
+                    style="font-size: 12px;">
+                </p>
+
+
+            </div>
+
+
+        </form>
+
+    </section>
+
+
+    <!-- ==========================================
+         TOGGLE PRODUCTS
+    ========================================== -->
+
+    <div
+        class="toggle-container">
+
+        <a
+            href="#"
+            id="toggleProductsLink"
+            onclick="toggleAllProducts(event)">
+
+            See all products
+
+        </a>
+
+    </div>
+
+
+    <!-- ==========================================
+         ALL PRODUCTS
+    ========================================== -->
+
+    <div
+        id="allProductsWrapper"
+        class="products-section"
+        style="display: none;">
+
+
+        <h2>
+            All Products
+        </h2>
+
+
+        <div
+            id="productGrid"
+            class="products-grid">
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+<!-- ==========================================
+     CHANGE PASSWORD MODAL
+========================================== -->
+
+<div
+    id="passwordModal"
+    class="password-modal">
+
+
+    <div class="password-box">
+
+
+        <div class="password-header">
+
+            <h2>
+                <i class="fas fa-key"></i>
+                Change Password
+            </h2>
+
+
+            <button
+                class="close-password"
+                onclick="closePasswordModal()">
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
+        </div>
+
+
+        <p class="password-description">
+
+            Change your admin account password.
+            Enter your current password first.
+
+        </p>
+
+
+        <!-- CURRENT PASSWORD -->
+
+        <div class="password-field">
+
+            <label for="currentAdminPassword">
+                Current Password
+            </label>
+
+
+            <input
+                type="password"
+                id="currentAdminPassword"
+                placeholder="Enter current password">
+
+
+            <button
+                type="button"
+                class="password-eye"
+                onclick="togglePassword('currentAdminPassword', this)">
+
+                <i class="fas fa-eye"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- NEW PASSWORD -->
+
+        <div class="password-field">
+
+            <label for="newAdminPassword">
+                New Password
+            </label>
+
+
+            <input
+                type="password"
+                id="newAdminPassword"
+                placeholder="Enter new password">
+
+
+            <button
+                type="button"
+                class="password-eye"
+                onclick="togglePassword('newAdminPassword', this)">
+
+                <i class="fas fa-eye"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- CONFIRM PASSWORD -->
+
+        <div class="password-field">
+
+            <label for="confirmAdminPassword">
+                Confirm New Password
+            </label>
+
+
+            <input
+                type="password"
+                id="confirmAdminPassword"
+                placeholder="Confirm new password">
+
+
+            <button
+                type="button"
+                class="password-eye"
+                onclick="togglePassword('confirmAdminPassword', this)">
+
+                <i class="fas fa-eye"></i>
+
+            </button>
+
+        </div>
+
+
+        <p id="passwordMessage"></p>
+
+
+        <div class="password-actions">
+
+
+            <button
+                class="password-cancel"
+                onclick="closePasswordModal()">
+
+                Cancel
+
+            </button>
+
+
+            <button
+                class="password-submit"
+                onclick="changeAdminPassword()">
+
+                Change Password
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
 </div>
 
-<!-- Product Section (Hidden by Default) -->
-<div id="allProductsWrapper" class="products-section" style="display: none;">
-    <h2>All Products</h2>
-    <div id="productGrid" class="products-grid"></div>
-</div>
+
+<!-- EXISTING ADMIN JAVASCRIPT -->
+
+<script src="js/admin.js"></script>
 
 
-    </main>
+<!-- PASSWORD JAVASCRIPT -->
 
-    <script src="js/admin.js"></script>
+<script>
+
+    const ADMIN_API_URL =
+        "https://shrishti-enterprises.onrender.com/api";
+
+
+    /* ==========================================
+       GET ADMIN USERNAME
+    ========================================== */
+
+    function getAdminUsername() {
+
+        /*
+         * Change this if your login page stores
+         * the username under another localStorage key.
+         */
+
+        return (
+            localStorage.getItem("adminUsername") ||
+            localStorage.getItem("admin_username") ||
+            ""
+        );
+    }
+
+
+    /* ==========================================
+       OPEN PASSWORD MODAL
+    ========================================== */
+
+    function openPasswordModal() {
+
+        document
+            .getElementById("passwordModal")
+            .classList.add("show");
+
+        document
+            .getElementById("passwordMessage")
+            .textContent = "";
+
+    }
+
+
+    /* ==========================================
+       CLOSE PASSWORD MODAL
+    ========================================== */
+
+    function closePasswordModal() {
+
+        document
+            .getElementById("passwordModal")
+            .classList.remove("show");
+
+
+        document
+            .getElementById("currentAdminPassword")
+            .value = "";
+
+        document
+            .getElementById("newAdminPassword")
+            .value = "";
+
+        document
+            .getElementById("confirmAdminPassword")
+            .value = "";
+
+        document
+            .getElementById("passwordMessage")
+            .textContent = "";
+
+    }
+
+
+    /* ==========================================
+       SHOW / HIDE PASSWORD
+    ========================================== */
+
+    function togglePassword(inputId, button) {
+
+        const input =
+            document.getElementById(inputId);
+
+        const icon =
+            button.querySelector("i");
+
+
+        if (input.type === "password") {
+
+            input.type = "text";
+
+            icon.classList.remove("fa-eye");
+
+            icon.classList.add("fa-eye-slash");
+
+        } else {
+
+            input.type = "password";
+
+            icon.classList.remove("fa-eye-slash");
+
+            icon.classList.add("fa-eye");
+
+        }
+
+    }
+
+
+    /* ==========================================
+       CHANGE ADMIN PASSWORD
+    ========================================== */
+
+    async function changeAdminPassword() {
+
+        const currentPassword =
+            document
+                .getElementById("currentAdminPassword")
+                .value
+                .trim();
+
+
+        const newPassword =
+            document
+                .getElementById("newAdminPassword")
+                .value
+                .trim();
+
+
+        const confirmPassword =
+            document
+                .getElementById("confirmAdminPassword")
+                .value
+                .trim();
+
+
+        const message =
+            document.getElementById(
+                "passwordMessage"
+            );
+
+
+        const username =
+            getAdminUsername();
+
+
+        /* ==========================================
+           VALIDATION
+        ========================================== */
+
+        if (!username) {
+
+            message.style.color = "#e11d48";
+
+            message.textContent =
+                "Admin username was not found. Please login again.";
+
+            return;
+        }
+
+
+        if (!currentPassword) {
+
+            message.style.color = "#e11d48";
+
+            message.textContent =
+                "Please enter your current password.";
+
+            return;
+        }
+
+
+        if (!newPassword) {
+
+            message.style.color = "#e11d48";
+
+            message.textContent =
+                "Please enter a new password.";
+
+            return;
+        }
+
+
+        if (newPassword.length < 6) {
+
+            message.style.color = "#e11d48";
+
+            message.textContent =
+                "New password must be at least 6 characters.";
+
+            return;
+        }
+
+
+        if (newPassword !== confirmPassword) {
+
+            message.style.color = "#e11d48";
+
+            message.textContent =
+                "New passwords do not match.";
+
+            return;
+        }
+
+
+        if (currentPassword === newPassword) {
+
+            message.style.color = "#e11d48";
+
+            message.textContent =
+                "New password must be different from the current password.";
+
+            return;
+        }
+
+
+        /* ==========================================
+           SEND REQUEST
+        ========================================== */
+
+        try {
+
+            message.style.color = "#64748b";
+
+            message.textContent =
+                "Changing password...";
+
+
+            const response =
+                await fetch(
+                    `${ADMIN_API_URL}/admin/change-password`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            username: username,
+
+                            currentPassword:
+                                currentPassword,
+
+                            newPassword:
+                                newPassword
+
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "CHANGE PASSWORD RESPONSE:",
+                data
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Failed to change password"
+                );
+            }
+
+
+            message.style.color =
+                "#16a34a";
+
+
+            message.textContent =
+                "Password changed successfully!";
+
+
+            /*
+             * Close popup after 1.5 seconds
+             */
+
+            setTimeout(() => {
+
+                closePasswordModal();
+
+            }, 1500);
+
+
+        } catch (error) {
+
+            console.error(
+                "CHANGE PASSWORD ERROR:",
+                error
+            );
+
+
+            message.style.color =
+                "#e11d48";
+
+
+            message.textContent =
+                error.message ||
+                "Unable to change password.";
+
+        }
+
+    }
+
+
+    /* ==========================================
+       CLOSE MODAL WHEN CLICKING OUTSIDE
+    ========================================== */
+
+    document
+        .getElementById("passwordModal")
+        .addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target === this
+                ) {
+
+                    closePasswordModal();
+
+                }
+
+            }
+        );
+
+</script>
 
 </body>
+
 </html>
